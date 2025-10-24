@@ -1,0 +1,175 @@
+
+///**
+// * Main plugin class
+// */
+//class Elementor_Debug_Tool {
+//
+//		/**
+//		 * Plugin instance
+//		 */
+//		private static $instance = null;
+//
+//		/**
+//		 * Get plugin instance
+//		 */
+//		public static function get_instance() {
+//				if (null === self::$instance) {
+//						self::$instance = new self();
+//				}
+//				return self::$instance;
+//		}
+//
+//		/**
+//		 * Constructor
+//		 */
+//		private function __construct() {
+//				add_action('plugins_loaded', array($this, 'init'));
+//		}
+//
+//		/**
+//		 * Initialize plugin
+//		 */
+//		public function init() {
+//				// Check if Elementor is active
+//				if (!did_action('elementor/loaded')) {
+//						add_action('admin_notices', array($this, 'elementor_missing_notice'));
+//						return;
+//				}
+//
+//				// Check Elementor version
+//				if (!version_compare(ELEMENTOR_VERSION, '3.0.0', '>=')) {
+//						add_action('admin_notices', array($this, 'elementor_version_notice'));
+//						return;
+//				}
+//
+//				// Initialize plugin
+//				$this->init_hooks();
+//		}
+//
+//		/**
+//		 * Initialize hooks
+//		 */
+//		private function init_hooks() {
+//				add_action('elementor/editor/before_enqueue_scripts', array($this, 'enqueue_editor_scripts'));
+//				add_action('wp_ajax_elementor_debug_tool_get_database_schema', array($this, 'get_database_schema'));
+//				add_action('wp_ajax_elementor_debug_tool_get_editor_schema', array($this, 'get_editor_schema'));
+//		}
+//
+//		/**
+//		 * Enqueue editor scripts
+//		 */
+//		public function enqueue_editor_scripts() {
+//				wp_enqueue_script(
+//						'elementor-debug-tool-editor',
+//						ELEMENTOR_DEBUG_TOOL_URL . 'assets/js/editor.js',
+//						array('elementor-editor', 'wp-i18n'),
+//						ELEMENTOR_DEBUG_TOOL_VERSION,
+//						true
+//				);
+//
+//				wp_enqueue_style(
+//						'elementor-debug-tool-editor',
+//						ELEMENTOR_DEBUG_TOOL_URL . 'assets/css/editor.css',
+//						array('elementor-editor'),
+//						ELEMENTOR_DEBUG_TOOL_VERSION
+//				);
+//
+//				// Localize script
+//				wp_localize_script('elementor-debug-tool-editor', 'elementorDebugTool', array(
+//						'ajaxUrl' => admin_url('admin-ajax.php'),
+//						'nonce' => wp_create_nonce('elementor_debug_tool_nonce'),
+//						'strings' => array(
+//								'debugTool' => __('Debug Tool', 'elementor-debug-tool'),
+//								'databaseSchema' => __('Database Schema', 'elementor-debug-tool'),
+//								'editorSchema' => __('Editor Schema', 'elementor-debug-tool'),
+//								'copyToClipboard' => __('Copy to Clipboard', 'elementor-debug-tool'),
+//								'exportJson' => __('Export JSON', 'elementor-debug-tool'),
+//								'copied' => __('Copied!', 'elementor-debug-tool'),
+//								'error' => __('Error', 'elementor-debug-tool'),
+//						)
+//				));
+//		}
+//
+//		/**
+//		 * Get database schema via AJAX
+//		 */
+//		public function get_database_schema() {
+//				check_ajax_referer('elementor_debug_tool_nonce', 'nonce');
+//
+//				if (!current_user_can('edit_posts')) {
+//						wp_die(__('Insufficient permissions', 'elementor-debug-tool'));
+//				}
+//
+//				$post_id = intval($_POST['post_id']);
+//				if (!$post_id) {
+//						wp_send_json_error(__('Invalid post ID', 'elementor-debug-tool'));
+//				}
+//
+//				// Get Elementor data from database
+//				$elementor_data = get_post_meta($post_id, '_elementor_data', true);
+//
+//				if (empty($elementor_data)) {
+//						wp_send_json_success(array(
+//								'schema' => array(),
+//								'message' => __('No Elementor data found for this page', 'elementor-debug-tool')
+//						));
+//				}
+//
+//				// Decode JSON if it's a string
+//				if (is_string($elementor_data)) {
+//						$elementor_data = json_decode($elementor_data, true);
+//				}
+//
+//				wp_send_json_success(array(
+//						'schema' => $elementor_data,
+//						'post_id' => $post_id,
+//						'timestamp' => current_time('mysql')
+//				));
+//		}
+//
+//		/**
+//		 * Get editor schema via AJAX
+//		 */
+//		public function get_editor_schema() {
+//				check_ajax_referer('elementor_debug_tool_nonce', 'nonce');
+//
+//				if (!current_user_can('edit_posts')) {
+//						wp_die(__('Insufficient permissions', 'elementor-debug-tool'));
+//				}
+//
+//				$post_id = intval($_POST['post_id']);
+//				if (!$post_id) {
+//						wp_send_json_error(__('Invalid post ID', 'elementor-debug-tool'));
+//				}
+//
+//				// This will be handled by JavaScript in the editor
+//				wp_send_json_success(array(
+//						'message' => __('Editor schema will be retrieved via JavaScript', 'elementor-debug-tool')
+//				));
+//		}
+//
+//		/**
+//		 * Elementor missing notice
+//		 */
+//		public function elementor_missing_notice() {
+//				?>
+<!--				<div class="notice notice-error">-->
+<!--            <p>--><?php //_e('Elementor Debug Tool requires Elementor to be installed and activated.', 'elementor-debug-tool'); ?><!--</p>-->
+<!--        </div>-->
+<!--				--><?php
+//		}
+//
+//		/**
+//		 * Elementor version notice
+//		 */
+//		public function elementor_version_notice() {
+//				?>
+<!--				<div class="notice notice-error">-->
+<!--            <p>--><?php //_e('Elementor Debug Tool requires Elementor version 3.0.0 or higher.', 'elementor-debug-tool'); ?><!--</p>-->
+<!--        </div>-->
+<!--				--><?php
+//		}
+//}
+//
+//// Initialize plugin
+//Elementor_Debug_Tool::get_instance();

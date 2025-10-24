@@ -1,0 +1,17 @@
+{
+  "name": "dev-debug-tool",
+  "version": "1.0.0",
+  "description": "A WordPress plugin that provides real-time database and editor schema viewing within the Elementor editor interface.",
+  "scripts": {
+    "dev": "wp-scripts start --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@wordpress/components": "^30.6.0",
+    "@wordpress/dom-ready": "^4.33.0",
+    "@wordpress/element": "^6.33.0",
+    "@wordpress/scripts": "^30.26.0"
+  }
+}
