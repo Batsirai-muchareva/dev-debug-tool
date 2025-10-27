@@ -1,12 +1,12 @@
-import * as React from 'react';
 import { createRoot } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
+import '../scss/dev-debug.scss';
 
 import { App } from "./app/App";
-// import '../css/dev-debug.css';
+import { createElement } from "react";
 
 domReady( () => {
-    const root = createRoot( document.getElementById( 'dev-debug-slot' ) );
+    const root = createRoot( document.getElementById( 'dev-debug-slot' ) as HTMLElement );
 
-    root.render( React.createElement( App ) );
-} );
+    root.render( createElement( App ) );
+} )

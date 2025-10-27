@@ -1,11 +1,13 @@
-type Setting = Window & {
-    myPluginData: {
-        menus: any
+export type Settings = Window & {
+    devDebugTool: {
+        nonce: string;
+        baseUrl: string;
+        databaseAjaxAction: string;
     }
 }
 
 export function getSettings() {
-    const browserWindow = window as unknown as Setting;
+    const browserWindow = window as unknown as Settings;
 
-    return browserWindow.myPluginData
+    return browserWindow.devDebugTool
 }

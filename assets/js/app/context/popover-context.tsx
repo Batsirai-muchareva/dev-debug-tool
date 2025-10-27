@@ -1,15 +1,16 @@
+import * as React from "react";
 import { createContext, useContext, useState } from "@wordpress/element";
 import { Popover } from "../components/popover";
-import * as React from "react";
+import { PropsWithChildren } from "react";
 
 type PopoverState = {
     isOpen: boolean,
     toggle: () => void,
 };
 
-const PopoverContext = createContext<PopoverState>( undefined );
+const PopoverContext = createContext<PopoverState>( undefined as any );
 
-export const PopoverProvider = ({ children }) => {
+export const PopoverProvider = ( { children }: PropsWithChildren ) => {
     const [ isOpen, setOpen ] = useState( false );
 
     function toggle() {

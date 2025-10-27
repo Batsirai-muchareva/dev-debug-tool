@@ -1,29 +1,29 @@
 import * as React from 'react';
 import { SlotFillProvider } from '@wordpress/components';
 
-import { SettingsProvider } from "./context/settings-context";
-import { PopoverProvider, usePopover } from "./context/popover-context";
+import { PopoverProvider } from "./context/popover-context";
 import { SnapshotProvider } from "./context/snapshot-context";
-import { FloatingActionButton } from "./components/floating-action-button";
-
+import { DebugButton } from "./components/debug-button";
+import { sourceProviderRepository } from "./source-providers/source-provider-repository";
+import { databaseSource } from "./source-providers/database-source-provider";
+import { editorSourceProvider } from "./source-providers/editor-source-provider";
 
 export const App = () => {
-
     return (
         <SlotFillProvider>
-            <SettingsProvider>
+            <SnapshotProvider>
                 <PopoverProvider>
-                    <SnapshotProvider>
-                       <DebugButton />
-                    </SnapshotProvider>
+                    <DebugButton />
+                    <Initializer />
                 </PopoverProvider>
-            </SettingsProvider>
+            </SnapshotProvider>
         </SlotFillProvider>
     );
 }
 
-const DebugButton = () => {
-    const popover = usePopover();
+const Initializer = () => {
+    sourceProviderRepository.register( databaseSource )
+    sourceProviderRepository.register( editorSourceProvider );
 
-    return <FloatingActionButton onClick={ popover.toggle } />
+    return null
 }

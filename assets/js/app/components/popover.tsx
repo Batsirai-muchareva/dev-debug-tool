@@ -1,3 +1,4 @@
+import * as React from "react";
 import { usePopover } from "../context/popover-context";
 import Tabs from "./tabs";
 
@@ -9,7 +10,7 @@ export const Popover = () => {
     }
 
     return (
-        <div className="dev-debug-tool-popover">
+        <div className="dev-debug__popover">
             <Tabs />
         </div>
     );

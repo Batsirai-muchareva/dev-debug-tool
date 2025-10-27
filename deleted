@@ -173,3 +173,676 @@
 //
 //// Initialize plugin
 //Elementor_Debug_Tool::get_instance();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Popover Container */
+//.dev-debug-tool
+
+/* Header */
+.dev-debug-tool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: move;
+    user-select: none;
+}
+
+.dev-debug-tool-header.dragging {
+    cursor: grabbing;
+}
+
+.dev-debug-tool-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e1e1e;
+}
+
+.dev-debug-tool-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    color: #757575;
+    transition: all 0.2s ease;
+}
+
+.dev-debug-tool-close:hover {
+    background: #e0e0e0;
+    color: #1e1e1e;
+}
+
+.dev-debug-tool-close i {
+    font-size: 16px;
+}
+
+/* Tabs */
+.dev-debug-tool-tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.dev-debug-tool-tab {
+    flex: 1;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #757575;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.dev-debug-tool-tab:hover {
+    color: #1e1e1e;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.dev-debug-tool-tab.active {
+    color: #007cba;
+    border-bottom-color: #007cba;
+    background: white;
+}
+
+/* Content */
+.dev-debug-tool-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dev-debug-tool-tab-content {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dev-debug-tool-tab-content.active {
+    display: flex;
+}
+
+/* Actions */
+.dev-debug-tool-actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.dev-debug-tool-refresh,
+.dev-debug-tool-copy,
+.dev-debug-tool-export {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1e1e1e;
+    transition: all 0.2s ease;
+}
+
+.dev-debug-tool-refresh:hover,
+.dev-debug-tool-copy:hover,
+.dev-debug-tool-export:hover {
+    background: #f0f0f0;
+    border-color: #007cba;
+    color: #007cba;
+}
+
+.dev-debug-tool-refresh i,
+.dev-debug-tool-copy i,
+.dev-debug-tool-export i {
+    font-size: 12px;
+}
+
+.dev-debug-tool-refresh:hover i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* JSON Container */
+.dev-debug-tool-json-container {
+    flex: 1;
+    overflow: auto;
+    background: #f8f9fa;
+}
+
+.dev-debug-tool-json {
+    margin: 0;
+    padding: 16px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1e1e1e;
+    background: white;
+    border: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+}
+
+/* JSON Syntax Highlighting */
+.dev-debug-tool-json {
+    color: #1e1e1e;
+}
+
+/* Notification */
+.dev-debug-tool-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #007cba;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 999999;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.dev-debug-tool-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .dev-debug-tool-popover {
+        background: #1e1e1e;
+        border-color: #404040;
+    }
+
+    .dev-debug-tool-header {
+        background: #2a2a2a;
+        border-bottom-color: #404040;
+    }
+
+    .dev-debug-tool-header h3 {
+        color: #ffffff;
+    }
+
+    .dev-debug-tool-close {
+        color: #a0a0a0;
+    }
+
+    .dev-debug-tool-close:hover {
+        background: #404040;
+        color: #ffffff;
+    }
+
+    .dev-debug-tool-tabs {
+        background: #2a2a2a;
+        border-bottom-color: #404040;
+    }
+
+    .dev-debug-tool-tab {
+        color: #a0a0a0;
+    }
+
+    .dev-debug-tool-tab:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .dev-debug-tool-tab.active {
+        color: #007cba;
+        background: #1e1e1e;
+    }
+
+    .dev-debug-tool-actions {
+        background: #2a2a2a;
+        border-bottom-color: #404040;
+    }
+
+    .dev-debug-tool-refresh,
+    .dev-debug-tool-copy,
+    .dev-debug-tool-export {
+        background: #1e1e1e;
+        border-color: #404040;
+        color: #ffffff;
+    }
+
+    .dev-debug-tool-refresh:hover,
+    .dev-debug-tool-copy:hover,
+    .dev-debug-tool-export:hover {
+        background: #404040;
+        border-color: #007cba;
+        color: #007cba;
+    }
+
+    .dev-debug-tool-json-container {
+        background: #2a2a2a;
+    }
+
+    .dev-debug-tool-json {
+        background: #1e1e1e;
+        color: #ffffff;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dev-debug-tool-popover {
+        width: calc(100vw - 40px);
+        right: 20px;
+        left: 20px;
+        max-height: 70vh;
+    }
+
+    .dev-debug-tool-toggle {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Scrollbar Styling */
+.dev-debug-tool-json-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.dev-debug-tool-json-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.dev-debug-tool-json-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.dev-debug-tool-json-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+    .dev-debug-tool-json-container::-webkit-scrollbar-track {
+        background: #2a2a2a;
+    }
+
+    .dev-debug-tool-json-container::-webkit-scrollbar-thumb {
+        background: #555555;
+    }
+
+    .dev-debug-tool-json-container::-webkit-scrollbar-thumb:hover {
+        background: #777777;
+    }
+}
+
+
+
+
+
+
+
+
+// export type SnapshotState = {
+//     [key: string]: SnapshotData;
+// }
+
+// type SnapshotContextType = {
+//     snapshot: SnapshotState,
+//     updateSource: (sourceKey: string, data: SnapshotData) => void,
+//     getSource: (sourceKey: string) => SnapshotData | undefined
+// }
+
+// private isSubscription(value: any): value is SourceSubscription {
+//     return (
+//         value &&
+//         typeof value === 'object' &&
+//         'getValue' in value &&
+//         'subscribe' in value &&
+//         'unsubscribe' in value
+//     );
+// }
+// import * as React from "react";
+// import { createContext, useContext, useEffect, useState } from "@wordpress/element";
+// import { useHttp } from "../hooks/use-http";
+// import { PropsWithChildren } from "react";
+// import { getSelectedElement } from "../sync/get-selected-element";
+//
+// type Snapshot = {
+//     database: Record<string, any>,
+//     editor: Record<string, any>,
+// }
+//
+// type CreateSnapshot = {
+//     snapshot: Snapshot,
+//     updateSnapshot: ( newSnapshot: Partial<Snapshot> ) => void,
+//     isLoading: boolean,
+//     error: string | null,
+//     refetch: () => Promise<void>,
+//     updateEditorSchema: () => void
+// }
+//
+// const SnapshotContext = createContext<CreateSnapshot>( undefined as any );
+//
+// export const SnapshotProvider = ( { children }: PropsWithChildren ) => {
+//     const http = useHttp();
+//     const [ snapshot, setSnapshot] = useState<Snapshot>( {
+//         database: {},
+//         editor: {}
+//     } );
+//
+//     const [isLoading, setIsLoading] = useState(true);
+//     const [error, setError] = useState<string | null>(null);
+//
+//     function updateSnapshot( newSnapshot: Partial<Snapshot> ) {
+//         setSnapshot( prevSnapshot => ({ ...prevSnapshot, ...newSnapshot }) );
+//     }
+//
+//     const fetchDatabaseSchema = async () => {
+//         const settings = (window as any).devDebugTool;
+//         const postId = (window as any).elementor.config.document.id;
+//
+//         const params = new URLSearchParams( {
+//             action: settings.databaseAjaxAction,
+//             post_id: postId.toString(),
+//             nonce: settings.nonce
+//         } );
+//
+//         const response = await http.post('', params);
+//
+//         if ( response.data.success ) {
+//             updateSnapshot( {
+//                 database: response.data.data.schema
+//             } );
+//         } else {
+//             throw new Error( response.data.data?.message || 'Failed to fetch schema');
+//         }
+//     };
+//
+//     const updateEditorSchema = () => {
+//         const selectedElement = getSelectedElement();
+//
+//         selectedElement.model.on('change', ( ghdgdgh: any  ) => {
+//             updateSnapshot( {
+//                 editor: ghdgdgh.toJSON()
+//             } );
+//         } )
+//
+//         selectedElement.model.on('destroy', (ghdgdgh: any) => {
+//             updateSnapshot( {
+//                 editor: ghdgdgh.toJSON()
+//             } );
+//         } )
+//
+//         updateSnapshot( {
+//             editor: selectedElement.model.toJSON()
+//         } );
+//     }
+//
+//     const refetch = async () => {
+//         setIsLoading(true);
+//         setError(null);
+//
+//         try {
+//             await fetchDatabaseSchema();
+//         } catch (err) {
+//             console.error('Failed to fetch schema:', err);
+//             setError(err instanceof Error ? err.message : 'Failed to load data');
+//         } finally {
+//             setIsLoading(false);
+//         }
+//     };
+//
+//     // Initialize data on mount
+//     useEffect(() => {
+//         refetch();
+//     }, []);
+//
+//     return (
+//         <SnapshotContext.Provider value={ { snapshot, updateSnapshot, isLoading, error, refetch, updateEditorSchema } }>
+//             {children}
+//         </SnapshotContext.Provider>
+//     );
+// };
+//
+// export const useSnapshot = () => {
+//     const context = useContext(SnapshotContext);
+//
+//     if (!context) {
+//         throw new Error("useSchema must be used within a SchemaProvider");
+//     }
+//     return context;
+// };
+
+
+
+// const [sources, setSources] = useState<Map<string, DataSource>>(new Map());
+//
+// const registerSource = useCallback((source: DataSource) => {
+//     setSources(prev => {
+//         const newSources = new Map(prev);
+//         newSources.set(source.key, source);
+//
+//         return newSources;
+//     });
+// }, []);
+//
+// const unregisterSource = useCallback((key: string) => {
+//     setSources(prev => {
+//         const newSources = new Map(prev);
+//         newSources.delete(key);
+//
+//         return newSources;
+//     });
+// }, []);
+//
+// const updateSource = useCallback((key: string, updates: Partial<DataSource>) => {
+//     setSources(prev => {
+//         const newSources = new Map(prev);
+//         const existing = newSources.get(key);
+//
+//         if (existing) {
+//             newSources.set(key, { ...existing, ...updates });
+//         }
+//
+//         return newSources;
+//     });
+// }, []);
+//
+// const getSource = useCallback((key: string) => {
+//     return sources.get(key);
+// }, [sources]);
+//
+// const getAllSources = useCallback(() => {
+//     return Array.from(sources.values());
+// }, [sources]);
+
+// const updateSource = (sourceKey: string, data: SnapshotData) => {
+//     setSnapshot(prevSnapshot => ({
+//         ...prevSnapshot,
+//         [sourceKey]: data
+//     }));
+// };
+//
+// const getSource = (sourceKey: string) => {
+//     return snapshot[sourceKey];
+// };
+
+
+
+
+// export const DatabaseSourceProvider = createProvider( () => {
+//     // const { updateSource } = useSnapshot();
+//
+//     return async () => {
+//         const settings = ( window as any ).devDebugTool;
+//         const postId = ( window as any ).elementor.config.document.id;
+//
+//
+//
+//         const response = await http.post( '', params );
+//
+//         if ( response.data.success ) {
+//             return response.data.data.schema;
+//             // updateSource( DATABASE_SOURCE_KEY, response.data.data.schema );
+//         } else {
+//             throw new Error( response.data.data?.message || 'Failed to fetch schema' );
+//         }
+//     };
+// } )
+
+// export const useDatabaseSource = () => {
+//     const http = useHttp();
+//
+//     return async () => {
+//         const settings = ( window as any ).devDebugTool;
+//         const postId = ( window as any ).elementor.config.document.id;
+//
+//         const params = new URLSearchParams( {
+//             action: settings.databaseAjaxAction,
+//             post_id: postId.toString(),
+//             nonce: settings.nonce
+//         } );
+//
+//         const response = await http.post( '', params );
+//
+//         if ( response.data.success ) {
+//             return response.data.data.schema;
+//         } else {
+//             throw new Error( response.data.data?.message || 'Failed to fetch schema' );
+//         }
+//     };
+// };
+
+
+
+
+
+
+import { sourceProviderRepository } from "./source-provider-repository";
+//
+// const EDITOR_SOURCE_KEY = 'editor';
+//
+// export const EditorSourceProvider = ({ children }: PropsWithChildren) => {
+//     const { updateSource } = useSnapshot();
+//
+//     const updateEditorData = () => {
+//         try {
+//
+//             if (!selectedElement?.model) {
+//                 updateSource(EDITOR_SOURCE_KEY, {});
+//                 return;
+//             }
+//
+//             const updateData = () => {
+//                 updateSource(EDITOR_SOURCE_KEY, selectedElement.model.toJSON());
+//             };
+//
+//             // Initial update
+//             updateData();
+//
+//             // Listen to changes
+//             selectedElement.model.on('change', updateData);
+//             selectedElement.model.on('destroy', updateData);
+//
+//             // Cleanup
+//             return () => {
+//                 selectedElement.model.off('change', updateData);
+//                 selectedElement.model.off('destroy', updateData);
+//             };
+//         } catch (error) {
+//             console.error('Failed to update editor data:', error);
+//             updateSource(EDITOR_SOURCE_KEY, {});
+//         }
+//     };
+//
+//     useEffect(() => {
+//         const cleanup = updateEditorData();
+//         return cleanup;
+//     }, []);
+//
+//     return <>{children}</>;
+// };
+//
+// export const useEditorSource = () => {
+//     const { getSource } = useSnapshot();
+//
+//     return {
+//         data: getSource(EDITOR_SOURCE_KEY) || {}
+//     };
+// };
+
+
+
+
+//  const { updateSource } = useSnapshot();
+//     const http = useHttp();
+//     const [isLoading, setIsLoading] = useState(true);
+//     const [error, setError] = useState<string | null>(null);
+//
+//     const fetchDatabaseSchema = async () => {
+//         const settings = (window as any).devDebugTool;
+//         const postId = (window as any).elementor.config.document.id;
+//
+//         const params = new URLSearchParams({
+//             action: settings.databaseAjaxAction,
+//             post_id: postId.toString(),
+//             nonce: settings.nonce
+//         });
+//
+//         const response = await http.post('', params);
+//
+//         if (response.data.success) {
+//             updateSource(DATABASE_SOURCE_KEY, response.data.data.schema);
+//         } else {
+//             throw new Error(response.data.data?.message || 'Failed to fetch schema');
+//         }
+//     };
+//
+//     const refetch = async () => {
+//         setIsLoading(true);
+//         setError(null);
+//
+//         try {
+//             await fetchDatabaseSchema();
+//         } catch (err) {
+//             console.error('Failed to fetch database schema:', err);
+//             setError(err instanceof Error ? err.message : 'Failed to load data');
+//         } finally {
+//             setIsLoading(false);
+//         }
+//     };
+//
+//     // useEffect(() => {
+//     //     refetch();
+//     // }, []);
+//
+//     return <>{children}</>;
