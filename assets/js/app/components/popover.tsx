@@ -3,8 +3,6 @@ import { Resizable } from "../libs/resizable/resizable";
 import { Tabs } from "./tabs/tabs";
 import { Draggable } from "../libs/draggable/draggable";
 import { usePopover } from "../context/popover-context";
-// maxConstraints={ [500, 1000] }
-// minConstraints={ [200, 300] }
 
 export const POPOVER_SIZES = {
     width: 300,

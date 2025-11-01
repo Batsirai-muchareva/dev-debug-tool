@@ -1,0 +1,83 @@
+// Variables
+// ============================================
+
+// Colors
+$color-primary: #007cba;
+$color-primary-hover: #005a87;
+$color-danger: #d63638;
+$color-danger-hover: #c52224;
+
+// Dark theme colors
+$color-bg-dark: #1e1e1e;
+$color-bg-dark-secondary: #2a2a2a;
+$color-border-dark: #404040;
+$color-text-dark: #ffffff;
+$color-text-dark-secondary: #a0a0a0;
+
+// Light theme colors
+$color-bg-light: #ffffff;
+$color-bg-light-secondary: #f8f9fa;
+$color-border-light: #e0e0e0;
+$color-text-light: #1e1e1e;
+$color-text-light-secondary: #6c757d;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-xxl: 32px;
+
+// Typography
+$font-size-xs: 12px;
+$font-size-sm: 13px;
+$font-size-md: 14px;
+$font-size-lg: 16px;
+$font-size-xl: 20px;
+$font-size-xxl: 24px;
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 600;
+
+$font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$font-family-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+
+// Z-index
+$z-index-toggle: 100;
+$z-index-popover: 999998;
+$z-index-resizable: 900;
+$z-index-handle: 10;
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 16px;
+$border-radius-circle: 50%;
+
+// Shadows
+$shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+$shadow-md: 0 8px 32px rgba(0, 0, 0, 0.12);
+$shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-base: 0.3s ease;
+$transition-slow: 0.4s ease;
+
+// Sizes
+$toggle-size: 50px;
+$toggle-bottom: 20px;
+$toggle-right: 20px;
+$popover-bottom: 80px;
+$popover-right: 20px;
+$popover-min-height: 300px;
+$popover-max-height: 600px;
+$tab-content-min-height: 30rem;
+$tab-content-max-height: 30rem;
+
+// Resizable handles
+$resize-handle-size: 8px;
+$resize-handle-color: #2563eb; // Hover color (original behavior)
+

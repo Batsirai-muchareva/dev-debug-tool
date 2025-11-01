@@ -1,64 +1,80 @@
-.dev-debug {
-  &-resizable {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    z-index: 900;
-    background: #1e1e1e;
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    //z-index: 999998;
+// Resizable Component - BEM Methodology
+// ============================================
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Block: dev-debug-resizable
+// ============================================
+.dev-debug-resizable {
+  position: fixed;
+  bottom: $popover-bottom;
+  right: $popover-right;
+  z-index: $z-index-resizable;
+  background: $color-bg-dark;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid $color-border-dark;
+  min-height: 0; // Important for flex scrolling
+  
+  // Ensure inner content can scroll properly
+  > div {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
     overflow: hidden;
-    border: 1px solid #404040;
+  }
 
-    &__disable-events {
-      pointer-events: none;
+  // Element: Disable Events
+  &__disable-events {
+    pointer-events: none;
+  }
+
+  // Element: Resize Handle
+  &__handle {
+    position: absolute;
+    z-index: $z-index-handle;
+    @include transition(background-color);
+
+    &:hover {
+      background-color: $resize-handle-color; // Original was #2563eb
     }
 
-    &__handle {
-      position: absolute;
-      //background-color: #3b82f6;
-      //border: 2px solid white;
-      //border-radius: 50%;
-      z-index: 10;
+    // Note: Using single dash (-) not double (--) to match component class names
+    &-n {
+      top: 0;
+      left: $spacing-sm;
+      right: $spacing-sm;
+      height: $resize-handle-size;
+      cursor: n-resize;
+    }
 
-      &:hover {
-        background-color: #2563eb;
-      }
+    &-s {
+      bottom: 0;
+      left: $spacing-sm;
+      right: $spacing-sm;
+      height: $resize-handle-size;
+      cursor: s-resize;
+    }
 
-      &-n {
-        top: 0;
-        left: 8px;
-        right: 8px;
-        height: 8px;
-        cursor: n-resize;
-      }
+    &-w {
+      left: 0;
+      top: $spacing-sm;
+      bottom: $spacing-sm;
+      width: $resize-handle-size;
+      cursor: w-resize;
+    }
 
-      &-s {
-        bottom: 0;
-        left: 8px;
-        right: 8px;
-        height: 8px;
-        cursor: s-resize;
-      }
-
-      &-w {
-        left: 0;
-        top: 8px;
-        bottom: 8px;
-        width: 8px;
-        cursor: w-resize;
-      }
-
-      &-e {
-        right: 0;
-        top: 8px;
-        bottom: 8px;
-        width: 8px;
-        cursor: e-resize;
-      }
+    &-e {
+      right: 0;
+      top: $spacing-sm;
+      bottom: $spacing-sm;
+      width: $resize-handle-size;
+      cursor: e-resize;
     }
   }
 }

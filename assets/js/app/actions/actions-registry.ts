@@ -1,20 +1,22 @@
-type Action = {
+import { SnapshotData } from "../context/snapshot-context";
+
+export type ActionConfig = {
     id: string;
     icon: string;
     title: string;
     className: string;
-    onClick: () => void;
+    onClick: ( snapshot: SnapshotData, activeKey: string ) => void;
 }
 
 const createActionsRegistry = () => {
-    const actions: Record<string, Action> = {}
+    const actions: Record<string, ActionConfig> = {}
 
-    const registerAction = ( action: Action ) => {
+    const registerAction = ( action: ActionConfig ) => {
         actions[ action.id ] = action;
     }
 
     const getActions = () => {
-      return Object.values( actions ) as Action[];
+      return Object.values( actions );
     }
 
     return {
@@ -24,32 +26,3 @@ const createActionsRegistry = () => {
 }
 
 export const actionsRegistry = createActionsRegistry();
-
-// export default function useActionProps() {
-//     const document = useActiveDocument();
-//
-//     return {
-//         icon: EyeIcon,
-//         title: __( 'Preview Changes', 'elementor' ),
-//         onClick: () => {
-//             const extendedWindow = window as unknown as ExtendedWindow;
-//             const config = extendedWindow?.elementorCommon?.eventsManager?.config;
-//
-//             if ( config ) {
-//                 extendedWindow.elementorCommon.eventsManager.dispatchEvent( config.names.topBar.previewPage, {
-//                     location: config.locations.topBar,
-//                     secondaryLocation: config.secondaryLocations[ 'preview-page' ],
-//                     trigger: config.triggers.click,
-//                     element: config.elements.buttonIcon,
-//                 } );
-//             }
-//
-//             if ( document ) {
-//                 runCommand( 'editor/documents/preview', {
-//                     id: document.id,
-//                     force: true,
-//                 } );
-//             }
-//         },
-//     };
-// }

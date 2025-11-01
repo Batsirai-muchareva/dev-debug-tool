@@ -1,31 +1,20 @@
 import * as React from 'react';
-import { useState, useMemo } from "@wordpress/element";
 
 import { TabHeader } from "./tab-header";
 import { TabContent } from "./tab-content";
 import { Actions } from "../actions";
-import { useSnapshot } from "../../context/snapshot-context";
+import { useTabs } from "../../context/tabs-context";
 
 export const Tabs = () => {
-    const { snapshot } = useSnapshot();
-    const [ activeKey, setActiveKey ] = useState( 'editor' ); // should set dynamically
+    const { activeKey, setActiveKey, getHeaders, getActiveContent } = useTabs();
 
-    const tabHeaders = useMemo( () =>
-            Object.entries( snapshot ).map( ( [ key, value ] ) => ( {
-                key,
-                label: value.label,
-            } ) ),
-        [ snapshot ]
-    );
-
-    const getTabContent = () => {
-        return snapshot[ activeKey ].content;
-    }
+    const content = getActiveContent();
+    const headers = getHeaders();
 
     return (
         <div className="dev-debug__tabs-container">
             <div className="dev-debug__tab-header">
-                { tabHeaders.map( ( { key, label } ) => (
+                { headers.map( ( { key, label } ) => (
                     <TabHeader
                         key={ key }
                         label={ label }
@@ -35,7 +24,7 @@ export const Tabs = () => {
                 ) ) }
             </div>
             <Actions />
-            <TabContent content={ getTabContent() }/>
+            {content && <TabContent content={ content }/>}
         </div>
     );
 }

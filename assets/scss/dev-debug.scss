@@ -1,505 +1,362 @@
+// Main Styles - BEM Methodology
+// ============================================
 
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'animations' as *;
+
+// Block: dev-debug
+// ============================================
 .dev-debug {
-
-  //&-slot {
-  //}
-
+  
+  // Element: Toggle Button
+  // ============================================
   &__toggle {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    /* Test comment for auto-reload */
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #007cba;
-    color: white;
+    bottom: $toggle-bottom;
+    right: $toggle-right;
+    width: $toggle-size;
+    height: $toggle-size;
+    border-radius: $border-radius-circle;
+    background: $color-primary;
+    color: $color-text-dark;
     border: none;
     cursor: pointer;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
+    z-index: $z-index-toggle;
+    @include flex-center;
+    font-size: $font-size-xl;
+    box-shadow: $shadow-sm;
+    @include transition;
 
     &:hover {
-      //background: #005a87;
       transform: scale(1.1);
     }
 
+    // Support both BEM modifier formats
+    &--active,
     &-active {
-      background: #d63638;
+      background: $color-danger;
     }
   }
-// suport dark and light  @media (prefers-color-scheme: dark) {
+
+  // Element: Popover Container
+  // ============================================
   &__popover {
-    position: fixed!important;
-    bottom: 80px;
-    right: 20px;
-    //width: 500px;
-    max-height: 600px;
-    background: #1e1e1e;
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    z-index: 999998;
+    position: fixed !important;
+    bottom: $popover-bottom;
+    right: $popover-right;
+    max-height: $popover-max-height;
+    background: $color-bg-dark;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-md;
+    z-index: $z-index-popover;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border: 1px solid #404040;
+    border: 1px solid $color-border-dark;
 
-
-
+    // Element: Popover Header
     &-header {
-      //background: #2a2a2a;
-      border-bottom: 1px solid #404040;
-      display: flex;
-
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 20px;
+      border-bottom: 1px solid $color-border-dark;
+      @include flex-between;
+      padding: $spacing-lg $spacing-xl;
 
       p {
-        font-size: 13px;
+        font-size: $font-size-sm;
         margin: 0;
-        //font-size: 16px;
-        //font-weight: 600;
+        color: $color-text-dark;
       }
     }
   }
 
-  &-empty-state {
-    //cursor: move;
-    //user-select: none;
+  // Element: Empty State (hyphenated for compatibility)
+  // ============================================
+  &-empty-state,
+  &__empty-state {
     text-align: center;
     margin: 50px;
+    color: $color-text-dark-secondary;
   }
 
-  &-draggable {
+  // Element: Draggable (hyphenated for compatibility)
+  // ============================================
+  &-draggable,
+  &__draggable {
     cursor: move;
+    user-select: none;
   }
 
-
+  // Element: Tabs Container
+  // ============================================
   &__tabs-container {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      //background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: $font-family-base;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0; // Important for flex scrolling
+    overflow: hidden;
   }
 
+  // Element: Tab
+  // ============================================
   &__tab {
     flex: 1;
-    padding: 12px 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    @include button-reset;
+    padding: $spacing-md $spacing-lg; // Apply after button-reset to override padding: 0
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    @include transition;
     border-bottom: 2px solid transparent;
-    color: #a0a0a0;
+    color: $color-text-dark-secondary;
+    background: none;
 
     &:hover {
-      color: #ffffff;
+      color: $color-text-dark;
       background: rgba(255, 255, 255, 0.05);
     }
 
+    // Support both BEM modifier and legacy 'active' class
+    &--active,
     &.active {
-      border-bottom-color: #007cba;
-      color: #007cba;
-      background: #1e1e1e;
+      border-bottom-color: $color-primary;
+      color: $color-primary;
+      background: $color-bg-dark;
     }
+  }
 
-    &-wrapper {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 700px;
-      overflow: hidden;
-    }
+  // Element: Tab Header Container
+  // ============================================
+  &__tab-header {
+    display: flex;
+    background: $color-bg-dark-secondary;
+    border-bottom: 2px solid $color-border-dark;
+    position: relative;
 
-    &-header {
-      display: flex;
-      //background: #2a2a2a;
-      //border-bottom-color: #404040;
-      background: #2a2a2a;
-      border-bottom: 2px solid #404040;
-      position: relative;
-    }
-
-    //&-button {
-    //  //padding: 18px 24px;
-    //  //background: none;
-    //  //border: none;
-    //  //font-size: 16px;
-    //  //font-weight: 600;
-    //  //color: #6c757d;
-    //  //cursor: pointer;
-    //  //transition: all 0.3s ease;
-    //  //position: relative;
-    //  //z-index: 1;
-    //
-    //  &:hover {
-    //    color: #495057;
-    //    background: rgba(102, 126, 234, 0.05);
-    //  }
-    //
-    //  .active {
-    //    color: #667eea;
-    //  }
-    //}
-
+    // Element: Tab Indicator
     &-indicator {
       position: absolute;
       bottom: 0;
       left: 0;
       height: 3px;
       background: linear-gradient(90deg, #667eea, #764ba2);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      @include transition(all, 0.3s cubic-bezier(0.4, 0, 0.2, 1));
       border-radius: 3px 3px 0 0;
     }
-
-    &-content {
-      // padding: 32px;
-      // height: 400px;
-      position: relative;
-      overflow: scroll;
-      min-height: 30rem;
-      max-height: 30rem;
-
-      display: flex;
-      flex-direction: column;
-    }
-
-    &-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      // position: absolute;
-      // top: 32px;
-      // left: 32px;
-      // right: 32px;
-      // pointer-events: none;
-
-      //flex: 1;
-      //overflow: auto;
-      //background: #f8f9fa;
-      //background: #2a2a2a;
-      //background: #1e1e1e;
-      //color: #ffffff;
-
-      .active {
-        position: relative;
-        top: 0;
-        left: 0;
-        right: 0;
-        opacity: 1;
-        pointer-events: auto;
-        animation: fadeIn 0.4s ease;
-      }
-
-      h2 {
-        color: #212529;
-        margin-bottom: 16px;
-        font-size: 24px;
-        font-weight: bold;
-      }
-
-      p {
-        color: #6c757d;
-        line-height: 1.6;
-        margin-bottom: 12px;
-      }
-    }
-
-    //&__json-content {
-    //  margin: 0;
-    //  padding: 16px;
-    //  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    //  font-size: 12px;
-    //  line-height: 1.5;
-    //  color: #1e1e1e;
-    //  background: white;
-    //  border: none;
-    //  white-space: pre-wrap;
-    //  word-wrap: break-word;
-    //  overflow-x: auto;
-    //}
   }
 
-  &-actions {
+  // Element: Tab Content Container
+  // ============================================
+  &__tab-content {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
     display: flex;
-    gap: 8px;
-    padding: 12px 16px;
-    background: #2a2a2a;
-    border-bottom-color: #404040;
+    flex-direction: column;
+    min-height: 0; // Critical for flex scrolling
+    @include scrollbar-dark;
   }
 
-  &-refresh,
-  &-copy,
-  &-export {
+  // Element: Tab Panel
+  // ============================================
+  &__tab-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; // Important for scrolling
+
+    // Support both BEM modifier and legacy 'active' class
+    &--active,
+    &.active {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      opacity: 1;
+      pointer-events: auto;
+      animation: fadeIn $transition-slow ease;
+    }
+
+    h2 {
+      color: $color-text-light;
+      margin-bottom: $spacing-lg;
+      font-size: $font-size-xxl;
+      font-weight: $font-weight-bold;
+    }
+
+    p {
+      color: $color-text-light-secondary;
+      line-height: 1.6;
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  // Element: Actions Container
+  // ============================================
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    padding: $spacing-md $spacing-lg;
+    background: $color-bg-dark-secondary;
+    border-bottom: 1px solid $color-border-dark;
+    flex-shrink: 0; // Prevent shrinking
+  }
+
+  // Element: Action Button (Refresh, Copy, Export)
+  // ============================================
+  &__action {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 12px;
-    background: #1e1e1e;
-    //border-color: #404040;
-    color: #ffffff;
-
-    //background: white;
-    border: 1px solid #404040;
-    border-radius: 4px;
+    padding: $spacing-sm $spacing-md;
+    background: $color-bg-dark;
+    color: $color-text-dark;
+    border: 1px solid $color-border-dark;
+    border-radius: $border-radius-sm;
     cursor: pointer;
-    font-size: 12px;
-    font-weight: 500;
-    //color: #1e1e1e;
-    transition: all 0.2s ease;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    @include transition;
 
     &:hover {
-      background: #404040;
-      border-color: #007cba;
-      color: #007cba;
+      background: $color-border-dark;
+      border-color: $color-primary;
+      color: $color-primary;
     }
 
     i {
-      font-size: 12px;
+      font-size: $font-size-xs;
+    }
+
+    // Modifier: Refresh Button
+    &--refresh {
+      &:hover i {
+        animation: spin 1s linear infinite;
+      }
+    }
+
+    // Modifier: Copy Button
+    &--copy {
+      // Additional styles if needed
+    }
+
+    // Modifier: Export Button
+    &--export {
+      // Additional styles if needed
     }
   }
 
-  &-refresh:hover i {
-    animation: spin 1s linear infinite;
+  // Legacy class names for backward compatibility
+  // ============================================
+  &-actions {
+    @extend .dev-debug__actions;
+  }
+
+  &-refresh {
+    @extend .dev-debug__action;
+    @extend .dev-debug__action--refresh;
+  }
+
+  &-copy {
+    @extend .dev-debug__action;
+    @extend .dev-debug__action--copy;
+  }
+
+  &-export {
+    @extend .dev-debug__action;
+    @extend .dev-debug__action--export;
+  }
+
+  &-tool-close {
+    @include button-reset;
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    color: $color-text-dark-secondary;
+    @include transition;
+
+    &:hover {
+      color: $color-text-dark;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: $border-radius-sm;
+    }
+
+    i {
+      font-size: $font-size-md;
+    }
+  }
+
+  // Element: Notifications Container
+  // ============================================
+  &__notifications {
+    position: fixed;
+    top: $spacing-xl;
+    right: $spacing-xl;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    pointer-events: none;
+  }
+
+  // Element: Notification
+  // ============================================
+  &__notification {
+    @include flex-between;
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-lg;
+    min-width: 280px;
+    max-width: 400px;
+    background: $color-bg-dark-secondary;
+    border: 1px solid $color-border-dark;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-md;
+    pointer-events: auto;
+    @include transition;
+    animation: fadeIn $transition-fast ease;
+
+    // Modifier: Success
+    &--success {
+      border-left: 3px solid $color-primary;
+    }
+
+    // Modifier: Error
+    &--error {
+      border-left: 3px solid $color-danger;
+    }
+
+    // Modifier: Info
+    &--info {
+      border-left: 3px solid $color-text-dark-secondary;
+    }
+
+    // Element: Notification Message
+    &-message {
+      flex: 1;
+      color: $color-text-dark;
+      font-size: $font-size-sm;
+      line-height: 1.4;
+    }
+
+    // Element: Notification Close Button
+    &-close {
+      @include button-reset;
+      @include flex-center;
+      width: 20px;
+      height: 20px;
+      color: $color-text-dark-secondary;
+      @include transition;
+      flex-shrink: 0;
+
+      &:hover {
+        color: $color-text-dark;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: $border-radius-sm;
+      }
+
+      i {
+        font-size: $font-size-xs;
+      }
+    }
   }
 }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-
-
-.resize-container {
-  width: 100%;
-  height: 100vh;
-  background-color: #f3f4f6;
-  position: relative;
-  margin: 0;
-  padding: 0;
-}
-
-.resizable-box {
-  position: absolute;
-  background-color: white;
-  border: 2px solid #3b82f6;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-.box-content {
-  padding: 20px;
-  height: 100%;
-  overflow: auto;
-}
-
-.resize-handle {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background-color: #3b82f6;
-  border: 1px solid white;
-  border-radius: 2px;
-  transition: background-color 0.2s;
-  z-index: 10;
-}
-
-.resize-handle:hover {
-  background-color: #2563eb;
-}
-
-.resize-edge {
-  position: absolute;
-  background-color: transparent;
-  transition: background-color 0.2s;
-  z-index: 9;
-}
-
-.resize-edge:hover {
-  background-color: rgba(59, 130, 246, 0.3);
-}
-
-/* Example content styles */
-.my-content {
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.my-content h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1f2937;
-}
-
-.my-content p {
-  color: #4b5563;
-  line-height: 1.6;
-  margin-bottom: 12px;
-}
-
-.my-content ul {
-  color: #4b5563;
-  margin-left: 20px;
-}
-
-
-
-
-// .react-resizable {88
-//   position: relative;
-// }
-// .react-resizable-handle {
-//   position: absolute;
-//   width: 20px;
-//   height: 20px;
-//   background-repeat: no-repeat;
-//   background-origin: content-box;
-//   box-sizing: border-box;
-//   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
-//   background-position: bottom right;
-//   padding: 0 3px 3px 0;
-// }
-// .react-resizable-handle-sw {
-//   bottom: 0;
-//   left: 0;
-//   cursor: sw-resize;
-//   transform: rotate(90deg);
-// }
-// .react-resizable-handle-se {
-//   bottom: 0;
-//   right: 0;
-//   cursor: se-resize;
-// }
-// .react-resizable-handle-nw {
-//   top: 0;
-//   left: 0;
-//   cursor: nw-resize;
-//   transform: rotate(180deg);
-// }
-// .react-resizable-handle-ne {
-//   top: 0;
-//   right: 0;
-//   cursor: ne-resize;
-//   transform: rotate(270deg);
-// }
-// .react-resizable-handle-w,
-// .react-resizable-handle-e {
-//   top: 50%;
-//   margin-top: -10px;
-//   cursor: ew-resize;
-// }
-// .react-resizable-handle-w {
-//   left: 0;
-//   transform: rotate(135deg);
-// }
-// .react-resizable-handle-e {
-//   right: 0;
-//   transform: rotate(315deg);
-// }
-// .react-resizable-handle-n,
-// .react-resizable-handle-s {
-//   left: 50%;
-//   margin-left: -10px;
-//   cursor: ns-resize;
-// }
-// .react-resizable-handle-n {
-//   top: 0;
-//   transform: rotate(225deg);
-// }
-// .react-resizable-handle-s {
-//   bottom: 0;
-//   transform: rotate(45deg);
-// }
-
-
-// Resizable react-resizable-handle react-resizable-handle-n
-// .react-resizable-handle {
-//   position: absolute;
-
-//   &-n {
-//     top: -5px;
-//   }
-
-//   &-e {
-//     right: -5px;
-//   }
-
-//   &-s {
-//     bottom: -5px;
-//   }
-
-//   &-w {
-//     left: -5px;
-//   }
-
-//   &-ne {
-//     top: -5px;
-//     right: -5px;
-//   }
-
-//   &-nw {
-//     top: -5px;
-//     left: -5px;
-//   }
-
-//   &-se {
-//     bottom: -5px;
-//     right: -5px;
-//   }
-
-//   &-sw {
-//     bottom: -5px;
-//     left: -5px;
-//   }
-
-//   &-n, &-s {
-//     left: 0;
-//     height: 10px;
-//     width: 100%;
-//     cursor: ns-resize;
-//   }
-
-//   &-e, &-w {
-//     top: 0;
-//     height: 100%;
-//     width: 10px;
-//     cursor: ew-resize;
-//   }
-
-//   &-ne, &-nw, &-se, &-sw {
-//     height: 15px;
-//     width: 15px;
-//   }
-
-//   &-nw, &-se {
-//     cursor: nwse-resize;
-//   }
-
-//   &-ne, &-sw {
-//     cursor: nesw-resize;
-//   }
-
-//   //&-handle {
-//   //  position: absolute;
-//   //}
-
-//   //&-resizing {
-//   //  pointer-events: none;
-//   //}
-// }

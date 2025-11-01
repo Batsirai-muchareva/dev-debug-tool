@@ -50,7 +50,7 @@ type RefState = {
     }
 }
 
-export const Resizable = ( { children, initialHeight, initialWidth, minConstraints = [100, 100], maxConstraints = [500, 500] }: Props ) => {
+export const Resizable = ( { children, initialHeight, initialWidth, minConstraints = [100, 100], maxConstraints = [1000, 1000] }: Props ) => {
     const [ size, setSize ] = useState( { width: initialWidth, height: initialHeight } );
     const { position, setPosition } = usePosition();
 

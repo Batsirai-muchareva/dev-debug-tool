@@ -44,7 +44,7 @@ export const SnapshotProvider = ( { children }: PropsWithChildren) => {
     useEffect( () => {
         const providers = sourceProviderRepository.getProviders();
 
-        providers.forEach((provider) => {
+        providers.forEach( ( provider) => {
             // Get the appropriate handler
             const handler = sourceHandler.getHandlerForProvider(provider);
 
