@@ -3,27 +3,29 @@ import { SlotFillProvider } from '@wordpress/components';
 
 import { PopoverProvider } from "./context/popover-context";
 import { SnapshotProvider } from "./context/snapshot-context";
-import { DebugButton } from "./components/debug-button";
-import { sourceProviderRepository } from "./source-providers/source-provider-repository";
-import { databaseSource } from "./source-providers/database-source-provider";
-import { editorSourceProvider } from "./source-providers/editor-source-provider";
+import { FloatingButton } from "./components/floating-button";
+import { initSourceProvider } from "./source-providers/init";
+import { initSourceHandlers } from "./source-handlers/init";
+import { Popover } from "./components/popover";
+import { PositionProvider } from "./context/position-context";
+import { initActions } from "./actions/init";
 
+// We might not need the slot fill provider
 export const App = () => {
+    initSourceProvider();
+    initSourceHandlers();
+    initActions();
+
     return (
         <SlotFillProvider>
-            <SnapshotProvider>
-                <PopoverProvider>
-                    <DebugButton />
-                    <Initializer />
-                </PopoverProvider>
-            </SnapshotProvider>
+            <PositionProvider>
+                <SnapshotProvider>
+                    <PopoverProvider>
+                        <FloatingButton />
+                        <Popover />
+                    </PopoverProvider>
+                </SnapshotProvider>
+            </PositionProvider>
         </SlotFillProvider>
     );
-}
-
-const Initializer = () => {
-    sourceProviderRepository.register( databaseSource )
-    sourceProviderRepository.register( editorSourceProvider );
-
-    return null
 }

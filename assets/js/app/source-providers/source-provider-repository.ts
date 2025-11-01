@@ -1,4 +1,4 @@
-import { SourceProvider } from "./create-source-provider";
+import { SourceProvider } from "../types";
 
 const createSourceProviderRepository = () => {
     const providers: SourceProvider[] = [];
@@ -7,12 +7,14 @@ const createSourceProviderRepository = () => {
         providers.push( provider );
     };
 
-    const getProviders = () => {
-        return providers.slice( 0 ).sort( ( a, b ) => ( a.priority > b.priority ? -1 : 1 ) );
-    };
+    const getProviders = () => providers;
+
+    const getProvider = ( key: SourceProvider['key'] ) =>
+        providers.find( provider => provider.key === key )
 
     return {
         register,
+        getProvider,
         getProviders,
     }
 }

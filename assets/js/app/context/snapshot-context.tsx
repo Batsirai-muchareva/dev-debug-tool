@@ -1,84 +1,83 @@
 import * as React from "react";
-import { PropsWithChildren } from "react";
-import { createContext, useContext, useEffect, useState } from "@wordpress/element";
+import { PropsWithChildren, useCallback, useMemo } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "@wordpress/element";
+import { CleanupFn, Data, UpdateSnapshotFn } from "../types";
 import { sourceProviderRepository } from "../source-providers/source-provider-repository";
-import { SourceProvider } from "../source-providers/create-source-provider";
+import { sourceHandler } from "../source-handlers/source-handler-registry";
+import { createLifecycleManager } from "../lifecycle-manager";
 
-type ContentLabel = {
+export type SnapshotData = Record< string, {
     label: string;
-    content?: string | Record<string, any>;
-};
-
-export type SnapshotData = Record< string, ContentLabel >;
+    content: string | Data;
+} >;
 
 const SnapshotContext = createContext< { snapshot: SnapshotData } | undefined >( undefined );
 
-export const SnapshotProvider = ({ children }: PropsWithChildren) => {
-    const [ snapshot, setSnapshot ] = useState< SnapshotData >( {} );
+export const SnapshotProvider = ( { children }: PropsWithChildren) => {
+    const [snapshot, setSnapshot] = useState<SnapshotData>({});
+    const cleanupFnsRef = useRef<Map<string, CleanupFn>>(new Map());
 
-    const updateSnapshot = ( id: string, updates: ContentLabel ) => {
-        setSnapshot( prev => ( {
-            ...prev,
-            [id]: updates
-        }));
-    };
+    const updateSnapshot = useCallback<UpdateSnapshotFn>((key, state) => {
+        setSnapshot(prev => {
+            const provider = sourceProviderRepository.getProvider(key);
 
-    const handleSubscriptionSource = ( provider: SourceProvider ) => {
-        const subscribe = () => {
-            provider.actions.subscribe?.( ( data ) => {
-                updateSnapshot( provider.key, {
+            if ( ! provider ) {
+                throw new Error( `No Provider found please define a provider for ${ key }` );
+            }
+
+            const content = state.status === 'success' ? state.data
+                : state.status === 'idle' ? state.message
+                : state.status === 'loading' ? 'Refreshing Data'
+                : state.status === 'error' ? state.error
+                : 'No Status';
+
+            return {
+                ...prev,
+                [key]: {
                     label: provider.label,
-                    content: data,
-                } )
-            } );
-        }
-
-        // Set initial loading state
-        if ( provider.actions.initializeListeners ) {
-            provider.actions.initializeListeners( subscribe );
-        }
-
-        updateSnapshot(provider.key, {
-            label: provider.label,
-            content: 'data',
+                    content
+                }
+            };
         });
-    };
-
-    const handlePromiseSource = async ( provider: SourceProvider ) => {
-        try {
-            const data = await provider.actions.get?.();
-
-            updateSnapshot(provider.key, {
-                label: provider.label,
-                content: data,
-            });
-        } catch (error) {
-            console.error(`Failed to load ${provider.key}:`, error);
-            updateSnapshot(provider.key, {
-                label: provider.label,
-                content: { error: error instanceof Error ? error.message : 'Failed to load' },
-            });
-        }
-    };
-
-    const initialise = () => {
-        sourceProviderRepository.getProviders().forEach( async ( provider ) => {
-            if ( provider.actions.subscribe ) {
-                return handleSubscriptionSource( provider );
-            }
-
-            if ( provider.actions.get ) {
-                return await handlePromiseSource( provider );
-            }
-        } );
-    };
+    }, [] );
 
     useEffect( () => {
-        initialise();
-    }, [] )
+        const providers = sourceProviderRepository.getProviders();
+
+        providers.forEach((provider) => {
+            // Get the appropriate handler
+            const handler = sourceHandler.getHandlerForProvider(provider);
+
+            // Create refetch function for lifecycle
+            const refetch = () => {
+                const newHandler = sourceHandler.getHandlerForProvider(provider);
+                const cleanup = newHandler(provider, updateSnapshot);
+                cleanupFnsRef.current.set( provider.key, cleanup );
+            };
+
+            // Setup main handler
+            const handlerCleanup = handler(provider, updateSnapshot);
+
+            // Setup lifecycle
+            const lifecycleCleanup = createLifecycleManager(provider, refetch);
+
+            // Combine cleanups
+            cleanupFnsRef.current.set(provider.key, () => {
+                handlerCleanup();
+                lifecycleCleanup();
+            });
+        });
+
+        return () => {
+            cleanupFnsRef.current.forEach(cleanup => cleanup());
+            cleanupFnsRef.current.clear();
+        };
+    }, [updateSnapshot]);
+
+    const contextValue = useMemo(() => ({ snapshot }), [snapshot]);
 
     return (
-        <SnapshotContext.Provider value={ { snapshot } }>
+        <SnapshotContext.Provider value={contextValue}>
             {children}
         </SnapshotContext.Provider>
     );

@@ -57,8 +57,6 @@ class Debug {
 		}
 
 		public function get_database_schema(): void {
-//				vd(9000);
-//				check_ajax_referer( self::NONCE_DEV_DEBUG_KEY, 'nonce' );
 				$nonce_check = check_ajax_referer( self::NONCE_DEV_DEBUG_KEY, 'nonce', false );
 
 				if ( ! $nonce_check ) {

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { createContext, useContext, useState } from "@wordpress/element";
-import { Popover } from "../components/popover";
 import { PropsWithChildren } from "react";
 
 type PopoverState = {
@@ -20,7 +19,6 @@ export const PopoverProvider = ( { children }: PropsWithChildren ) => {
     return (
         <PopoverContext.Provider value={ { isOpen, toggle } }>
             {children}
-            <Popover />
         </PopoverContext.Provider>
     );
 };

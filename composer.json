@@ -1,6 +1,6 @@
 {
   "name": "dev-debug/dev-debug-tool",
-  "description": "Simplify debugging by accessing snapshot the database and the editor schema",
+  "description": "Simplify debugging by accessing snapshot of the database and the editor schema",
   "license": "proprietary",
   "autoload": {
     "psr-4": {

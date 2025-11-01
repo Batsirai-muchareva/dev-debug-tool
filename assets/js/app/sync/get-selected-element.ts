@@ -1,11 +1,15 @@
+type Listeners = {
+    on: ( event: string, callback: ( data: any ) => void ) => void;
+    off: ( event: string, callback: () => void ) => any;
+}
+
 type Element = {
-    model: {
-        on: ( event: string, callback: ( data: any ) => void ) => void;
-        off: ( event: string, callback: () => void ) => any;
-        toJSON: () => any;
+    model: Listeners & {
+        get: ( key: string ) => Listeners;
+        toJSON: ( options: any ) => any;
     }
 }
-export type Selection = Window & {
+export type ExtendedWindow = Window & {
     elementor: {
         selection: {
             getElements: () => Element[]
@@ -14,7 +18,7 @@ export type Selection = Window & {
 }
 
 export function getSelectedElement() {
-    const browserWindow = window as unknown as Selection;
+    const extendedWindow = window as unknown as ExtendedWindow;
 
-    return browserWindow.elementor.selection.getElements()[0]
+    return extendedWindow.elementor.selection.getElements()[0]
 }

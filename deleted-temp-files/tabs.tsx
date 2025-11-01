@@ -1,16 +1,7 @@
 import * as React from 'react';
-import { useState, useRef, useEffect } from "@wordpress/element";
+import { useState, useRef, useEffect, useMemo } from "@wordpress/element";
 import { useSnapshot } from "../context/snapshot-context";
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import {
-    a11yDark,
-    androidstudio,
-    anOldHope,
-    atelierCaveDark, atelierDuneDark, atelierSulphurpoolDark, atomOneDark,
-    dark,
-    docco,
-    github, gradientDark, nightOwl, vs2015
-} from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import { Data } from "../types";
 
 export default function Tabs() {
     const [activeTab, setActiveTab] = useState( '' );
@@ -31,7 +22,16 @@ export default function Tabs() {
         }
     };
 
-    const tabs = createTabs();
+    const tabs = useMemo(() => {
+        return Object.entries( snapshot ).map(([key, value]) => {
+
+            return {
+                id: key,
+                label: value.label,
+                content: JSON.stringify( value.content, null, 2 )
+            }
+        })
+    }, [ snapshot ]);
 
     useEffect(() => {
         if (tabs.length > 0 && !activeTab) {
@@ -44,29 +44,18 @@ export default function Tabs() {
             updateIndicator(activeTab);
         }
 
-        // updateIndicator(activeTab);
         const handleResize = () => updateIndicator(activeTab);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [activeTab, snapshot.snapshot]);
+    }, [activeTab]); // Removed snapshot.snapshot dependency to prevent unnecessary re-renders
 
     const handleTabClick = ( tabId: string ) => {
         setActiveTab( tabId );
     };
 
-    function createTabs() {
-        return Object.entries( snapshot ).map(([key, value]) => {
-            return {
-                id: key,
-                label: value.label,
-                content: JSON.stringify( value.content, null, 2 )
-            }
-        })
-    }
-
    const activeTabObj = tabs.find(tab => tab.id === activeTab);
 
-    const activeTabContent = activeTabObj?.content;
+    const shouldShowSchema = ( content: Data | string ) => typeof content !== 'string';
 
     return (
         <div className="dev-debug__tabs-container">
@@ -87,15 +76,14 @@ export default function Tabs() {
 
                 <div className="dev-debug__tab-content">
                     <div className="dev-debug__tab-panel active">
+                        {/*{}*/}
                         {/*<SyntaxHighlighter language="json" style={ atelierSulphurpoolDark }>*/}
                         {/*<SyntaxHighlighter language="json" style={ atomOneDark }>*/}
                         {/*<SyntaxHighlighter language="json" style={ vs2015 }>*/}
-                        <SyntaxHighlighter language="json" style={ atomOneDark } customStyle={ { flex: 1 } } >
-                            { activeTabContent as string }
-                        </SyntaxHighlighter>
-                        {/*<pre className="dev-debug__json-content">*/}
-                        {/*    { activeTabContent }*/}
-                        {/*</pre>*/}
+                        {/*<JsonSyntaxHighlighter content={ activeTabObj.content} />*/}
+                        {/*<SyntaxHighlighter language="json" style={ atomOneDark } customStyle={ { flex: 1 } } >*/}
+                        {/*    {  ?? '' }*/}
+                        {/*</SyntaxHighlighter>*/}
                     </div>
                 </div>
             </div>

@@ -4,11 +4,7 @@
   "description": "A WordPress plugin that provides real-time database and editor schema viewing within the Elementor editor interface.",
   "scripts": {
     "dev": "wp-scripts start --config webpack.config.js",
-    "build": "grunt build",
-    "css": "grunt css",
-    "watch-css": "grunt watch-css",
-    "clean": "grunt clean:build",
-    "dev2": "wp-scripts start --config webpack.config.js"
+    "build": "wp-scripts build --config webpack.config.js"
   },
   "keywords": [],
   "author": "",

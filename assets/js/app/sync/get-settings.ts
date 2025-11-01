@@ -1,4 +1,4 @@
-export type Settings = Window & {
+export type ExtendedWindow = Window & {
     devDebugTool: {
         nonce: string;
         baseUrl: string;
@@ -7,7 +7,7 @@ export type Settings = Window & {
 }
 
 export function getSettings() {
-    const browserWindow = window as unknown as Settings;
+    const extendedWindow = window as unknown as ExtendedWindow;
 
-    return browserWindow.devDebugTool
+    return extendedWindow.devDebugTool
 }

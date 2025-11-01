@@ -1,3 +1,5 @@
+import { CleanupFn } from "../types";
+
 type EventCallback = (
     component: any,
     command: string,
@@ -13,10 +15,7 @@ interface ElementorWindow extends Window {
     };
 }
 
-export function subscribeToElementorCommand(
-    event: string,
-    callback: EventCallback
-): () => void {
+export function subscribeToCommand( event: string, callback: EventCallback ): CleanupFn {
     const extendedWindow = window as unknown as ElementorWindow;
 
     if ( ! extendedWindow.$e?.commands ) {

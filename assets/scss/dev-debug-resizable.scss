@@ -1,0 +1,64 @@
+.dev-debug {
+  &-resizable {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 900;
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    //z-index: 999998;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #404040;
+
+    &__disable-events {
+      pointer-events: none;
+    }
+
+    &__handle {
+      position: absolute;
+      //background-color: #3b82f6;
+      //border: 2px solid white;
+      //border-radius: 50%;
+      z-index: 10;
+
+      &:hover {
+        background-color: #2563eb;
+      }
+
+      &-n {
+        top: 0;
+        left: 8px;
+        right: 8px;
+        height: 8px;
+        cursor: n-resize;
+      }
+
+      &-s {
+        bottom: 0;
+        left: 8px;
+        right: 8px;
+        height: 8px;
+        cursor: s-resize;
+      }
+
+      &-w {
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 8px;
+        cursor: w-resize;
+      }
+
+      &-e {
+        right: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 8px;
+        cursor: e-resize;
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@
             this.elementModelListeners = [];
             this.isDragging = false;
             this.dragOffset = { x: 0, y: 0 };
-            
+
             this.init();
         }
 
@@ -141,44 +141,417 @@
             // Append to body
             $('body').append(this.toggleButton);
             $('body').append(this.popover);
+            $('body').append(`<style>
+/**
+ * Elementor Debug Tool - Editor Styles
+ * Provides styling for the debug tool popover and interface
+ */
+
+/* Toggle Button */
+.elementor-debug-tool-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #007cba;
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.elementor-debug-tool-toggle:hover {
+    background: #005a87;
+    transform: scale(1.05);
+}
+
+.elementor-debug-tool-toggle.active {
+    background: #d63638;
+}
+
+.elementor-debug-tool-toggle i {
+    font-size: 20px;
+}
+
+/* Popover Container */
+.elementor-debug-tool-popover {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 500px;
+    max-height: 600px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 999998;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+/* Header */
+.elementor-debug-tool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: move;
+    user-select: none;
+}
+
+.elementor-debug-tool-header.dragging {
+    cursor: grabbing;
+}
+
+.elementor-debug-tool-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e1e1e;
+}
+
+.elementor-debug-tool-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    color: #757575;
+    transition: all 0.2s ease;
+}
+
+.elementor-debug-tool-close:hover {
+    background: #e0e0e0;
+    color: #1e1e1e;
+}
+
+.elementor-debug-tool-close i {
+    font-size: 16px;
+}
+
+/* Tabs */
+.elementor-debug-tool-tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.elementor-debug-tool-tab {
+    flex: 1;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #757575;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.elementor-debug-tool-tab:hover {
+    color: #1e1e1e;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.elementor-debug-tool-tab.active {
+    color: #007cba;
+    border-bottom-color: #007cba;
+    background: white;
+}
+
+/* Content */
+.elementor-debug-tool-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.elementor-debug-tool-tab-content {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.elementor-debug-tool-tab-content.active {
+    display: flex;
+}
+
+/* Actions */
+.elementor-debug-tool-actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.elementor-debug-tool-refresh,
+.elementor-debug-tool-copy,
+.elementor-debug-tool-export {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1e1e1e;
+    transition: all 0.2s ease;
+}
+
+.elementor-debug-tool-refresh:hover,
+.elementor-debug-tool-copy:hover,
+.elementor-debug-tool-export:hover {
+    background: #f0f0f0;
+    border-color: #007cba;
+    color: #007cba;
+}
+
+.elementor-debug-tool-refresh i,
+.elementor-debug-tool-copy i,
+.elementor-debug-tool-export i {
+    font-size: 12px;
+}
+
+.elementor-debug-tool-refresh:hover i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* JSON Container */
+.elementor-debug-tool-json-container {
+    flex: 1;
+    overflow: auto;
+    background: #f8f9fa;
+}
+
+.elementor-debug-tool-json {
+    margin: 0;
+    padding: 16px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1e1e1e;
+    background: white;
+    border: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+}
+
+/* JSON Syntax Highlighting */
+.elementor-debug-tool-json {
+    color: #1e1e1e;
+}
+
+/* Notification */
+.elementor-debug-tool-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #007cba;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 999999;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.elementor-debug-tool-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .elementor-debug-tool-popover {
+        background: #1e1e1e;
+        border-color: #404040;
+    }
+    
+    .elementor-debug-tool-header {
+        background: #2a2a2a;
+        border-bottom-color: #404040;
+    }
+    
+    .elementor-debug-tool-header h3 {
+        color: #ffffff;
+    }
+    
+    .elementor-debug-tool-close {
+        color: #a0a0a0;
+    }
+    
+    .elementor-debug-tool-close:hover {
+        background: #404040;
+        color: #ffffff;
+    }
+    
+    .elementor-debug-tool-tabs {
+        background: #2a2a2a;
+        border-bottom-color: #404040;
+    }
+    
+    .elementor-debug-tool-tab {
+        color: #a0a0a0;
+    }
+    
+    .elementor-debug-tool-tab:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .elementor-debug-tool-tab.active {
+        color: #007cba;
+        background: #1e1e1e;
+    }
+    
+    .elementor-debug-tool-actions {
+        background: #2a2a2a;
+        border-bottom-color: #404040;
+    }
+    
+    .elementor-debug-tool-refresh,
+    .elementor-debug-tool-copy,
+    .elementor-debug-tool-export {
+        background: #1e1e1e;
+        border-color: #404040;
+        color: #ffffff;
+    }
+    
+    .elementor-debug-tool-refresh:hover,
+    .elementor-debug-tool-copy:hover,
+    .elementor-debug-tool-export:hover {
+        background: #404040;
+        border-color: #007cba;
+        color: #007cba;
+    }
+    
+    .elementor-debug-tool-json-container {
+        background: #2a2a2a;
+    }
+    
+    .elementor-debug-tool-json {
+        background: #1e1e1e;
+        color: #ffffff;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .elementor-debug-tool-popover {
+        width: calc(100vw - 40px);
+        right: 20px;
+        left: 20px;
+        max-height: 70vh;
+    }
+    
+    .elementor-debug-tool-toggle {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Scrollbar Styling */
+.elementor-debug-tool-json-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.elementor-debug-tool-json-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.elementor-debug-tool-json-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.elementor-debug-tool-json-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+    .elementor-debug-tool-json-container::-webkit-scrollbar-track {
+        background: #2a2a2a;
+    }
+    
+    .elementor-debug-tool-json-container::-webkit-scrollbar-thumb {
+        background: #555555;
+    }
+    
+    .elementor-debug-tool-json-container::-webkit-scrollbar-thumb:hover {
+        background: #777777;
+    }
+}
+
+
+</style>`);
+
+
 
             // Initially hide popover
             this.popover.hide();
-            
+
             // Setup drag functionality
             this.setupDrag();
         }
 
         setupDrag() {
             const header = this.popover.find('.elementor-debug-tool-header');
-            
+
             // Mouse events
             header.on('mousedown', (e) => {
                 if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
                     return; // Don't drag if clicking on buttons
                 }
-                
+
                 this.isDragging = true;
                 this.dragOffset.x = e.clientX - this.popover.offset().left;
                 this.dragOffset.y = e.clientY - this.popover.offset().top;
-                
+
                 header.addClass('dragging');
                 e.preventDefault();
             });
-            
+
             $(document).on('mousemove', (e) => {
                 if (!this.isDragging) return;
-                
+
                 const x = e.clientX - this.dragOffset.x;
                 const y = e.clientY - this.dragOffset.y;
-                
+
                 // Keep popover within viewport
                 const maxX = $(window).width() - this.popover.outerWidth();
                 const maxY = $(window).height() - this.popover.outerHeight();
-                
+
                 const constrainedX = Math.max(0, Math.min(x, maxX));
                 const constrainedY = Math.max(0, Math.min(y, maxY));
-                
+
                 this.popover.css({
                     position: 'fixed',
                     left: constrainedX + 'px',
@@ -187,42 +560,42 @@
                     bottom: 'auto'
                 });
             });
-            
+
             $(document).on('mouseup', () => {
                 if (this.isDragging) {
                     this.isDragging = false;
                     header.removeClass('dragging');
                 }
             });
-            
+
             // Touch events for mobile
             header.on('touchstart', (e) => {
                 if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
                     return;
                 }
-                
+
                 const touch = e.originalEvent.touches[0];
                 this.isDragging = true;
                 this.dragOffset.x = touch.clientX - this.popover.offset().left;
                 this.dragOffset.y = touch.clientY - this.popover.offset().top;
-                
+
                 header.addClass('dragging');
                 e.preventDefault();
             });
-            
+
             $(document).on('touchmove', (e) => {
                 if (!this.isDragging) return;
-                
+
                 const touch = e.originalEvent.touches[0];
                 const x = touch.clientX - this.dragOffset.x;
                 const y = touch.clientY - this.dragOffset.y;
-                
+
                 const maxX = $(window).width() - this.popover.outerWidth();
                 const maxY = $(window).height() - this.popover.outerHeight();
-                
+
                 const constrainedX = Math.max(0, Math.min(x, maxX));
                 const constrainedY = Math.max(0, Math.min(y, maxY));
-                
+
                 this.popover.css({
                     position: 'fixed',
                     left: constrainedX + 'px',
@@ -230,10 +603,10 @@
                     right: 'auto',
                     bottom: 'auto'
                 });
-                
+
                 e.preventDefault();
             });
-            
+
             $(document).on('touchend', () => {
                 if (this.isDragging) {
                     this.isDragging = false;
@@ -241,7 +614,7 @@
                 }
             });
         }
-        
+
         bindEvents() {
             // Toggle button click
             this.toggleButton.on('click', () => {
@@ -302,10 +675,10 @@
             this.isOpen = true;
             this.popover.show();
             this.toggleButton.addClass('active');
-            
+
             // Reset position to default if it was dragged off-screen
             this.resetPosition();
-            
+
             // Load initial data
             this.updateDatabaseSchema();
             this.updateEditorSchema();
@@ -316,7 +689,7 @@
             this.popover.hide();
             this.toggleButton.removeClass('active');
         }
-        
+
         resetPosition() {
             // Reset to default position (bottom-right)
             this.popover.css({
