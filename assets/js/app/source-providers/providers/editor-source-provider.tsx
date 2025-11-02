@@ -18,6 +18,8 @@ export const editorSourceProvider = createSourceProvider( {
                 return () => {};
             }
 
+            // We need a way to refresh by reaching to element.model.toJSON( { remove: ['defaultEditSettings', 'editSettings'] } )
+            // for promise we reach to api how can we change the infra to support that
             const handleUpdate = () => {
                 onUpdate( element.model.toJSON( { remove: ['defaultEditSettings', 'editSettings'] } ) );
             };
@@ -25,7 +27,6 @@ export const editorSourceProvider = createSourceProvider( {
             const handleDestroy = () => {
                 onIdle();
             };
-
 
             element.model.on( 'change', handleUpdate );
             element.model.get( 'settings' ).on( 'change', handleUpdate );

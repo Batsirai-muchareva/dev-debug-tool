@@ -6,6 +6,7 @@ export const refreshAction: ActionConfig = {
     icon: 'eicon-sync',
     className: 'dev-debug-refresh',
     onClick: () => {
+        // getActiveProvider().refresh()
         // get the current active source provider
     }
 }

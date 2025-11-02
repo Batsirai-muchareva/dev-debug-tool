@@ -15,7 +15,7 @@ export type SourceHandler = ( provider: SourceProvider, updateSnapshot: UpdateSn
 export type SourceProviderActions =
     | { type: 'subscription'; subscribe: ( onUpdate: ( data: Data ) => void, onIdle: () => void ) => CleanupFn }
     | { type: 'promise'; fetch: () => Promise<Data> }
-    | { type: 'value'; getValue: () => Data };
+    | { type: 'value'; get: () => Data };
 
 export type SourceProvider = {
     key: string;

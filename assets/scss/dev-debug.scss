@@ -8,7 +8,7 @@
 // Block: dev-debug
 // ============================================
 .dev-debug {
-  
+
   // Element: Toggle Button
   // ============================================
   &__toggle {
@@ -59,7 +59,7 @@
     &-header {
       border-bottom: 1px solid $color-border-dark;
       @include flex-between;
-      padding: $spacing-lg $spacing-xl;
+      padding: $spacing-xs $spacing-xl;
 
       p {
         font-size: $font-size-sm;
@@ -102,7 +102,7 @@
   &__tab {
     flex: 1;
     @include button-reset;
-    padding: $spacing-md $spacing-lg; // Apply after button-reset to override padding: 0
+    padding: $spacing-sm $spacing-lg; // Apply after button-reset to override padding: 0
     font-size: $font-size-md;
     font-weight: $font-weight-medium;
     @include transition;
@@ -196,7 +196,7 @@
   &__actions {
     display: flex;
     gap: $spacing-sm;
-    padding: $spacing-md $spacing-lg;
+    padding: $spacing-sm $spacing-lg;
     background: $color-bg-dark-secondary;
     border-bottom: 1px solid $color-border-dark;
     flex-shrink: 0; // Prevent shrinking
@@ -208,7 +208,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: $spacing-sm $spacing-md;
+    padding: $spacing-xs $spacing-md;
     background: $color-bg-dark;
     color: $color-text-dark;
     border: 1px solid $color-border-dark;

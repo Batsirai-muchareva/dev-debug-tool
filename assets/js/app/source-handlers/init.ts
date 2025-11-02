@@ -6,5 +6,5 @@ import { fallbackHandler } from "./handlers/fallbackHandler";
 export function initSourceHandlers() {
     sourceHandler.registerSourceHandler( ( { actions } ) => actions.type === 'subscription', subscriptionHandler );
     sourceHandler.registerSourceHandler( ( { actions } ) => actions.type === 'promise', promiseHandler );
-    sourceHandler.registerFallback( fallbackHandler )
+    sourceHandler.registerSourceHandler( ( { actions } ) => actions.type === 'value', fallbackHandler )
 }

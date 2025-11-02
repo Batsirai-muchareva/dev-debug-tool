@@ -6,7 +6,7 @@ import { usePopover } from "../context/popover-context";
 
 export const POPOVER_SIZES = {
     width: 300,
-    height: 400,
+    height: 600,
 };
 
 export const Popover = () => {
