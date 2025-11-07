@@ -30,7 +30,6 @@ export const exportJsonAction: ActionConfig = {
         } catch (error) {
             showNotification( 'Export failed: ' +  (error as any).message, 'error');
         }
-
         // get the current active source provider
     }
 }

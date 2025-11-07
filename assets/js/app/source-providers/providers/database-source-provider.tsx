@@ -1,11 +1,10 @@
-import { createSourceProvider } from "../create-source-provider";
 import { httpApi } from "../../api/http-api";
 import { getPostId } from "../../sync/post-id";
 import { getSettings } from "../../sync/get-settings";
 import { subscribeToCommand } from "../../sync/subscribe-to-command";
+import { SourceProvider } from "../../types";
 
-/* Subscription pattern (editor) */
-export const databaseSourceProvide = createSourceProvider( {
+export const databaseSourceProvider: SourceProvider = {
     key: 'database',
     label: 'Database',
     actions: {
@@ -33,10 +32,10 @@ export const databaseSourceProvide = createSourceProvider( {
     lifecycle: {
         onMount: ( refetch ) => {
             return subscribeToCommand('run:after', ( _, command) => {
-                if (command === 'document/save/update') {
+                if ( command === 'document/save/update' ) {
                     refetch();
                 }
             });
         },
     }
-} );
+};

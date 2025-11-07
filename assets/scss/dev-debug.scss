@@ -1,12 +1,10 @@
 // Main Styles - BEM Methodology
-// ============================================
 
 @use 'variables' as *;
 @use 'mixins' as *;
 @use 'animations' as *;
 
 // Block: dev-debug
-// ============================================
 .dev-debug {
 
   // Element: Toggle Button
@@ -15,24 +13,26 @@
     position: fixed;
     bottom: $toggle-bottom;
     right: $toggle-right;
+    z-index: $z-index-toggle;
+
     width: $toggle-size;
     height: $toggle-size;
     border-radius: $border-radius-circle;
+
     background: $color-primary;
     color: $color-text-dark;
+
     border: none;
     cursor: pointer;
-    z-index: $z-index-toggle;
-    @include flex-center;
-    font-size: $font-size-xl;
     box-shadow: $shadow-sm;
+
     @include transition;
+    @include flex-center;
 
     &:hover {
       transform: scale(1.1);
     }
 
-    // Support both BEM modifier formats
     &--active,
     &-active {
       background: $color-danger;
@@ -69,7 +69,7 @@
     }
   }
 
-  // Element: Empty State (hyphenated for compatibility)
+  // Element: Empty State
   // ============================================
   &-empty-state,
   &__empty-state {
@@ -78,7 +78,7 @@
     color: $color-text-dark-secondary;
   }
 
-  // Element: Draggable (hyphenated for compatibility)
+  // Element: Draggable
   // ============================================
   &-draggable,
   &__draggable {

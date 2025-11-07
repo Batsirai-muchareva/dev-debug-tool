@@ -1,11 +1,11 @@
 import React from "react";
-import { PropsWithChildren, useRef, useState } from "react";
+import { PropsWithChildren, useRef } from "react";
 import { calculateNewDimensions } from "./calculate-new-dimension";
 import { DIRECTION } from "./types";
 import { applyConstraints } from "./apply-constraints";
 import { useEffect } from "@wordpress/element";
 import { ResizeBarHandle } from "./handles/resize-bar-handle";
-import { usePosition } from "../../context/position-context";
+import { useBounds } from "../../context/bounds-context";
 import { editorPointerEvents } from "../../utils/editor-pointer-events";
 
 const RESIZE_DIRECTIONS = {
@@ -27,8 +27,6 @@ const edgeHandles = [
 ];
 
 type Props = PropsWithChildren & {
-    initialHeight: number;
-    initialWidth: number;
     minConstraints?: number[];
     maxConstraints?: number[];
 };
@@ -50,9 +48,8 @@ type RefState = {
     }
 }
 
-export const Resizable = ( { children, initialHeight, initialWidth, minConstraints = [100, 100], maxConstraints = [1000, 1000] }: Props ) => {
-    const [ size, setSize ] = useState( { width: initialWidth, height: initialHeight } );
-    const { position, setPosition } = usePosition();
+export const Resizable = ( { children, minConstraints = [100, 100], maxConstraints = [1000, 1000] }: Props ) => {
+    const { position, setPosition, size, setSize } = useBounds();
 
     const resizeStateRef = useRef<RefState>( {
         isResizing: false,
@@ -155,6 +152,7 @@ export const Resizable = ( { children, initialHeight, initialWidth, minConstrain
             document.removeEventListener('mouseup', handleMouseUp );
         };
     }, []);
+// lets use hooks for all this logic
 
     const styles = {
         width: `${ size.width }px`,

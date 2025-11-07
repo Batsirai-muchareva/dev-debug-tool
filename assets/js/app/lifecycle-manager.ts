@@ -1,10 +1,5 @@
 import { CleanupFn, SourceProvider } from "./types";
 
-type LifecycleHook = {
-    onMount?: (refetch: () => void) => CleanupFn;
-    onUnmount?: () => void;
-};
-
 export const createLifecycleManager = (
     provider: SourceProvider,
     refetch: () => void

@@ -1,6 +1,8 @@
 import * as React from "react";
-import { createContext, useContext, useState } from "@wordpress/element";
+import { createContext, useContext, useEffect, useState } from "@wordpress/element";
 import { PropsWithChildren } from "react";
+import { listenTo, POPOVER_OPEN_EVENT, POSITION_CHANGE_EVENT, WINDOW_RESIZE_EVENT } from "../events";
+import { useBounds } from "./bounds-context";
 
 type PopoverState = {
     isOpen: boolean,
@@ -13,7 +15,7 @@ export const PopoverProvider = ( { children }: PropsWithChildren ) => {
     const [ isOpen, setOpen ] = useState( false );
 
     function toggle() {
-        setOpen( ! isOpen )
+        setOpen( ! isOpen );
     }
 
     return (

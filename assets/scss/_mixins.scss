@@ -1,5 +1,4 @@
 // Mixins
-// ============================================
 
 @use "sass:color";
 @use 'variables' as *;
@@ -16,7 +15,7 @@
   justify-content: space-between;
 }
 
-@mixin transition($property: all, $duration: $transition-base) {
+@mixin transition( $property: all, $duration: $transition-base ) {
   transition: $property $duration;
 }
 

@@ -2,7 +2,7 @@ import { SnapshotData } from "../../context/snapshot-context";
 import { showNotification } from "../../libs/notification/notifications";
 import { ActionConfig } from "../actions-registry";
 
-export const createCopyAction: ActionConfig = {
+export const copyAction: ActionConfig = {
     id: 'copy',
     title: 'Copy',
     icon: 'eicon-copy',

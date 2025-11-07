@@ -1,35 +1,36 @@
-import { Data, SourceHandler, SourceProvider } from "../types";
-
-
-type HandlerMatcher = (provider: SourceProvider) => boolean;
+import { SourceHandler, SourceProvider, SourceProviderActions } from "../types";
 
 const createSourceHandler = () => {
-    const handlerRegistry: Array<{ matcher: HandlerMatcher; handler: SourceHandler; }> = [];
-    let fallbackHandler: SourceHandler;
+    const handlers = new Map<SourceProviderActions['type'], SourceHandler>();
 
-    const registerSourceHandler = ( matcher: HandlerMatcher, handler: SourceHandler ) => {
-        handlerRegistry.push({ matcher, handler });
-    };
-
-    const registerFallback = ( fallback: SourceHandler ) => {
-        fallbackHandler = fallback;
-    }
-
-    const getHandlerForProvider = ( provider: SourceProvider ): SourceHandler => {
-        const entry = handlerRegistry.find(({ matcher }) => matcher(provider));
-
-        if ( ! entry ) {
-            throw new Error(`No handler found for provider: ${provider.key}`);
+    const register = (type: SourceProviderActions['type'], handler: SourceHandler) => {
+        if ( handlers.has( type ) ) {
+            console.warn(`Handler for type "${type}" already registered`);
+            return;
         }
 
-        return entry.handler;
+        handlers.set( type, handler );
+    };
+
+    const getHandlerForProvider = ( provider: SourceProvider ): SourceHandler => {
+        const handler = handlers.get(provider.actions.type);
+
+        if ( ! handler ) {
+            const availableTypes = Array.from( handlers.keys() ).join( ', ' );
+
+            throw new Error(
+                `No handler registered for provider type: "${ provider.actions.type }". ` +
+                `Available types: ${ availableTypes }`
+            );
+        }
+
+        return handler;
     };
 
     return {
-        registerSourceHandler,
-        getHandlerForProvider,
-        registerFallback
-    }
-}
+        register,
+        getHandlerForProvider
+    };
+};
 
 export const sourceHandler = createSourceHandler();

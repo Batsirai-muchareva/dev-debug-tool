@@ -1,4 +1,3 @@
-// Notifications using native browser CustomEvent API
 export type NotificationType = 'success' | 'error' | 'info';
 
 export interface Notification {
@@ -7,7 +6,6 @@ export interface Notification {
     type: NotificationType;
 }
 
-// Event names
 export const NOTIFICATION_SHOW_EVENT = 'dev-debug:notification:show';
 export const NOTIFICATION_REMOVE_EVENT = 'dev-debug:notification:remove';
 
@@ -29,12 +27,12 @@ export const showNotification = ( message: string, type: NotificationType = 'suc
 
     const event = new CustomEvent( NOTIFICATION_SHOW_EVENT, {
         detail: notification
-    }) as NotificationShowEvent;
+    } ) as NotificationShowEvent;
 
     window.dispatchEvent(event);
 
     // Auto-remove after 3 seconds
-    setTimeout( () => removeNotification( id ) , 3000);
+    setTimeout( () => removeNotification( id ) , 3000 );
 };
 
 export const removeNotification = ( id: string): void => {

@@ -13,7 +13,7 @@ export const subscriptionHandler: SourceHandler = (provider, updateSnapshot) => 
         updateSnapshot( provider.key, { status: 'success', data } );
     }
 
-    onIdle() // auto triggered not here maybe part of lifecycle
+    onIdle() // TODO: auto triggered not here maybe part of lifecycle
 
     return provider.actions.subscribe( onUpdate, onIdle );
 };

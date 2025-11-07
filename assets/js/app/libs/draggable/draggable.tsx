@@ -1,7 +1,7 @@
 import React from "react";
 import { PropsWithChildren } from "react";
 import { useEffect, useRef } from "@wordpress/element";
-import { usePosition } from "../../context/position-context";
+import { useBounds } from "../../context/bounds-context";
 import { editorPointerEvents } from "../../utils/editor-pointer-events";
 
 type Props = PropsWithChildren & {
@@ -9,7 +9,7 @@ type Props = PropsWithChildren & {
 }
 
 export const Draggable = ( { children, className }: Props ) => {
-    const { position, setPosition } = usePosition();
+    const { position, setPosition } = useBounds();
 
     const dragStateRef = useRef( {
         isDragging: false,

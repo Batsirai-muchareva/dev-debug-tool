@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Dev Debug Tool
- * Plugin URI: https://github.com/your-username/elementor-debug-tool
+ * Plugin URI: https://github.com/Batsirai-muchareva/dev-debug-tool
  * Description: A developer tool that provides real-time database and editor schema viewing within the Elementor editor.
  * Version: 1.0.0
  * License: GPL v2 or later
@@ -22,10 +22,10 @@ if ( ! defined('ABSPATH')) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 
-define('DEV_DEBUG_TOOL_VERSION', '1.0.0');
-define('DEV_DEBUG_TOOL_FILE', __FILE__);
-define('DEV_DEBUG_TOOL_PATH', plugin_dir_path(__FILE__));
-define('DEV_DEBUG_TOOL_URL', plugin_dir_url(__FILE__));
+define( 'DEV_DEBUG_TOOL_VERSION', '1.0.0' );
+define( 'DEV_DEBUG_TOOL_FILE', __FILE__);
+define( 'DEV_DEBUG_TOOL_PATH', plugin_dir_path( __FILE__ ) );
+define( 'DEV_DEBUG_TOOL_URL', plugin_dir_url( __FILE__ ) );
 
 const DEBUG_ACTIVE_TRANSIENT_KEY = 'dev_debug_tool_activated';
 
@@ -42,7 +42,7 @@ register_deactivation_hook(__FILE__, function() {
 function check_elementor_is_activated(): void {
 		if ( ! is_plugin_active('elementor/elementor.php') ) {
 				deactivate_plugins( plugin_basename(DEV_DEBUG_TOOL_FILE) );
-				wp_die(__('Elementor Debug Tool requires Elementor to be installed and activated.', 'dev-debug-tool'));
+				wp_die(__('Elementor Debug Tool requires Elementor to be installed and activated.', 'dev-debug-tool') );
 		}
 }
 

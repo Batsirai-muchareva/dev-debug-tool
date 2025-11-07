@@ -1,6 +1,4 @@
-import { createSourceProvider } from "../create-source-provider";
-
-export const styleSchema = createSourceProvider( {
+export const styleSchema = {
     key: 'style-schema',
     label: 'Style Schema',
     actions: {
@@ -9,4 +7,4 @@ export const styleSchema = createSourceProvider( {
             return ( window as any ).elementor.config.atomic.styles_schema;
         }
     }
-} )
+};

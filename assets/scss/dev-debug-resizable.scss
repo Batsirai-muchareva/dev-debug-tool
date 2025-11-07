@@ -19,12 +19,10 @@
   overflow: hidden;
   border: 1px solid $color-border-dark;
   min-height: 0; // Important for flex scrolling
-  
+
   // Ensure inner content can scroll properly
   > div {
     display: flex;
-    flex-direction: column;
-    flex: 1;
     min-height: 0;
     overflow: hidden;
   }
@@ -41,7 +39,7 @@
     @include transition(background-color);
 
     &:hover {
-      background-color: $resize-handle-color; // Original was #2563eb
+      background-color: $resize-handle-color;
     }
 
     // Note: Using single dash (-) not double (--) to match component class names

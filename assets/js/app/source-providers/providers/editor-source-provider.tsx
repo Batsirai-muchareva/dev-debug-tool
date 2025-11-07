@@ -1,9 +1,9 @@
 import { getSelectedElement } from "../../sync/get-selected-element";
-import { createSourceProvider } from "../create-source-provider";
 import { subscribeToCommand } from "../../sync/subscribe-to-command";
+import { SourceProvider } from "../../types";
 
 /* Subscription pattern (editor) */
-export const editorSourceProvider = createSourceProvider( {
+export const editorSourceProvider: SourceProvider = {
     key: 'editor',
     label: 'Editor',
     idleMessage: 'Please select an element to view its data',
@@ -18,8 +18,6 @@ export const editorSourceProvider = createSourceProvider( {
                 return () => {};
             }
 
-            // We need a way to refresh by reaching to element.model.toJSON( { remove: ['defaultEditSettings', 'editSettings'] } )
-            // for promise we reach to api how can we change the infra to support that
             const handleUpdate = () => {
                 onUpdate( element.model.toJSON( { remove: ['defaultEditSettings', 'editSettings'] } ) );
             };
@@ -50,4 +48,4 @@ export const editorSourceProvider = createSourceProvider( {
             });
         }
     }
-} );
+};
