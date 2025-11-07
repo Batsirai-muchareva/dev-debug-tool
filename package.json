@@ -4,20 +4,21 @@
   "description": "A WordPress plugin that provides real-time database and editor schema viewing within the Elementor editor interface.",
   "scripts": {
     "dev": "wp-scripts start --config webpack.config.js",
-    "build": "wp-scripts build --config webpack.config.js"
+    "build": "cross-env NODE_ENV=production wp-scripts build --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@wordpress/components": "^30.7.0",
+    "@wordpress/dom-ready": "^4.34.0",
     "@wordpress/element": "^6.33.0",
     "@wordpress/scripts": "^30.26.0",
+    "cross-env": "^10.1.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@wordpress/components": "^30.6.0",
-    "@wordpress/dom-ready": "^4.33.0",
     "react-syntax-highlighter": "^15.6.6",
     "ts-loader": "^9.5.4"
   }
