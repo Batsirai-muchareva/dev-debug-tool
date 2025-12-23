@@ -1,23 +1,27 @@
-export type EventCallback = ( data: any ) => void;
+type Handler = ( data: any ) => void;
 
-export type EventEmitter = {
-    on: ( event: string, callback: EventCallback ) => void;
-    off: ( event: string, callback: EventCallback ) => void;
+type ElementorElement = {
+    id: string;
+    cid: string;
+    model: ElementorElementModel;
+    view?: unknown;
+    parent?: ElementorElement;
+    children?: ElementorElement[];
+    getContainer?: () => ElementorElement;
 }
 
-type ElementModel = EventEmitter & {
-    get: (key: string) => EventEmitter;
-    toJSON: (options?: { remove?: string[] }) => any;
-}
-
-export type MarionetteElement = {
-    model: ElementModel;
+type ElementorElementModel = {
+    get: ( key: string ) => unknown;
+    set: ( key: string, value: unknown ) => void;
+    toJSON: () => Record<string, unknown>;
+    on: ( event: string, handler: Handler ) => void;
+    off: ( event: string, handler: Handler ) => void;
 }
 
 export type ExtendedWindow = Window & {
     elementor: {
         selection: {
-            getElements: () => MarionetteElement[]
+            getElements: () => ElementorElement[]
         }
     }
 }

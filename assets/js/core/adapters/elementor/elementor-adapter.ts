@@ -1,4 +1,3 @@
-import { Callback, Unsubscribe } from "@app/adapters";
 import { getElementorCommands } from "@app/adapters/elementor/sync/get-elementor-commands";
 import { getSelectedElement } from "@app/adapters/elementor/sync/get-selected-element";
 
@@ -13,6 +12,10 @@ export type ElementorCommand =
     | 'panel/exit'
     | 'panel/open'
     | 'panel/close';
+
+type Unsubscribe = () => void;
+
+type Callback<T = void> = (data: T) => void;
 
 const LOG_PREFIX = '[DevDebugTool:ElementorAdapter]';
 
