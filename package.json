@@ -19,7 +19,9 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
     "react-syntax-highlighter": "^15.6.6",
+    "react18-json-view": "^0.2.9-canary.11",
     "ts-loader": "^9.5.4"
   }
 }

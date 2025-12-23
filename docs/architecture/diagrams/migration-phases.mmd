@@ -1,0 +1,26 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3498db'}}}%%
+
+gantt
+    title Dev Debug Tool - Migration Timeline
+    dateFormat  YYYY-MM-DD
+    
+    section Phase 1: Cleanup
+    Remove dead code           :done, p1a, 2024-01-01, 1d
+    Add ErrorBoundary          :done, p1b, after p1a, 1d
+    Basic TypeScript strict    :active, p1c, after p1b, 2d
+    
+    section Phase 2: Boundaries
+    Create ElementorAdapter    :p2a, after p1c, 3d
+    Create WordPressAdapter    :p2b, after p2a, 2d
+    Merge contexts to AppContext :crit, p2c, after p2b, 5d
+    
+    section Phase 3: Performance
+    Add CacheManager           :p3a, after p2c, 2d
+    Add memoization            :p3b, after p3a, 2d
+    Typed EventBus             :p3c, after p3b, 2d
+    
+    section Phase 4: Enhancement
+    Web Worker for JSON        :p4a, after p3c, 4d
+    State persistence          :p4b, after p4a, 2d
+    Integration tests          :p4c, after p4b, 5d
+

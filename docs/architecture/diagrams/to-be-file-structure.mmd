@@ -1,0 +1,101 @@
+%%{init: {'theme': 'base'}}%%
+
+graph TD
+    subgraph assets/js["assets/js/"]
+        main["main.ts"]
+        App["App.tsx"]
+        Panel["Panel.tsx"]
+        
+        subgraph popovers["popovers/"]
+            MainPopover["MainPopover.tsx"]
+            SuggestionsPopover["SuggestionsPopover.tsx"]
+        end
+        
+        subgraph core["core/"]
+            subgraph adapters["adapters/ 🆕"]
+                adaptersIndex["index.ts"]
+                elemAdapter["elementor-adapter.ts"]
+                wpAdapter["wordpress-adapter.ts"]
+                adapterTypes["types.ts"]
+            end
+            
+            subgraph cache["cache/ 🆕"]
+                cacheIndex["index.ts"]
+                cacheManager["cache-manager.ts"]
+                cacheTypes["types.ts"]
+            end
+            
+            subgraph state["state/ 🆕"]
+                stateIndex["index.ts"]
+                appContext["app-context.tsx"]
+                appReducer["app-reducer.ts"]
+                actions["actions.ts"]
+                selectors["selectors.ts"]
+                persistence["persistence.ts"]
+                stateTypes["types.ts"]
+            end
+            
+            subgraph errors["errors/ 🆕"]
+                errorsIndex["index.ts"]
+                errorBoundary["error-boundary.tsx"]
+                errorReporter["error-reporter.ts"]
+            end
+            
+            subgraph events["events/ (refactored)"]
+                eventBus["event-bus.ts"]
+                eventTypes["event-types.ts"]
+                subgraph listeners["listeners/"]
+                    listenToEvent["listen-to-event.ts"]
+                end
+            end
+            
+            subgraph manager["manager/ (existing)"]
+                createManager["create-data-provider-manager.ts"]
+                registerProviders["register-data-providers.ts"]
+            end
+            
+            subgraph providers["providers/ (uses adapters)"]
+                subgraph dbProvider["database-provider/"]
+                    dbProviderFile["provider.ts"]
+                end
+                subgraph editorProvider["editor-provider/"]
+                    editorProviderFile["provider.ts"]
+                    subgraph modes["modes/"]
+                        localMode["local-mode.ts"]
+                        globalClassesMode["global-classes-mode.ts"]
+                    end
+                end
+            end
+            
+            subgraph hooks["hooks/ (existing + new)"]
+                useAppState["use-app-state.ts 🆕"]
+                useDataProvider["use-data-provider.ts"]
+                otherHooks["...other hooks"]
+            end
+            
+            subgraph components["components/ (existing)"]
+                compOther["...existing components"]
+            end
+        end
+    end
+
+    main --> App
+    App --> Panel
+    Panel --> MainPopover
+    Panel --> SuggestionsPopover
+    
+    App --> adapters
+    App --> state
+    
+    providers --> adapters
+    providers --> cache
+    
+    state --> persistence
+
+    classDef new fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef refactored fill:#f39c12,stroke:#d68910,color:#fff
+    classDef existing fill:#3498db,stroke:#2980b9,color:#fff
+    
+    class adapters,cache,state,errors,useAppState new
+    class events refactored
+

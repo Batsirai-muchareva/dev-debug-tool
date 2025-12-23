@@ -6,7 +6,10 @@ $color-primary: #007cba;
 $color-danger: #d63638;
 
 // Theme colors
-$color-bg-dark: #1e1e1e;
+$color-bg-dark: rgb(26, 65, 67);
+//$color-bg-dark: #1e1e1e;
+//top: 84px;
+//background: rgb(26, 65, 67);
 $color-bg-dark-secondary: #2a2a2a;
 $color-border-dark: #404040;
 $color-text-dark: #ffffff;
@@ -37,13 +40,14 @@ $font-family-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; // check first
 
 // Z-index
 $z-index-toggle: 100;
-$z-index-popover: 999998;
+$z-index-popover: 2000;
 $z-index-resizable: 900;
 $z-index-handle: 10;
 
 // Border radius
 $border-radius-sm: 4px;
 $border-radius-md: 8px;
+$border-radius-lg: 12px;
 $border-radius-circle: 50%;
 
 // Shadows

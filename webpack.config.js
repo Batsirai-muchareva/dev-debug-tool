@@ -1,10 +1,13 @@
 const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
     ...defaultConfig,
     entry: {
         main: path.resolve(__dirname, 'assets/js/main.ts'),
+        styles: path.resolve(__dirname, 'assets/scss/styles.scss'),
+        'dev-debug': path.resolve(__dirname, 'assets/scss/dev-debug.scss'),
     },
     output: {
         path: path.resolve(__dirname, 'build'),
@@ -12,6 +15,11 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
+
+        alias: {
+            '@component': path.resolve(__dirname, 'assets/js/core/components'),
+            '@app': path.resolve(__dirname, 'assets/js/core'),
+        }
     },
     module: {
         ...defaultConfig.module,
@@ -22,6 +30,20 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
+            // {
+            //     test: /\.s[ac]ss$/i,
+            //     use: [
+            //         MiniCssExtractPlugin.loader,
+            //         'css-loader',
+            //         'sass-loader'
+            //     ],
+            // },
         ],
     },
+    plugins: [
+        ...defaultConfig.plugins,
+        new MiniCssExtractPlugin({
+            filename: '[name].css', // Output CSS files
+        }),
+    ],
 };

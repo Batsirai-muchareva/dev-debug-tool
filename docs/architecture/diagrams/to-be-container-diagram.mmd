@@ -1,0 +1,74 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#4a90d9', 'primaryTextColor': '#fff', 'primaryBorderColor': '#2d5f8b', 'lineColor': '#666', 'secondaryColor': '#f4f4f4', 'tertiaryColor': '#e8f4f8'}}}%%
+
+flowchart TB
+    subgraph WordPress["WordPress Environment"]
+        subgraph Plugin["Dev Debug Tool Plugin"]
+            subgraph PHP["PHP Backend"]
+                Entry["dev-debug-tool.php<br/>━━━━━━━━━━━━━━<br/>Entry Point"]
+                App["App.php<br/>━━━━━━━━━━━━━━<br/>Hook Initializer"]
+                Debug["Debug.php<br/>━━━━━━━━━━━━━━<br/>Asset Loader"]
+                Ajax["Database_Ajax.php<br/>━━━━━━━━━━━━━━<br/>AJAX Handler<br/><i>+ validation layer</i>"]
+            end
+            
+            subgraph React["React Frontend"]
+                subgraph Adapters["🆕 Adapter Layer"]
+                    ElemAdapter["ElementorAdapter<br/>━━━━━━━━━━━━━━<br/>Version-safe API wrapper<br/>Isolates $e.commands"]
+                    WPAdapter["WordPressAdapter<br/>━━━━━━━━━━━━━━<br/>AJAX abstraction<br/>Error handling"]
+                end
+                
+                subgraph Core["Core Layer"]
+                    Providers["Data Providers<br/>━━━━━━━━━━━━━━<br/>EditorProvider<br/>DatabaseProvider"]
+                    Manager["DataProviderManager<br/>━━━━━━━━━━━━━━<br/>Registry + Lifecycle"]
+                    Cache["🆕 CacheManager<br/>━━━━━━━━━━━━━━<br/>LRU Cache<br/>TTL Support"]
+                    EventBus["🆕 EventBus<br/>━━━━━━━━━━━━━━<br/>Typed Events<br/>Replay Support"]
+                    Persist["🆕 StatePersistence<br/>━━━━━━━━━━━━━━<br/>localStorage Sync"]
+                end
+                
+                subgraph Context["State Layer"]
+                    AppCtx["🆕 AppContext<br/>━━━━━━━━━━━━━━<br/>Merged State<br/>useReducer"]
+                    ErrorBoundary["🆕 ErrorBoundary<br/>━━━━━━━━━━━━━━<br/>Graceful Errors"]
+                end
+                
+                subgraph UI["UI Layer"]
+                    Toggle["ToggleButton"]
+                    MainPop["MainPopover<br/>Draggable/Resizable"]
+                    SuggestPop["SuggestionsPopover"]
+                    Tabs["Tabs + TabPanel"]
+                    JSON["JsonSyntaxHighlighter<br/><i>+ Web Worker option</i>"]
+                end
+            end
+        end
+        
+        DB[("WordPress<br/>Database<br/>wp_postmeta")]
+        Elementor["Elementor Editor<br/>$e.commands API"]
+    end
+    
+    Entry --> App
+    App --> Debug
+    App --> Ajax
+    Debug -->|"enqueue_scripts"| React
+    
+    ElemAdapter <-->|"Safe wrapper"| Elementor
+    WPAdapter <-->|"AJAX"| Ajax
+    
+    Providers --> ElemAdapter
+    Providers --> WPAdapter
+    Providers --> Cache
+    Cache --> EventBus
+    
+    Manager --> Providers
+    Persist --> AppCtx
+    
+    Core --> AppCtx
+    ErrorBoundary --> UI
+    AppCtx --> UI
+    
+    Ajax <-->|"get_post_meta"| DB
+
+    classDef new fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef adapter fill:#9b59b6,stroke:#8e44ad,color:#fff
+    classDef existing fill:#3498db,stroke:#2980b9,color:#fff
+    
+    class ElemAdapter,WPAdapter adapter
+    class Cache,EventBus,Persist,AppCtx,ErrorBoundary new
+

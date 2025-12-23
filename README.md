@@ -62,3 +62,7 @@ The plugin uses Elementor's JavaScript API to:
 - Real-time database and editor schema viewing
 - Copy to clipboard functionality
 - Export JSON functionality
+
+
+** MOTO elegant
+** SWEET 

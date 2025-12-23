@@ -1,0 +1,7 @@
+@use '../variables' as *;
+
+&__empty-state {
+  text-align: center;
+  margin: 50px;
+  color: $color-text-dark-secondary;
+}

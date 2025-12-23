@@ -1,0 +1,48 @@
+%%{init: {'theme': 'base'}}%%
+
+stateDiagram-v2
+    [*] --> Idle: App Mounted
+
+    state "Idle State" as Idle {
+        [*] --> PanelClosed
+        PanelClosed --> PanelOpen: POPOVER_TOGGLE
+        PanelOpen --> PanelClosed: POPOVER_TOGGLE
+    }
+
+    state "Panel Open" as PanelOpen {
+        [*] --> NoData
+        
+        state "Data States" as DataStates {
+            NoData --> Loading: DATA_LOADING
+            Loading --> HasData: DATA_UPDATE
+            Loading --> Error: DATA_ERROR
+            HasData --> Loading: Provider change
+            Error --> Loading: Retry
+        }
+        
+        state "Tab States" as TabStates {
+            EditorTab --> DatabaseTab: TAB_SELECT(database)
+            DatabaseTab --> EditorTab: TAB_SELECT(editor)
+            
+            state EditorTab {
+                Local --> GlobalClasses: SUBTAB_SELECT
+                GlobalClasses --> Local: SUBTAB_SELECT
+            }
+            
+            state DatabaseTab {
+                Post --> Variables: SUBTAB_SELECT
+                Variables --> Classes: SUBTAB_SELECT
+                Classes --> Post: SUBTAB_SELECT
+            }
+        }
+        
+        state "Filter States" as FilterStates {
+            NoFilter --> Filtering: FILTER_SET_PATH
+            Filtering --> NoFilter: FILTER_SET_PATH('')
+            Filtering --> Filtering: FILTER_SET_PATH
+        }
+    }
+
+    PanelOpen --> PersistState: POPOVER_MOVE / POPOVER_RESIZE
+    PersistState --> PanelOpen: State saved to localStorage
+

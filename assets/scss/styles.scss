@@ -1,0 +1,42 @@
+
+$block-name: "dev"; // the block prefix
+
+.#{$block-name} {
+  @import "ui/container";
+  @import "ui/toggle";
+  @import "ui/popover";
+  @import "ui/flex";
+  @import "ui/button";
+  @import "ui/tabs";
+  @import "ui/scrollable";
+  @import "ui/empty-state";
+  @import "ui/path-input";
+  @import "ui/suggestion";
+  @import "ui/padding";
+  @import "ui/close-button";
+
+  @import "libs/draggable";
+  @import "libs/resizable";
+}
+
+.ghost-text {
+  position: absolute;
+  left: 7px;
+  font-style: normal;
+  letter-spacing: 0.4px;
+  line-height: 0;
+  top: 18.9px;
+  font-family: "Manrope", sans-serif;
+  font-size: 11px;
+  color: #9d9898;
+  pointer-events: none;
+  white-space: pre;
+  //#f6ff0085
+  //position: absolute;
+  //left: 7.2px;
+  //top: 11.3px;
+  //font-size: 11px;
+  //color: #6a6a6a;
+  //pointer-events: none;
+  //white-space: pre;
+}

@@ -1,0 +1,61 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#4a90d9'}}}%%
+
+sequenceDiagram
+    autonumber
+    participant User as Developer
+    participant Elementor as Elementor Editor
+    participant Adapter as ElementorAdapter
+    participant Cache as CacheManager
+    participant Provider as EditorProvider
+    participant EventBus as EventBus
+    participant State as AppContext
+    participant ErrorBoundary as ErrorBoundary
+    participant UI as TabPanel + JSON Viewer
+
+    Note over User,UI: TO-BE FLOW: Element Selection → JSON Display
+
+    User->>Elementor: Click element
+    Elementor->>Elementor: $e.run('document/elements/select')
+    
+    rect rgb(155, 89, 182, 0.1)
+        Note right of Adapter: NEW: Adapter Layer
+        Elementor->>Adapter: 'run:after' event
+        Adapter->>Adapter: Version check
+        Adapter->>Adapter: Normalize API differences
+    end
+    
+    Adapter->>Provider: onElementSelect(element)
+    
+    rect rgb(46, 204, 113, 0.1)
+        Note right of Cache: NEW: Caching Layer
+        Provider->>Cache: get(elementId)
+        alt Cache HIT
+            Cache-->>Provider: Return cached data
+        else Cache MISS
+            Provider->>Provider: extractData(element)
+            Provider->>Cache: set(elementId, data)
+        end
+    end
+    
+    rect rgb(46, 204, 113, 0.1)
+        Note right of EventBus: NEW: Typed Events
+        Provider->>EventBus: emit('data:updated', { providerId, data })
+    end
+    
+    EventBus->>State: dispatch(DATA_UPDATE action)
+    State->>State: Reducer updates state
+    
+    rect rgb(46, 204, 113, 0.1)
+        Note right of ErrorBoundary: NEW: Error Handling
+        State->>ErrorBoundary: State change triggers render
+        ErrorBoundary->>ErrorBoundary: Catches any errors
+        alt Error occurred
+            ErrorBoundary->>UI: Render fallback UI
+        else No error
+            ErrorBoundary->>UI: Render normal UI
+        end
+    end
+    
+    UI->>UI: JsonSyntaxHighlighter renders JSON
+    UI-->>User: Display formatted JSON schema
+

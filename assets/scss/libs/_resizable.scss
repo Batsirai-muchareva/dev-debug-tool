@@ -1,0 +1,56 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+&__resizable {
+
+  &--disable-events {
+    pointer-events: none;
+  }
+
+  &__handle {
+    position: absolute;
+    z-index: $z-index-handle;
+    @include transition(background-color);
+
+    &:hover {
+      //background-color: $resize-handle-color;
+      background-color: rgb(167 234 209 / 30%);
+      border-radius: 100px;
+    }
+
+    &-n {
+      top: 0;
+      left: $spacing-sm;
+      right: $spacing-sm;
+      height: $resize-handle-size;
+      cursor: n-resize;
+    }
+
+    &-s {
+      bottom: 0;
+      left: $spacing-sm;
+      right: $spacing-sm;
+      height: $resize-handle-size;
+      cursor: s-resize;
+    }
+
+    &-w {
+      left: 0;
+      top: 5px;
+      bottom: 5px;
+      //width: 5px;
+      //top: $spacing-sm;
+      //bottom: $spacing-sm;
+      width: $resize-handle-size;
+      cursor: w-resize;
+    }
+
+    &-e {
+      right: 0;
+      top: $spacing-sm;
+      bottom: $spacing-sm;
+      width: $resize-handle-size;
+      cursor: e-resize;
+    }
+  }
+}
