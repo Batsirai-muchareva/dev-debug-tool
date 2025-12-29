@@ -1,7 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import { Box } from "@component/ui/box";
-import { listenToEvent } from "@app/events/listeners/listen-to-event";
-import { RESIZE_POPOVER_EVENT } from "@app/events/event-lists";
+import { useEventBus } from "@app/hooks/use-event-bus";
 
 type Props = {
     index: number;
@@ -25,9 +24,7 @@ export const Indicator = forwardRef<HTMLDivElement, Props>( ( { index, tabCount,
     }, [] );
 
 
-    useEffect( () => {
-        return listenToEvent( RESIZE_POPOVER_EVENT, calculateSize );
-    }, [ calculateSize ] );
+    useEventBus( 'window:mousemove', calculateSize );
 
     useEffect( () => {
         requestAnimationFrame(() => {

@@ -1,0 +1,82 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#4a90d9', 'primaryTextColor': '#fff', 'lineColor': '#666'}}}%%
+
+flowchart TB
+    subgraph ProviderRegistry["Provider Registry"]
+        direction TB
+        
+        subgraph EditorProvider["Editor Provider"]
+            EP_Config["id: 'editor'<br/>title: 'Editor'<br/>defaultVariant: 'local'"]
+            
+            subgraph EP_Variants["Variants"]
+                EP_Local["local<br/>━━━━━━━━<br/>LocalSource"]
+                EP_Classes["global_classes<br/>━━━━━━━━<br/>GlobalClassesSource"]
+                EP_Future["... future<br/>━━━━━━━━<br/>ColorsSource"]
+            end
+        end
+        
+        subgraph DatabaseProvider["Database Provider"]
+            DP_Config["id: 'database'<br/>title: 'Database'<br/>defaultVariant: 'post'"]
+            
+            subgraph DP_Variants["Variants"]
+                DP_Post["post<br/>━━━━━━━━<br/>DatabaseSource"]
+                DP_Vars["variables<br/>━━━━━━━━<br/>DatabaseSource"]
+                DP_Classes["global_classes<br/>━━━━━━━━<br/>DatabaseSource"]
+            end
+        end
+    end
+    
+    subgraph VariantManager["Variant Manager"]
+        VM_State["State<br/>━━━━━━━━<br/>activeVariantId<br/>cachedStates<br/>listeners"]
+        
+        VM_Methods["Methods<br/>━━━━━━━━<br/>switchTo(id)<br/>refresh()<br/>subscribe()"]
+        
+        VM_Active["Active Source<br/>━━━━━━━━<br/>start()<br/>stop()"]
+    end
+    
+    subgraph DataSources["Data Sources"]
+        DS_Local["LocalSource<br/>━━━━━━━━━━━━<br/>Elementor selection<br/>Element model changes"]
+        
+        DS_Classes["GlobalClassesSource<br/>━━━━━━━━━━━━<br/>localStorage polling"]
+        
+        DS_Database["DatabaseSource<br/>━━━━━━━━━━━━<br/>AJAX fetch<br/>Save event refresh"]
+    end
+    
+    subgraph Adapters["Adapters"]
+        Elem["ElementorAdapter"]
+        WP["WordPressAdapter"]
+    end
+    
+    subgraph UI["React UI"]
+        Hook["useProvider()"]
+        Tabs["Tab Components"]
+        Panel["TabPanel"]
+    end
+
+    %% Connections
+    EP_Local --> DS_Local
+    EP_Classes --> DS_Classes
+    DP_Post --> DS_Database
+    DP_Vars --> DS_Database
+    DP_Classes --> DS_Database
+    
+    DS_Local --> Elem
+    DS_Database --> WP
+    
+    VariantManager --> DataSources
+    
+    Hook --> VariantManager
+    Tabs --> Hook
+    Panel --> Hook
+
+    classDef provider fill:#3498db,stroke:#2980b9,color:#fff
+    classDef variant fill:#9b59b6,stroke:#8e44ad,color:#fff
+    classDef source fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef manager fill:#e74c3c,stroke:#c0392b,color:#fff
+    classDef adapter fill:#f39c12,stroke:#d68910,color:#fff
+    
+    class EditorProvider,DatabaseProvider provider
+    class EP_Local,EP_Classes,EP_Future,DP_Post,DP_Vars,DP_Classes variant
+    class DS_Local,DS_Classes,DS_Database source
+    class VariantManager,VM_State,VM_Methods,VM_Active manager
+    class Elem,WP adapter
+

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { PropsWithChildren } from "react";
 import { forwardRef } from "react";
 
 import { useAnchoredPosition } from "@app/hooks/use-anchored-position";
@@ -14,16 +14,6 @@ type Props = PropsWithChildren & {
 }
 export const AnchoredLayout = forwardRef( ( { children, anchor, width, gutter, ...props }: Props, ref) => {
     const { styles, ref: popoverRef } = useAnchoredPosition( anchor, width );
-    // const appliedStyles
-    //
-    //
-    // useEffect( () => {
-    //     if ( ! gutter ) {
-    //         return;
-    //     }
-    //
-    //     styles = {}
-    // }, [] );
 
     const calculatedStyles = () => {
         if ( ! gutter ) {
@@ -55,24 +45,3 @@ export const AnchoredLayout = forwardRef( ( { children, anchor, width, gutter, .
     );
     }
 );
-
-
-// components/popover.jsx - Smart component that delegates
-// export const Popover = forwardRef<HTMLDivElement, Props>(
-//     ({ children, id, anchor, width, side }, ref) => {
-//         const { isOpen } = usePopover(id);
-//
-//         if (!isOpen) return null;
-//
-//         const PopoverComponent = anchor ? AnchoredPopover : DraggablePopover;
-//         const componentProps = anchor
-//             ? { anchor, width, side, className: "popover" }
-//             : { className: "popover" };
-//
-//         return (
-//             <PopoverComponent ref={ref} {...componentProps}>
-//                 {children}
-//             </PopoverComponent>
-//         );
-//     }
-// );

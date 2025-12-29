@@ -1,7 +1,7 @@
 import React from "react";
 import { Popover } from "@component/popover/popover";
 import { PopoverHeader } from "@component/popover/popover-header";
-import { Padding } from "@component/padding";
+import { Padding } from "@component/ui/padding";
 import { Flex } from "@component/ui/flex";
 import { Label } from "@component/ui/label";
 import { Button } from "@component/ui/button";

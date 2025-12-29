@@ -1,0 +1,33 @@
+@use '../variables' as *;
+
+&__notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: $z-index-notification;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+&__notification {
+  padding: 12px;
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+  align-items: center;
+
+  &--success {
+    background: #b9dfd3;
+    color: #1d3e3b;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0), inset 0px -1px 7px rgba(0, 0, 0, 0.84);
+  }
+
+  &-close {
+    background: transparent;
+    border: none;
+    color: #1d3e3b;
+  }
+}

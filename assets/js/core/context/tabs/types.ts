@@ -1,4 +1,4 @@
-import { DataProvider } from "@app/types";
+import { Provider } from "@app/types";
 
 export type TabScope = "tab" | "sub-tab";
 
@@ -8,8 +8,8 @@ export type SubTab = {
 };
 
 export type Tab = {
-    id: DataProvider['id'];
-    title: DataProvider['title'];
+    id: Provider['id'];
+    title: Provider['title'];
     subTabs: SubTab[];
 };
 
@@ -21,4 +21,3 @@ export type ContextState = {
     setSubTab: ( subTabId: SubTab['id'] ) => void;
     getActiveIndex: ( target: TabScope ) => number;
 }
-// Record<Tab['id'], SubTab['id']>

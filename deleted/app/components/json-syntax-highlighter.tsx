@@ -11,11 +11,11 @@ export const JsonSyntaxHighlighter = ( { content }: { content: Data } ) => {
 
     return (
         <SyntaxHighlighter
-            codeTagProps={{ "aria-modal": "true", style: {
+            codeTagProps={ { "aria-modal": "true", id: 'syntax-highlighter', style: {
                 display: 'block',
                 background: 'repeating-linear-gradient(to right, #b3222200 46px, #ffffff0a 60px)',
-                fontFamily: 'monospace',
-                } }}
+                fontFamily: 'monospace'
+            } } }
             language="json"
             style={ atomOneDark }
             customStyle={{ flex: 1, margin: 0 }}

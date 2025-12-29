@@ -12,7 +12,7 @@ export function getUpdatedLines(originalJson: any, updatedJson: any) {
 
     const maxLines = Math.max(originalLines.length, updatedLines.length);
 
-    for (let i = 0; i < maxLines; i++) {
+    for ( let i = 0; i < maxLines; i++ ) {
         const origLine = originalLines[i] || '';
         const updLine = updatedLines[i] || '';
 

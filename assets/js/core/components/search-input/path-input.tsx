@@ -3,8 +3,7 @@ import { bemBlock } from "@app/utils/bem";
 import { useFilteredData } from "@app/context/filter-context";
 import { SEARCH_POPOVER_KEY, usePopover } from "@app/context/popover-context";
 import { useRef, useState } from "@wordpress/element";
-import { SELECT_SUGGESTION_EVENT } from "@app/events/event-lists";
-import { listenToEvent } from "@app/events/listeners/listen-to-event";
+import { useEventBus } from "@app/hooks/use-event-bus";
 
 export const PathInput = () => {
     const { open: openSearchPopover, isOpen, close: closeSearchPopover } = usePopover( SEARCH_POPOVER_KEY );
@@ -13,13 +12,7 @@ export const PathInput = () => {
     const [ ghostText, setGhostText ] = useState( '' )
     const [lastBackspaceTime, setLastBackspaceTime] = useState<number>(0);
 
-    useEffect( () => {
-
-        return listenToEvent( SELECT_SUGGESTION_EVENT, () => {
-            moveCaretToEnd();
-            // setGhostText('');
-        } )
-    }, [] );
+    useEventBus( 'suggestion:select', () => moveCaretToEnd() )
 
     useEffect( () => {
         if ( paths.includes( path ) ) {
@@ -29,17 +22,9 @@ export const PathInput = () => {
         } else {
             setGhostText( paths[0] ?? '' );
         }
-        // if ( path === '' ) {
-        //     setGhostText( '' )
-        // } else {
-        //
-        // }
     }, [ paths ] );
 
     const handleFocus = () => {
-        // if ( isOpen ) {
-        //     toggle();
-        // }         openSearchPopover();
         moveCaretToEnd();
     }
 

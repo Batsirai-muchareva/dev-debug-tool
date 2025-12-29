@@ -1,27 +1,48 @@
-type Handler = ( data: any ) => void;
+type Handler = ( element: MarionetteElement ) => void;
 
-type ElementorElement = {
+export type StyleDefinition = {
     id: string;
-    cid: string;
-    model: ElementorElementModel;
-    view?: unknown;
-    parent?: ElementorElement;
-    children?: ElementorElement[];
-    getContainer?: () => ElementorElement;
+    label: string;
+    variants: Array<{
+        meta: { breakpoint: string; state: string };
+        props: Record<string, unknown>;
+    }>;
 }
 
-type ElementorElementModel = {
-    get: ( key: string ) => unknown;
-    set: ( key: string, value: unknown ) => void;
-    toJSON: () => Record<string, unknown>;
+export type ElementData = {
+    id: string;
+    elType: string;
+    widgetType?: string;
+    settings: Record<string, any>;
+    interactions: [];
+    elements?: ElementData[];
+    styles: Record<string, StyleDefinition>;
+}
+
+export type MarionetteElement = {
+    id: string;
+    cid: string;
+    model: MarionetteElementModel;
+    view?: unknown;
+    parent?: MarionetteElement;
+    children?: MarionetteElement[];
+    getContainer?: () => MarionetteElement;
+}
+
+export type EventListeners = {
     on: ( event: string, handler: Handler ) => void;
     off: ( event: string, handler: Handler ) => void;
+}
+
+type MarionetteElementModel =  EventListeners & {
+    get: ( key: string ) => EventListeners;
+    toJSON: ( options?: { remove?: string[] } ) => ElementData;
 }
 
 export type ExtendedWindow = Window & {
     elementor: {
         selection: {
-            getElements: () => ElementorElement[]
+            getElements: () => MarionetteElement[]
         }
     }
 }

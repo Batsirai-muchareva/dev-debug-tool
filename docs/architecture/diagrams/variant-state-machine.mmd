@@ -1,0 +1,56 @@
+%%{init: {'theme': 'base'}}%%
+
+stateDiagram-v2
+    [*] --> Idle
+
+    state Idle {
+        [*] --> WaitingForStart
+        WaitingForStart: No active variant
+    }
+
+    state Active {
+        [*] --> Loading
+        
+        Loading --> HasData: notify(data)
+        Loading --> ErrorState: Source throws
+        
+        HasData --> Loading: refresh()
+        
+        ErrorState --> Loading: retry()
+        
+        Loading: loading = true
+        Loading: data = cached or null
+        
+        HasData: loading = false
+        HasData: data = T
+        HasData: lastUpdated = now
+        
+        ErrorState: loading = false
+        ErrorState: error = AppError
+    }
+
+    Idle --> Active: start(defaultVariant)
+    Active --> Idle: stop()
+    
+    state SwitchVariant <<choice>>
+    Active --> SwitchVariant: switchTo(id)
+    SwitchVariant --> Active: Stop old, start new
+
+    note right of Idle
+        Manager created but not started.
+        Waiting for start() call.
+    end note
+
+    note right of Active
+        A variant is active.
+        Data source is running.
+    end note
+
+    note left of SwitchVariant
+        Switch steps:
+        1. Stop current source
+        2. Show cached data
+        3. Create new source  
+        4. Start new source
+        5. Wait for data
+    end note

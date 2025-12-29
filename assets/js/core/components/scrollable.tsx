@@ -18,11 +18,32 @@ export const Scrollable = ( { children, scrollToLine }: Props ) => {
 
         requestAnimationFrame( () => {
             const container = ref.current as HTMLDivElement;
-            const targetEl = container?.querySelector( `[data-line="${scrollToLine}"]` ) as HTMLElement;
 
+            if ( ! scrollToLine ) {
+                return;
+            }
+
+            const targetEl = container?.querySelector(
+                `[data-line="${scrollToLine}"]`
+            ) as HTMLElement | null;
+
+            if ( ! targetEl ) {
+                return;
+            }
+
+            // Horizontal centering (optional, safe for wide JSON)
             requestAnimationFrame( () => {
-                container.scrollLeft = (container.scrollWidth - container.clientWidth) / 2;
+                container.scrollLeft =
+                    ( container.scrollWidth - container.clientWidth ) / 2;
             } );
+
+
+            // requestAnimationFrame( () => {
+            //     container.scrollLeft =
+            //         ( container.scrollWidth - container.clientWidth ) / 2;
+            // } );
+
+            console.log( 'scroll' );
 
             if ( targetEl ) {
                 targetEl.scrollIntoView( {
@@ -31,6 +52,13 @@ export const Scrollable = ( { children, scrollToLine }: Props ) => {
                     inline: 'center'
                 } );
             }
+
+            // Optional highlight (purely visual)
+            // targetEl.classList.add( "is-highlighted" );
+            // setTimeout( () => {
+            //     targetEl.classList.remove( "is-highlighted" );
+            // }, 1200 );
+
         } );
     }, [ scrollToLine ] );
 

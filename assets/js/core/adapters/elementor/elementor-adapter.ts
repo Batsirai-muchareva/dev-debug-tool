@@ -1,5 +1,11 @@
 import { getElementorCommands } from "@app/adapters/elementor/sync/get-elementor-commands";
-import { getSelectedElement } from "@app/adapters/elementor/sync/get-selected-element";
+import { ElementData, getSelectedElement, StyleDefinition } from "@app/adapters/elementor/sync/get-selected-element";
+import { getPostId } from "@app/adapters/elementor/sync/post-id";
+import {
+    createElementEventSubscriber,
+} from "@app/adapters/elementor/marionette-element/create-element-event-subscriber";
+import { dataExtractor } from "@app/adapters/elementor/marionette-element/data-extractor";
+import { getUsedGlobalClassesSnapshot } from "@app/adapters/elementor/get-used-global-classes-snapshot";
 
 export type ElementorCommand =
     | 'document/elements/select'
@@ -18,6 +24,10 @@ type Unsubscribe = () => void;
 type Callback<T = void> = (data: T) => void;
 
 const LOG_PREFIX = '[DevDebugTool:ElementorAdapter]';
+
+export type GlobalClasses = Array<StyleDefinition>;
+
+export type LocalElementData = ElementData;
 
 const createElementorAdapter = () => {
     return {
@@ -50,6 +60,15 @@ const createElementorAdapter = () => {
             }
         },
         getSelectedElement,
+        postId: getPostId(),
+        elementSubscriber: createElementEventSubscriber(),
+        elementDataExtractor: dataExtractor,
+        getUsedGlobalClassesSnapshot: getUsedGlobalClassesSnapshot,
+        toolbarHeight: () => {
+            const toolbar = document.getElementById( 'elementor-editor-wrapper-v2' );
+
+            return toolbar?.offsetHeight ?? null
+        }
     }
 }
 

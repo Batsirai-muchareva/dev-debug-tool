@@ -1,6 +1,5 @@
-// import { SnapshotData } from "../../context/snapshot-context";
-// import { showNotification } from "../../libs/notification/notifications";
 import { ActionConfig } from "../actions-registry";
+import { showNotification } from "@libs/notification";
 
 export const copyAction: ActionConfig = {
     id: 'copy',
@@ -31,7 +30,7 @@ export const copyAction: ActionConfig = {
                 document.body.removeChild(textArea);
             }
 
-            // showNotification( 'Copied to clipboard!', 'success' );
+            showNotification( 'Copied to clipboard!' );
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             // showNotification( `Copy failed: ${errorMessage}`, 'error' );

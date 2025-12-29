@@ -1,6 +1,13 @@
 import { http } from "@app/adapters/wordpress/http";
 import { createError } from "@app/adapters/wordpress/create-error";
 
+export interface IWordPressAdapter {
+    fetch<R>(action: string, { post_id, meta_key }: { post_id: string; meta_key: string } ): Promise<{
+        success: boolean;
+        data?: R;
+        error?: { message: string };
+    }>;
+}
 
 const isHttpError = ( error: unknown ) =>
     typeof error === "object" &&
@@ -8,7 +15,7 @@ const isHttpError = ( error: unknown ) =>
     'status' in error &&
     'message' in error;
 
-const createWordPressAdapter = () => {
+const createWordPressAdapter = (): IWordPressAdapter => {
     const api = http();
 
     return {
@@ -23,7 +30,10 @@ const createWordPressAdapter = () => {
                 const response = await api.post(  params );
 
                 if ( response.data.success ) {
-                    return response.data.data.schema
+                    return {
+                        success: true,
+                        data: response.data.data.schema,
+                    } as any
                 }
             } catch ( e ) {
                 if ( isHttpError( e ) ) {

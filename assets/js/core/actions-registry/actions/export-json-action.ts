@@ -1,6 +1,4 @@
 import { ActionConfig } from "../actions-registry";
-// import { SnapshotData } from "../../context/snapshot-context";
-// import { showNotification } from "../../libs/notification/notifications";
 
 export const exportJsonAction: ActionConfig = {
     id: 'export-json',

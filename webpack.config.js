@@ -19,6 +19,7 @@ module.exports = {
         alias: {
             '@component': path.resolve(__dirname, 'assets/js/core/components'),
             '@app': path.resolve(__dirname, 'assets/js/core'),
+            '@libs': path.resolve(__dirname, 'assets/js/libs'),
         }
     },
     module: {

@@ -1,0 +1,115 @@
+%%{init: {'theme': 'base'}}%%
+
+classDiagram
+    direction TB
+
+    class DataProvider~T~ {
+        <<interface>>
+        +string id
+        +string title
+        +number order
+        +Variant~T~[] variants
+        +string defaultVariant
+        +getEmptyMessage(variantId) string
+        +shouldShowData(data) boolean
+    }
+
+    class Variant~T,C~ {
+        <<interface>>
+        +string id
+        +string label
+        +number order
+        +string description
+        +C sourceConfig
+        +createSource(config, context) DataSource~T~
+    }
+
+    class DataSource~T~ {
+        <<interface>>
+        +start(notify) void
+        +stop() void
+        +refresh() Promise~void~
+    }
+
+    class VariantManager~T~ {
+        -Map~string,VariantState~T~~ states
+        -Set~Function~ listeners
+        -string activeVariantId
+        -DataSource~T~ activeSource
+        +getVariants() Variant~T~[]
+        +getActiveVariantId() string
+        +getState(variantId) VariantState~T~
+        +switchTo(variantId) void
+        +refresh() Promise~void~
+        +start(defaultVariantId) void
+        +stop() void
+        +subscribe(listener) Unsubscribe
+    }
+
+    class VariantState~T~ {
+        +T data
+        +boolean loading
+        +Error error
+        +number lastUpdated
+    }
+
+    class ProviderContext {
+        +string providerId
+        +Function notify
+        +Function getSettings
+        +IElementorAdapter elementor
+        +IWordPressAdapter wordpress
+    }
+
+    class LocalSource {
+        -Function notify
+        -Function unsubscribeSelect
+        -Function unsubscribeDeselect
+        +start(notify) void
+        +stop() void
+    }
+
+    class GlobalClassesSource {
+        -Function notify
+        -number intervalId
+        -string lastValue
+        +start(notify) void
+        +stop() void
+    }
+
+    class DatabaseSource {
+        -Function notify
+        -Function unsubscribeSave
+        -string metaKey
+        -string postId
+        +start(notify) void
+        +stop() void
+        +refresh() Promise~void~
+    }
+
+    %% Relationships
+    DataProvider "1" *-- "many" Variant : contains
+    Variant ..> DataSource : creates
+    VariantManager "1" --> "1" DataSource : manages active
+    VariantManager "1" --> "many" VariantState : tracks
+    VariantManager ..> ProviderContext : uses
+    
+    DataSource <|.. LocalSource : implements
+    DataSource <|.. GlobalClassesSource : implements
+    DataSource <|.. DatabaseSource : implements
+
+    LocalSource ..> IElementorAdapter : uses
+    DatabaseSource ..> IWordPressAdapter : uses
+    DatabaseSource ..> IElementorAdapter : uses
+
+    class IElementorAdapter {
+        <<interface>>
+        +onCommand(commands, handler) Unsubscribe
+        +getSelectedElement() Element
+    }
+
+    class IWordPressAdapter {
+        <<interface>>
+        +fetch~T~(action, data) Result~T~
+    }
+

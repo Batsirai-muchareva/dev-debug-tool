@@ -10,6 +10,7 @@ import { registerActions } from "@app/actions-registry/init";
 import { registerSuggestionValueTypes } from "@app/suggestions/register-value-types";
 import { Panel } from "./Panel";
 import { ToggleButton } from "@component/toggle-button/toggle-button";
+import { Notification } from "@libs/notification/notification";
 
 registerSuggestionValueTypes();
 registerDataProviders();
@@ -23,6 +24,7 @@ export const App = () => {
                     <ToggleButton />
                     <PositionTracker />
                     <Panel />
+                    <Notification />
                 </BoundsProvider>
             </PopoverProvider>
         </SlotFillProvider>

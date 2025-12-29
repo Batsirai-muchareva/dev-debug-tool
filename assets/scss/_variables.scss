@@ -1,3 +1,11 @@
+// bigger index from all elementor indexes and increment by 1 for something greater
+// Z-index
+$elementor-higher-z-index: 2000;
+
+$z-index-popover: $elementor-higher-z-index;
+$z-index-notification: calc( $elementor-higher-z-index + 1);
+
+
 // Variables
 // ============================================
 

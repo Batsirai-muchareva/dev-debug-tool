@@ -13,6 +13,7 @@
     "paths": {
       "@component/*": ["assets/js/core/components/*"],
       "@app/*": ["assets/js/core/*"],
+      "@libs/*": ["assets/js/libs/*"]
     }
   },
   "include": ["assets/js/**/*"],

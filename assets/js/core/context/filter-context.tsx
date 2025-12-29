@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { PropsWithChildren } from "react";
-import { UnknownData } from "@app/types";
 import { createContext, useContext } from "@wordpress/element";
-import { useDataProvider } from "@app/hooks/use-data-provider";
+import { useProvider } from "@app/hooks/use-provider";
 import { createValueFromPath } from "@app/utils/create-value-from-path";
 import { SEARCH_POPOVER_KEY, usePopover } from "@app/context/popover-context";
 import { useSuggestions } from "@app/hooks/use-suggestions";
@@ -10,7 +9,7 @@ import { useJsonPathSearch } from "@app/hooks/use-json-path-search";
 import { usePath } from "@app/hooks/use-path";
 
 type State = {
-    data: UnknownData;
+    data: unknown;
     setPath: ( path: string ) => void;
     suggestions: any[];
     path: string;
@@ -21,7 +20,7 @@ const FilterContext = createContext< State | undefined >( undefined );
 
 export const FilterProvider = ( { children }: PropsWithChildren ) => {
     const { path, setPath } = usePath();
-    const data = useDataProvider();
+    const data = useProvider();
     const paths = useJsonPathSearch( data, path );
 
     const getPathValue = createValueFromPath( data );

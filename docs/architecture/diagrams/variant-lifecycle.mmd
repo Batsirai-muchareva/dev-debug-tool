@@ -1,0 +1,84 @@
+%%{init: {'theme': 'base'}}%%
+
+sequenceDiagram
+    autonumber
+    participant UI as React UI
+    participant Hook as useProvider()
+    participant VM as VariantManager
+    participant Source as DataSource
+    participant Adapter as Adapter
+
+    Note over UI,Adapter: VARIANT SWITCHING FLOW
+
+    %% Initial Mount
+    rect rgb(46, 204, 113, 0.1)
+        Note right of UI: Mount & Initial Load
+        UI->>Hook: Component mounts
+        Hook->>VM: create(variants, context)
+        Hook->>VM: start('local')
+        VM->>VM: activeVariantId = 'local'
+        VM->>Source: createSource(config)
+        VM->>Source: start(notify)
+        Source->>Adapter: Subscribe to events
+        Adapter-->>Source: Initial data
+        Source->>VM: notify(data)
+        VM->>Hook: listener(state)
+        Hook->>UI: Re-render with data
+    end
+
+    %% User Switches Variant
+    rect rgb(52, 152, 219, 0.1)
+        Note right of UI: User Switches to 'global_classes'
+        UI->>Hook: switchVariant('global_classes')
+        Hook->>VM: switchTo('global_classes')
+        
+        Note over VM: Stop current source
+        VM->>Source: stop()
+        Source->>Adapter: Unsubscribe
+        
+        Note over VM: Check cache
+        VM->>VM: Check states.get('global_classes')
+        
+        alt Cache Hit
+            VM->>Hook: listener(cachedState)
+            Hook->>UI: Render cached data immediately
+        end
+        
+        Note over VM: Start new source
+        VM->>VM: activeVariantId = 'global_classes'
+        VM->>Source: createSource(config)
+        VM->>Source: start(notify)
+        Source->>Adapter: Subscribe to events
+        Adapter-->>Source: Fresh data
+        Source->>VM: notify(data)
+        VM->>VM: Update cache
+        VM->>Hook: listener(state)
+        Hook->>UI: Re-render with fresh data
+    end
+
+    %% User Triggers Refresh
+    rect rgb(155, 89, 182, 0.1)
+        Note right of UI: User Clicks Refresh
+        UI->>Hook: refresh()
+        Hook->>VM: refresh()
+        VM->>VM: updateState(loading: true)
+        VM->>Hook: listener({loading: true})
+        Hook->>UI: Show loading state
+        VM->>Source: refresh()
+        Source->>Adapter: Fetch fresh data
+        Adapter-->>Source: Data
+        Source->>VM: notify(data)
+        VM->>Hook: listener(state)
+        Hook->>UI: Render fresh data
+    end
+
+    %% Component Unmounts
+    rect rgb(231, 76, 60, 0.1)
+        Note right of UI: Component Unmounts
+        UI->>Hook: useEffect cleanup
+        Hook->>VM: stop()
+        VM->>Source: stop()
+        Source->>Adapter: Unsubscribe all
+        VM->>VM: activeVariantId = null
+    end
+

@@ -2,14 +2,11 @@ import React, { forwardRef } from "react";
 import { Popover } from "@component/popover/popover";
 import { MAIN_POPOVER_KEY, usePopover } from "@app/context/popover-context";
 import { PopoverHeader } from "@component/popover/popover-header";
-import { Padding } from "@component/padding";
+import { Padding } from "@component/ui/padding";
 import { Flex } from "@component/ui/flex";
 import { Label } from "@component/ui/label";
-import { Button } from "@component/ui/button";
 import { PopoverContent } from "@component/popover/popover-content";
 import { useTabs } from "@app/context/tabs/tabs-context";
-import { Resizable } from "@app/libs/resizable/resizable";
-import { Draggable } from "@app/libs/draggable/draggable";
 import { Tabs } from "@component/tabs/tabs";
 import { Tab } from "@component/tabs/tab";
 import { TabPanel } from "@component/tabs/tab-panel";
@@ -17,9 +14,9 @@ import { Fill, Slot } from "@wordpress/components";
 import { SubTab } from "@app/context/tabs/types";
 import { useTabConfig } from "@app/hooks/use-tab-config";
 import { useFilteredData } from "@app/context/filter-context";
-import { subscribe, select } from '@wordpress/data';
-import { useEffect } from "@wordpress/element";
 import { CloseButton } from "@component/ui/close-button";
+import { Resizable } from "@libs/resizable/resizable";
+import { Draggable } from "@libs/draggable/draggable";
 
 export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
     const { toggle: mainToggle } = usePopover( MAIN_POPOVER_KEY );

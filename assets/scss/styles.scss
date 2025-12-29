@@ -14,9 +14,11 @@ $block-name: "dev"; // the block prefix
   @import "ui/suggestion";
   @import "ui/padding";
   @import "ui/close-button";
+  @import "ui/highlight";
 
   @import "libs/draggable";
   @import "libs/resizable";
+  @import "libs/notification";
 }
 
 .ghost-text {
@@ -39,4 +41,15 @@ $block-name: "dev"; // the block prefix
   //color: #6a6a6a;
   //pointer-events: none;
   //white-space: pre;
+}
+
+.is-highlighted {
+  background: rgb(124 110 49 / 61%);
+  //background: rgba(255, 243, 191, 0.9);
+  //border-radius: 4px;
+}
+
+#syntax-highlighter span[data-line] {
+  width: 100%;
+  display: flex;
 }

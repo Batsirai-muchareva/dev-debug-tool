@@ -1,4 +1,4 @@
-type EventCallback = ( component: unknown, command: string ) => void;
+export type EventCallback = ( component: unknown, command: string ) => void;
 
 interface ElementorWindow extends Window {
     $e: {

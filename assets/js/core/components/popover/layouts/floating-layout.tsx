@@ -22,19 +22,4 @@ export const FloatingLayout = forwardRef<HTMLDivElement, Props>( ( { children, .
             { children }
         </Container>
     );
-})
-
-// export const App = () => {
-//
-//     return (
-//         <SlotFillProvider>
-//             <PopoverProvider>
-//                 <BoundsProvider>
-//                     <ToggleButton />
-//                     <Content />
-//                     <PositionTracker />
-//                 </BoundsProvider>
-//             </PopoverProvider>
-//         </SlotFillProvider>
-//     );
-// }
+} )

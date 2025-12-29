@@ -1,10 +1,10 @@
-import { DataProvider } from "@app/types";
+import { Provider, Variant } from "@app/types";
 
 // makes it favourable for 3rd party
 export const createDataProviderManager = () => {
-    const providers = new Map< DataProvider['id'], DataProvider >();
+    const providers = new Map< Provider['id'], Provider >();
 
-    const registerSource = ( providerFxn: () => DataProvider ) => {
+    const registerSource = ( providerFxn: () => Provider<any, any> ) => {
         const provider = providerFxn();
 
         if ( providers.has( provider.id ) ) {
@@ -14,13 +14,26 @@ export const createDataProviderManager = () => {
         providers.set( provider.id, provider );
     }
 
-    const getSource = ( id: DataProvider['id'] ) => providers.get( id );
+    // providerId should be top level not passed
+    const getSource = ( providerId: Provider['id'], variantId: Variant['id'] ) => {
+        const variant = providers.get( providerId )
+            ?.variants
+            .find( ( { id } ) =>
+                id === variantId
+            );
+
+        if ( ! variant ) {
+            throw Error( ' Variant not found' )
+        }
+
+        return variant;
+    }
 
     const getAllProviders = () => Array.from( providers.values() );
 
-    const getProvidersConfig = (): Omit<DataProvider, 'subscribe'>[] => {
+    const getProvidersConfig = (): Omit<Provider, 'subscribe'>[] => {
         return Array.from( providers.values() )
-            .map( ( { subscribe, shouldShowData, ...rest } )  => (
+            .map( ( { shouldShowData, ...rest } )  => (
                 {
                     ...rest,
                     shouldShowData: shouldShowData ?? ( ( data ) => !! data ),

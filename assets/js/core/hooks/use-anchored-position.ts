@@ -1,7 +1,6 @@
 import { useRef } from "@wordpress/element";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { listenToEvent } from "@app/events/listeners/listen-to-event";
-import { DRAG_POPOVER_EVENT, RESIZE_POPOVER_EVENT } from "@app/events/event-lists";
+import { useCallback, useLayoutEffect, useState } from "react";
+import { useEventBus } from "@app/hooks/use-event-bus";
 
 export const useAnchoredPosition = ( anchor?: HTMLElement | null, width = 300, side = 'left') => {
     const [ position, setPosition ] = useState( { top: 0, left: 0 } );
@@ -41,9 +40,10 @@ export const useAnchoredPosition = ( anchor?: HTMLElement | null, width = 300, s
         calculatePosition();
     }, [ calculatePosition ]);
 
-    useEffect( () => {
-        return listenToEvent( [ DRAG_POPOVER_EVENT, RESIZE_POPOVER_EVENT ], calculatePosition );
-    }, [ calculatePosition ] );
+    useEventBus(
+        [ 'popover:dragged', 'popover:resized' ],
+        calculatePosition
+    );
 
     return {
         styles: {

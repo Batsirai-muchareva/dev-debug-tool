@@ -9,12 +9,14 @@ This folder contains the architectural analysis and improvement plan for the Dev
 | [PRODUCT-REQUIREMENTS.md](./PRODUCT-REQUIREMENTS.md) | **Start here** — Problems, users, features, and roadmap |
 | [AS-IS-ARCHITECTURE.md](./AS-IS-ARCHITECTURE.md) | Current architecture as extracted from the codebase |
 | [TO-BE-ARCHITECTURE.md](./TO-BE-ARCHITECTURE.md) | Target architecture with proposed improvements |
+| [PROVIDERS-AND-VARIANTS.md](./PROVIDERS-AND-VARIANTS.md) | Deep dive into provider/variant architecture |
 | [MIGRATION-PLAN.md](./MIGRATION-PLAN.md) | Step-by-step migration plan with code examples |
 
 ## Diagrams
 
 All diagrams are in Mermaid format (`.mmd` files) located in the `diagrams/` folder:
 
+### Architecture Diagrams
 | Diagram | Description |
 |---------|-------------|
 | [to-be-container-diagram.mmd](./diagrams/to-be-container-diagram.mmd) | High-level component architecture |
@@ -22,6 +24,14 @@ All diagrams are in Mermaid format (`.mmd` files) located in the `diagrams/` fol
 | [to-be-state-flow.mmd](./diagrams/to-be-state-flow.mmd) | Application state machine |
 | [to-be-file-structure.mmd](./diagrams/to-be-file-structure.mmd) | Target file organization |
 | [migration-phases.mmd](./diagrams/migration-phases.mmd) | Migration timeline Gantt chart |
+
+### Provider/Variant Diagrams
+| Diagram | Description |
+|---------|-------------|
+| [providers-variants.mmd](./diagrams/providers-variants.mmd) | Providers, variants, and data sources overview |
+| [variant-lifecycle.mmd](./diagrams/variant-lifecycle.mmd) | Variant switching sequence diagram |
+| [variant-state-machine.mmd](./diagrams/variant-state-machine.mmd) | Variant state transitions |
+| [provider-class-diagram.mmd](./diagrams/provider-class-diagram.mmd) | Class/interface relationships |
 
 ### Viewing Diagrams
 

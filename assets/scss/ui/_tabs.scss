@@ -60,7 +60,7 @@
     position: absolute;
     top: 3px;
     //left: 3px;
-    bottom: 3px;
+    bottom: 2px;
     //left: 3px;
 
     width: calc((100% - 12px) / 2); // auto width for 2 tabs (or dynamic below)
@@ -87,7 +87,7 @@
   //padding-block: 12px;
   //border-bottom: 1px solid red;
   margin-block: 10px;
-  border-bottom: solid 3px #fff;
+  border-bottom: solid 2px #fff;
   position: relative;
   //background: color(srgb 0.0419 0.1474 0.1547);
   //height: 1px;
@@ -101,7 +101,7 @@
     transition: all ease-in-out 0.2s;
     width: 25%;
     height: 3px;
-    bottom: -3px;
+    bottom: -2px;
   }
 }
 
