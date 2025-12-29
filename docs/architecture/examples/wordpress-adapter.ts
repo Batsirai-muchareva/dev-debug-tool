@@ -477,3 +477,4 @@ export const wordpressAdapter = {
   get cancelAll() { return getWordPressAdapter().cancelAll; },
 };
 
+

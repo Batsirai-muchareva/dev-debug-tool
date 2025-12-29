@@ -257,3 +257,4 @@ export function createElementorAdapter(): ElementorAdapter {
  */
 export const elementorAdapter = createElementorAdapter();
 
+

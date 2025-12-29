@@ -338,3 +338,4 @@ Currently, developers must:
 - [MIGRATION-PLAN.md](./MIGRATION-PLAN.md) — Implementation roadmap
 - [AS-IS-ARCHITECTURE.md](./AS-IS-ARCHITECTURE.md) — Current system analysis
 
+
