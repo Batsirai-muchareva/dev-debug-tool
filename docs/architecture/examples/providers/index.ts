@@ -101,6 +101,8 @@ export {
 
 export {
   createDatabaseSource,
+  getDatabaseCacheStats,
+  clearDatabaseCache,
   type DatabaseSourceConfig,
   type DatabaseData,
 } from './database/sources/database-source';
@@ -115,6 +117,29 @@ export {
   type UseProviderResult,
   type UseProvidersResult,
 } from './hooks/use-provider';
+
+// =============================================================================
+// Cache
+// =============================================================================
+
+export {
+  // Cache manager
+  createCacheManager,
+  getDatabaseCache,
+  resetDatabaseCache,
+  type CacheOptions,
+  type CacheStats,
+  type ICacheManager,
+
+  // Cache keys
+  databaseCacheKey,
+  parseDatabaseCacheKey,
+  ALL_DATABASE_PATTERN,
+  postPattern,
+  metaKeyPattern,
+  ELEMENTOR_META_KEYS,
+  type ElementorMetaKey,
+} from './cache';
 
 // =============================================================================
 // Provider Registry (Optional)

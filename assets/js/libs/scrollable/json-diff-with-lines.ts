@@ -19,6 +19,10 @@ interface DiffContext {
 /* -------------------------------------------------------------------------- */
 
 /**
+ * Highlighting 50+ changes = visual noise
+ * Users stop seeing meaningful updates
+ *
+ * Cognitive overload
  * Computes JSON diff with line numbers in ONE traversal.
  */
 export function diffJSONWithLineNumbers( oldJSON: unknown, newJSON: unknown ): JSONChange[] {

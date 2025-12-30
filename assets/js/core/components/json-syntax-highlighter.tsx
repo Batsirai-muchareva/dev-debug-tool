@@ -14,6 +14,8 @@ export const JsonSyntaxHighlighter = ( { content }: { content: any } ) => {
                 background: 'repeating-linear-gradient(to right, #b3222200 46px, #ffffff0a 60px)',
                 fontFamily: 'monospace'
             } } }
+            showLineNumbers
+
             language="json"
             style={ atomOneDark }
             customStyle={{ flex: 1, margin: 0, background: 'rgb(12 22 41)', height: '100%' }}

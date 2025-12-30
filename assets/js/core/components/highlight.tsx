@@ -3,65 +3,51 @@ import { PropsWithChildren } from "react";
 import { bemBlock } from "@app/utils/bem";
 import { useRef } from "@wordpress/element";
 
-export const Highlight = ( { children, highlightRange }: PropsWithChildren & { highlightRange: number[] }) => {
+type Change = {
+    startLine?: number;
+    endLine?: number;
+    // ... other properties
+};
+
+export const Highlight = ( { children, changes }: PropsWithChildren & { changes: Change[] }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        let timeout: any;
+        const container = containerRef.current;
+        if ( !container || !changes || changes.length === 0 ) return;
 
-        setTimeout( () => {
-            const container = containerRef.current;
-            if ( !container || !highlightRange || highlightRange.length === 0 ) return;
+        // Remove previous highlights
+        container.querySelectorAll( ".is-highlighted" ).forEach( el => {
+            el.classList.remove( "is-highlighted" );
+        } );
 
-            // Remove previous highlights
-            container.querySelectorAll( ".is-highlighted" ).forEach( el => {
-                el.classList.remove( "is-highlighted" );
-            } );
+        // Apply highlights for all changes
+        const highlightedElements: HTMLElement[] = [];
 
-            // Apply highlights
-            const highlightedElements: HTMLElement[] = [];
-            highlightRange.forEach( lineNumber => {
-                const lineEl = container.querySelector( `[data-line="${ lineNumber }"]` ) as HTMLElement;
-                if ( lineEl ) {
-                    lineEl.classList.add( "is-highlighted" );
-                    highlightedElements.push( lineEl );
+        changes.forEach( change => {
+            if ( change.startLine !== undefined ) {
+                const start = change.startLine;
+                const end = change.endLine ?? change.startLine;
+
+                // Highlight all lines in the range
+                for ( let lineNumber = start; lineNumber <= end; lineNumber++ ) {
+                    const lineEl = container.querySelector( `[data-line="${ lineNumber }"]` ) as HTMLElement;
+                    if ( lineEl && !lineEl.classList.contains( "is-highlighted" ) ) {
+                        lineEl.classList.add( "is-highlighted" );
+                        highlightedElements.push( lineEl );
+                    }
                 }
-            } );
+            }
+        } );
 
-            // Remove highlights after duration
-             timeout = setTimeout( () => {
-                highlightedElements.forEach( el => el.classList.remove( "is-highlighted" ) );
-            }, 2000 );
-        }, 1000 )
+        // Remove highlights after duration
+        const timeout = setTimeout( () => {
+            highlightedElements.forEach( el => el.classList.remove( "is-highlighted" ) );
+        }, 2000 );
 
         return () => clearTimeout(timeout);
-    //     const container = containerRef.current;
-    //     if (!container || !highlightRange ) return; // || highlightRange.length !== 2
-    // // || highlightRange.length !== 2
-    //     const [startLine, endLine] = highlightRange;
-    //
-    //     // Remove previous highlights
-    //     container.querySelectorAll(".is-highlighted").forEach(el => {
-    //         el.classList.remove("is-highlighted");
-    //     });
-    //
-    //     // Apply highlight to target lines
-    //     const highlightedElements: HTMLElement[] = [];
-    //     for (let i = startLine; i <= endLine; i++) {
-    //         const lineEl = container.querySelector(`[data-line="${i}"]`) as HTMLElement;
-    //         if (lineEl) {
-    //             lineEl.classList.add("is-highlighted");
-    //             highlightedElements.push(lineEl);
-    //         }
-    //     }
-    //
-    //     // Remove highlights after specified duration
-    //     const timeout = setTimeout(() => {
-    //         highlightedElements.forEach(el => el.classList.remove("highlighted"));
-    //     }, 3000);
-    //
-    //     return () => clearTimeout(timeout);
-    }, [highlightRange, children ]);
+
+    }, [changes, children ]);
 
     return (
         <div ref={containerRef} className={ bemBlock.element( 'highlight' ) }>

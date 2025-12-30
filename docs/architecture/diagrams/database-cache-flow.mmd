@@ -1,0 +1,59 @@
+%%{init: {'theme': 'base'}}%%
+
+sequenceDiagram
+    autonumber
+    participant UI as React UI
+    participant Source as DatabaseSource
+    participant Cache as CacheManager
+    participant WP as WordPressAdapter
+    participant Server as WordPress Server
+
+    Note over UI,Server: SCENARIO 1: First Load (Cache Miss)
+
+    UI->>Source: start(notify)
+    Source->>Cache: get(cacheKey)
+    Cache-->>Source: undefined (MISS)
+    Source->>UI: notify(null) [loading]
+    Source->>WP: fetch(action, data)
+    WP->>Server: POST /admin-ajax.php
+    Server-->>WP: JSON response
+    WP-->>Source: { success: true, data }
+    Source->>Cache: set(cacheKey, data)
+    Source->>UI: notify(data)
+
+    Note over UI,Server: SCENARIO 2: Switch Variant (Cache Hit)
+
+    UI->>Source: switchTo('variables')
+    Source->>Cache: get(cacheKey)
+    Cache-->>Source: data (HIT)
+    Source->>UI: notify(data) [instant!]
+    Note right of UI: No loading state,<br/>instant display
+
+    Note over UI,Server: SCENARIO 3: Document Save (Invalidate + Refresh)
+
+    Server->>Source: document/save/update event
+    Source->>Cache: invalidatePattern(postPattern)
+    Note right of Cache: All entries for<br/>this post cleared
+    Source->>Source: setTimeout(500ms)
+    Source->>Cache: get(cacheKey)
+    Cache-->>Source: undefined (invalidated)
+    Source->>UI: notify(null) [loading]
+    Source->>WP: fetch(action, data)
+    WP->>Server: POST /admin-ajax.php
+    Server-->>WP: Fresh data
+    WP-->>Source: { success: true, data }
+    Source->>Cache: set(cacheKey, data)
+    Source->>UI: notify(data)
+
+    Note over UI,Server: SCENARIO 4: Manual Refresh
+
+    UI->>Source: refresh()
+    Source->>Cache: invalidate(cacheKey)
+    Source->>UI: notify(null) [loading]
+    Source->>WP: fetch(action, data)
+    WP->>Server: POST /admin-ajax.php
+    Server-->>WP: Fresh data
+    WP-->>Source: { success: true, data }
+    Source->>Cache: set(cacheKey, data)
+    Source->>UI: notify(data)
+
