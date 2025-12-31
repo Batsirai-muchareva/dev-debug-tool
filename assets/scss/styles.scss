@@ -43,11 +43,32 @@ $block-name: "dev"; // the block prefix
   //white-space: pre;
 }
 
-.is-highlighted {
+//.highlighted {
+//  background: rgb(124 110 49 / 61%);
+//  //background: rgba(255, 243, 191, 0.9);
+//  //border-radius: 4px;
+//}
+
+.highlighted {
   background: rgb(124 110 49 / 61%);
-  //background: rgba(255, 243, 191, 0.9);
-  //border-radius: 4px;
+  animation: highlightFade 2s ease-out forwards;
 }
+
+@keyframes highlightFade {
+  0% {
+    background-color: rgba(124, 110, 49, 0);
+  }
+  20% {
+    background-color: rgb(124 110 49 / 61%);
+  }
+  80% {
+    background-color: rgb(124 110 49 / 61%);
+  }
+  100% {
+    background-color: rgba(124, 110, 49, 0);
+  }
+}
+
 
 #syntax-highlighter span[data-line] {
   width: 100%;

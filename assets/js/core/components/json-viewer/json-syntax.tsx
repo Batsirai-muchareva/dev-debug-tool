@@ -1,9 +1,11 @@
 import * as React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import { useFilteredData } from "@app/context/filter-context";
 
-export const JsonSyntaxHighlighter = ( { content }: { content: any } ) => {
-    const stringJson = JSON.stringify( content, null, 2 );
+export const JsonSyntax = () => {
+    const { data } = useFilteredData();
+    const stringJson = JSON.stringify( data, null, 2 );
 
     let currentLine = 0;
 

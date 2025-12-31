@@ -1,3 +1,4 @@
+// all json paths and line maps
 export const getAllJsonPaths = ( input: unknown ): string[] => {
     const paths: string[] = [];
     const stack: Array<{ value: unknown; path: string }> = [];
