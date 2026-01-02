@@ -1,4 +1,4 @@
-export const createValueFromPath = ( data: unknown ): any => {
+export const createValueFromPath = ( data: unknown ): ( path: string ) => unknown => {
     return (  path: string ) => {
         if ( ! isObject( data ) ) {
             return undefined;

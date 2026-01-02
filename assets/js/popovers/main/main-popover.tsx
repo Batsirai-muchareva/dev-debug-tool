@@ -9,7 +9,7 @@ import { PopoverContent } from "@component/popover/popover-content";
 import { useTabs } from "@app/context/tabs/tabs-context";
 import { Tabs } from "@component/tabs/tabs";
 import { Tab } from "@component/tabs/tab";
-import { TabPanel } from "@component/tabs/tab-panel";
+import { TabContent } from "@component/tabs/tab-content";
 import { Fill, Slot } from "@wordpress/components";
 import { SubTab } from "@app/context/tabs/types";
 import { useTabConfig } from "@app/hooks/use-tab-config";
@@ -17,6 +17,7 @@ import { useFilteredData } from "@app/context/filter-context";
 import { CloseButton } from "@component/ui/close-button";
 import { Resizable } from "@libs/resizable/resizable";
 import { Draggable } from "@libs/draggable/draggable";
+import { ActiveTabContent } from "./active-tab-content";
 
 export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
     const { toggle: mainToggle } = usePopover( MAIN_POPOVER_KEY );
@@ -40,18 +41,15 @@ export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
 
                 <PopoverContent>
                     <Padding>
-                        <Tabs
-                            variant="tab"
-                            className="tabs"
-                            indicatorClassName="tabs-indicator"
-                            extraChildren={ <Slot name={ getSubTabSlotName( activeTab )  } /> }
-                        >
+                        <Tabs variant="tab">
                             {
-                                tabs.map( ( { id, title, subTabs }: any ) => (
+                                tabs.map( ( { id, title, subTabs }: any, index ) => (
                                     <Tab
                                         key={ id }
+                                        id={ id }
                                         label={ title }
                                         onClick={ () => setTab( id ) }
+                                        active={ activeTab === id }
                                     >
                                         {
                                             shouldShowData?.( data ) && (
@@ -65,7 +63,11 @@ export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
                             }
                         </Tabs>
 
-                        <TabPanel />
+                        <Slot name={ getSubTabSlotName( activeTab )  } />
+
+                        <TabContent active={ true }>
+                            <ActiveTabContent />
+                        </TabContent>
                     </Padding>
                 </PopoverContent>
             </Resizable>
@@ -80,13 +82,9 @@ const SubTabs = ( { subTabs, setSubTab }: { subTabs: SubTab[]; setSubTab: ( id: 
     }
 
     return (
-        <Tabs
-            variant="sub-tab"
-            className="sub-tabs"
-            indicatorClassName="sub-tabs-indicator"
-        >
+        <Tabs variant="sub-tab">
             { subTabs.map( ( { id, label } ) => (
-                <Tab key={ id } label={ label } onClick={ () => setSubTab( id ) }/>
+                <Tab id={ id } key={ id } label={ label } onClick={ () => setSubTab( id ) }/>
             ) ) }
         </Tabs>
     )
@@ -95,13 +93,3 @@ const SubTabs = ( { subTabs, setSubTab }: { subTabs: SubTab[]; setSubTab: ( id: 
 const getSubTabSlotName = ( name: string ) => {
     return `${ name }-sub-tab`;
 }
-
-{/*<TabHeaders/>*/}
-{/*<Sections />*/}
-{/*descriptive of what its doing or contain in the content */}
-//
-{/*/!*        /!*<Fill key={ id } name={ getSubTabSlotName( id ) } >*!/*!/*/}
-{/*/!*        /!*    <SubTabs key={ id } subTabs={ subTabs } setSubTab={ setSubTab } />*!/*!/*/}
-{/*/!*        /!*</Fill>*!/*!/*/}
-{/*    </div>*/}
-{/*    /!*May be a variant received by the Tabs and with enhanced children pass the variant to manipulate the classes with the variant*!/*/}

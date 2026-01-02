@@ -6,10 +6,12 @@ import { createValueFromPath } from "@app/utils/create-value-from-path";
 import { SEARCH_POPOVER_KEY, usePopover } from "@app/context/popover-context";
 import { useSuggestions } from "@app/hooks/use-suggestions";
 import { useJsonPathSearch } from "@app/hooks/use-json-path-search";
-import { usePath } from "@app/hooks/use-path";
+import { usePath } from "@app/context/path-context";
+import { lineMap } from "@libs/line-map";
 
 type State = {
     data: unknown;
+    originalData: unknown;
     setPath: ( path: string ) => void;
     suggestions: any[];
     path: string;
@@ -24,6 +26,7 @@ export const FilterProvider = ( { children }: PropsWithChildren ) => {
     const paths = useJsonPathSearch( data, path );
 
     const getPathValue = createValueFromPath( data );
+    // TODO: suggestions ar not supposed to be part of here
     const suggestions = useSuggestions( paths, getPathValue );
 
     const { close: closeSearchPopover, isOpen } = usePopover( SEARCH_POPOVER_KEY );
@@ -52,8 +55,19 @@ export const FilterProvider = ( { children }: PropsWithChildren ) => {
         return nearest ? nearest.value : data;
     }, [ data, path ] );
 
+    if ( content ) {
+        lineMap.buildLineMap( content );
+    }
+
     return (
-        <FilterContext.Provider value={ { data: content, suggestions, setPath, path, paths } }>
+        <FilterContext.Provider value={ {
+            data: content,
+            originalData: data,
+            suggestions,
+            setPath,
+            path,
+            paths,
+        } }>
             { children }
         </FilterContext.Provider>
     );
@@ -63,7 +77,7 @@ export const useFilteredData = () => {
     const context = useContext( FilterContext );
 
     if ( ! context ) {
-        throw new Error("useFilteredData must be used within a FilterProvider");
+        throw new Error( "useFilteredData must be used within a FilterProvider" );
     }
 
     return context;

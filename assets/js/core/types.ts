@@ -19,6 +19,9 @@ interface VariantConfig {
     order?: number;
     icon?: string;
     description?: string;
+
+    shouldShowData?: (data: unknown | null) => boolean;
+    getEmptyMessage?: (data: unknown | null) => string;
 }
 
 export interface Variant<T = unknown, C = unknown> extends VariantConfig {
@@ -29,13 +32,8 @@ export interface Variant<T = unknown, C = unknown> extends VariantConfig {
 export interface Provider<T = unknown, C = unknown> {
     id: string;
     title: string;
-    // get?: () => Promise< UnknownData >;
-    // subscribe: ( cb: Callback ) => Callback;
-    // getMessage: Callback< UnknownData, string>;
     order?: number;
-    getMessage?: ( data: T | null, variantId: Variant['id'] ) => string;
-    // getEmptyMessage(variantId: string): string;
+    getMessage?: ( data: T | null ) => string;
     shouldShowData?: ( data: T | null ) => boolean;
-    // shouldShowData?: Callback< UnknownData, boolean > ;
     variants: Variant<T, C>[];
 }

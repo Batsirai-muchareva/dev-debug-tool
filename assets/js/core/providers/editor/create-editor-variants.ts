@@ -3,9 +3,8 @@ import { createLocalSource } from "@app/providers/editor/sources/local-source";
 import {
     createGlobalClassesSource,
 } from "@app/providers/editor/sources/global-classes-source";
-import { GlobalClasses, LocalElementData } from "@app/adapters/elementor/elementor-adapter";
+import { EditorData } from "@app/providers/editor/types";
 
-export type EditorData = LocalElementData | GlobalClasses;
 
 export const createEditorVariants =
     (): Variant< EditorData, { onIdle?: () => void } >[] => {
@@ -30,7 +29,12 @@ export const createEditorVariants =
                     // event to switch to editor
                 }
             },
-            createSource: createGlobalClassesSource
+            createSource: createGlobalClassesSource,
+            shouldShowData: ( data) =>
+                Array.isArray( data ) && data.length > 0,
+
+            getEmptyMessage: () =>
+                'No Global classes assigned to this element',
         }
     ]
 }

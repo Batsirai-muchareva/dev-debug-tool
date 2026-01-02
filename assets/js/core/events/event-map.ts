@@ -1,13 +1,16 @@
 interface ElementEvents {
-    'element:selected': {
-        elementId: string;
-        data: Record<string, unknown>;
-    };
+    'element:selected': void;
     'element:deselected': void;
     'element:updated': {
         elementId: string;
         changes: Record<string, unknown>;
     };
+}
+
+interface StyleSchema {
+    'style-schema:clicked': {
+        line: number;
+    }
 }
 
 interface WindowEvents {
@@ -36,14 +39,8 @@ interface PopoverEvents {
     'popover:closed': {
         popoverId: string;
     };
-    'popover:dragged': {
-        popoverId: string;
-        position: { x: number; y: number };
-    };
-    'popover:resized': {
-        popoverId: string;
-        size: { width: number; height: number };
-    };
+    'popover:dragging': void;
+    'popover:resizing': void;
 }
 
 interface TabEvents {
@@ -68,5 +65,6 @@ export interface EventMap extends
     TabEvents,
     SuggestionEvents,
     WindowEvents,
-    Notification
+    Notification,
+    StyleSchema
 {}

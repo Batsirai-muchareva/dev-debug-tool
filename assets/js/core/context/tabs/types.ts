@@ -19,5 +19,5 @@ export type ContextState = {
     tabs: Tab[];
     setTab: ( tabId: Tab['id'] ) => void;
     setSubTab: ( subTabId: SubTab['id'] ) => void;
-    getActiveIndex: ( target: TabScope ) => number;
+    getActiveIndex: () => number;
 }

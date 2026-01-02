@@ -7,6 +7,7 @@ import { EventMap } from "@app/events/event-map";
 import { DIRECTION } from "@libs/resizable/types";
 import { calculateNewDimensions } from "@libs/resizable/calculate-new-dimension";
 import { applyConstraints } from "@libs/resizable/apply-constraints";
+import { eventBus } from "@app/events";
 
 type RefState = {
     isResizing: boolean;
@@ -119,6 +120,8 @@ export const useResizable = ( minConstraints: number[], maxConstraints: number[]
 
             return newPosition;
         } );
+
+        eventBus.emit( 'popover:resizing' )
     }
 
     useEventBus( 'window:mousemove', handleResize )

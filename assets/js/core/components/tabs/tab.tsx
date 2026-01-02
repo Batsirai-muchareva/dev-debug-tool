@@ -1,17 +1,21 @@
 import React, { PropsWithChildren } from "react";
 import { bemBlock } from "@app/utils/bem";
 import { Button } from "@component/ui/button";
+import { useKey } from "@app/context/key-context";
 
 export type TabProps = PropsWithChildren & {
     active?: boolean;
     onClick: () => void;
     label: string;
-    variant?: string;
+    id: string;
 };
 
-export const Tab = ( { active, label, onClick, variant, children }: TabProps ) => {
+export const Tab = ( { active, label, onClick, children, id }: TabProps ) => {
+    const variant = useKey();
+
+    // id for accessibility
     if ( ! variant ) {
-        throw Error( 'Variant is required' );
+        throw Error( `Variant is required for ${ id }` );
     }
 
     return (

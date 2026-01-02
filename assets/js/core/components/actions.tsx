@@ -3,7 +3,7 @@ import { actionsRegistry } from "@app/actions-registry/actions-registry";
 import { useFilteredData } from "@app/context/filter-context";
 import { useTabs } from "@app/context/tabs/tabs-context";
 
-export const Actions = () => {
+export const Actions = ( { disabled }: { disabled: boolean } ) => {
     const registeredActions = actionsRegistry.getActions();
     const { data } = useFilteredData();
     const { activeTab } = useTabs();
@@ -13,8 +13,9 @@ export const Actions = () => {
             {
                 registeredActions.map( ( action: any ) => (
                     <button
+                        style={ { opacity: disabled ? '50%' : '100%', cursor: disabled ? 'not-allowed' : 'pointer' } }
                         key={ action.id }
-                        onClick={ () => action.onClick( data, activeTab ) }
+                        onClick={ () => ! disabled && action.onClick( data, activeTab ) }
                         className={ action.className + ' dev-debug__action' }
                     >
                         { action.icon

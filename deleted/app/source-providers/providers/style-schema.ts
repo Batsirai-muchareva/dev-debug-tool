@@ -25,7 +25,6 @@ export const styleSchema: SourceProvider = {
 
             const slice = limitObjects( data )
 
-
             onUpdate( slice as Data )
 
             return listenTo( STYLE_SCHEMA_PATH_UPDATED, ( event: any ) => {

@@ -1,7 +1,7 @@
 import { DiffResult } from "@libs/json-diffs/types";
 import { jsonDiffs } from "@libs/json-diffs/json-diffs";
 import { attachLinesToChanges } from "@libs/json-diffs/line-mapper";
-import { buildLineMap } from "@libs/json-diffs/line-map/build-line-map";
+import { lineMap } from "@libs/line-map/line-map";
 
 export const calculateJsonDiff = (
     newJSON: unknown,
@@ -15,8 +15,7 @@ export const calculateJsonDiff = (
         };
     }
 
-    const lineMap = buildLineMap( newJSON );
-    const lineChanges = attachLinesToChanges( changesWithPaths, lineMap );
+    const lineChanges = attachLinesToChanges( changesWithPaths, lineMap.getMaps() );
 
     const highlighterChanges = lineChanges.flatMap( change => {
         const start = change.startLine;

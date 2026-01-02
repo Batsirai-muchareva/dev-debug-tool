@@ -1,12 +1,12 @@
+import { LineMap } from "@libs/json-diffs/line-mapper";
+import { ParsedLine, TraversalState } from "@libs/json-diffs/types";
 import {
     closeBlock,
     enterArrayElement,
     enterKey, exitArrayElement,
     isInsideArray,
-    openBlock,
-} from "@libs/json-diffs/line-map/create-traversal-state";
-import { LineMap } from "@libs/json-diffs/line-mapper";
-import { ParsedLine, TraversalState } from "@libs/json-diffs/types";
+    openBlock
+} from "@libs/line-map/create-traversal-state";
 
 const isPrimitive = ( value: string) =>
     !value.startsWith("{") && !value.startsWith("}") && value !== "]" && value !== "],";
@@ -65,7 +65,7 @@ export function parseLine(line: string, state: TraversalState): ParsedLine | nul
     }
 
     // ─── Primitive inside array ─────────────────
-    if (isInsideArray(state) && isPrimitive(trimmed)) {
+    if ( isInsideArray(state) && isPrimitive(trimmed) ) {
         return {
             apply(map: LineMap, lineNo: number) {
                 const path = enterArrayElement(state, depth);

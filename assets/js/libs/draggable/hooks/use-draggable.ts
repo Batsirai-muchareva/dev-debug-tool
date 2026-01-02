@@ -4,6 +4,7 @@ import { editorPointerEvents } from "@app/utils/editor-pointer-events";
 import { useEventBus } from "@app/hooks/use-event-bus";
 import { windowAdapter } from "@app/adapters";
 import { EventMap } from "@app/events/event-map";
+import { eventBus } from "@app/events";
 
 export function useDraggable() {
     const { position, setPosition } = useBounds();
@@ -50,7 +51,7 @@ export function useDraggable() {
             y: state.startPosition.y + deltaY
         } );
 
-        // dispatchCustomEvent( DRAG_POPOVER_EVENT )
+        eventBus.emit( 'popover:dragging' )
     };
 
     useEventBus( 'window:mousemove', handleDrag )

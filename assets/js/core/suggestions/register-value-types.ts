@@ -18,12 +18,6 @@ const registerSuggestionValueTypes = () => {
         isEmpty: ( value) => value.length === 0,
         meta: { name: "Arrays", icon: "📚", label: "Array" }
     } );
-    // registerType({
-    //     type: "object",
-    //     match: (v) => typeof v === "object" && v !== null && !Array.isArray(v),
-    //     format: (v) => `Object (${Object.keys(v).length} props)`,
-    //     meta: { name: "Objects", icon: "📦", label: "Object" }
-    // });
 }
 
 export {

@@ -43,7 +43,7 @@ export const createGlobalClassesSource: DataSourceFactory< GlobalClasses, { onId
             lastSnapshot = elementorAdapter.getUsedGlobalClassesSnapshot();
             lastActivity = Date.now();
 
-            notify?.( lastSnapshot ?? [] );
+            notify?.( lastSnapshot );
 
             intervalId = window.setInterval( poll, POLL_INTERVAL );
         },

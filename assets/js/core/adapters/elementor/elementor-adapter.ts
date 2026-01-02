@@ -6,6 +6,8 @@ import {
 } from "@app/adapters/elementor/marionette-element/create-element-event-subscriber";
 import { dataExtractor } from "@app/adapters/elementor/marionette-element/data-extractor";
 import { getUsedGlobalClassesSnapshot } from "@app/adapters/elementor/get-used-global-classes-snapshot";
+import { eventBus } from "@app/events";
+import { getAtomicStyleSchema } from "@app/adapters/elementor/sync/get-atomic-style-schema";
 
 export type ElementorCommand =
     | 'document/elements/select'
@@ -21,7 +23,7 @@ export type ElementorCommand =
 
 type Unsubscribe = () => void;
 
-type Callback<T = void> = (data: T) => void;
+type Callback<T = void> = ( data: T ) => void;
 
 const LOG_PREFIX = '[DevDebugTool:ElementorAdapter]';
 
@@ -41,7 +43,6 @@ const createElementorAdapter = () => {
 
             const internalHandler = ( _: unknown, command: string ) => {
                 if ( toWatch.includes( command as ElementorCommand ) ) {
-                    debug( `Command triggered: ${command}` );
 
                     try {
                         handler();
@@ -52,11 +53,9 @@ const createElementorAdapter = () => {
             };
 
             commands.on( 'run:after', internalHandler );
-            debug( `Subscribed to commands: ${ toWatch.join(', ') }` );
 
             return () => {
                 commands.off( 'run:after', internalHandler );
-                debug( `Unsubscribed from commands: ${ toWatch.join(', ') }` );
             }
         },
         getSelectedElement,
@@ -68,15 +67,30 @@ const createElementorAdapter = () => {
             const toolbar = document.getElementById( 'elementor-editor-wrapper-v2' );
 
             return toolbar?.offsetHeight ?? null
-        }
+        },
+        getStyleSchema: getAtomicStyleSchema
     }
 }
 
-function debug( message: string, ...args: unknown[] ): void {
-    // TODO to be removed
-    if ( process.env.NODE_ENV === 'development' ) {
-        console.debug( `${LOG_PREFIX} ${message}`, ...args );
-    }
-}
+const elementorAdapter = createElementorAdapter();
 
-export const elementorAdapter = createElementorAdapter();
+elementorAdapter.onCommand(
+    'document/elements/select',
+    () => {
+        eventBus.emit( 'element:selected' );
+    }
+);
+
+elementorAdapter.onCommand(
+    [
+        'document/elements/deselect',
+        'document/elements/deselect-all',
+        'document/elements/delete',
+        'panel/exit',
+    ],
+    () => {
+        eventBus.emit( 'element:deselected' );
+    }
+);
+
+export { elementorAdapter };

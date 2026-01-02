@@ -3,7 +3,7 @@ import { createDatabaseVariants } from "@app/providers/database/create-database-
 import { DatabaseData, SourceConfig } from "@app/providers/database/types";
 
 export const databaseProvider =
-    (): Provider<DatabaseData, SourceConfig> => {
+    (): Provider< DatabaseData, SourceConfig > => {
 
     return {
         id: 'database',

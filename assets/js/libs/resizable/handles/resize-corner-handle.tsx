@@ -6,10 +6,10 @@ type Props = {
     onMouseDown: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export const ResizeBarHandle = ( { className, onMouseDown }: Props ) => {
+export const ResizeCornerHandle = ( { className, onMouseDown }: Props ) => {
     return (
         <div
-            className={ bemBlock.elements( [ 'resizable__handle', 'resizable__handle-edge', className ] )}
+            className={ bemBlock.elements( [ 'resizable__handle', 'resizable__handle-corner', className ] )}
             onMouseDown={ onMouseDown }
         />
     );

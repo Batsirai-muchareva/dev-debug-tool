@@ -1,4 +1,5 @@
-import { TabScope, SubTab, Tab } from "@app/context/tabs/types";
+import { SubTab, Tab } from "@app/context/tabs/types";
+import { useKey } from "@app/context/key-context";
 
 export const createIndexResolver =
     (
@@ -6,7 +7,9 @@ export const createIndexResolver =
         activeTabId?: Tab["id"],
         activeSubTabId?: SubTab["id"]
     ) =>
-        ( target: TabScope ): number => {
+        (): number => {
+            const target = useKey();
+
             if ( target === "tab" ) {
                 return tabs.findIndex( tab => tab.id === activeTabId );
             }
@@ -16,5 +19,6 @@ export const createIndexResolver =
             }
 
             const tab = tabs.find( tab => tab.id === activeTabId );
+
             return tab?.subTabs.findIndex( st => st.id === activeSubTabId ) ?? -1;
         };

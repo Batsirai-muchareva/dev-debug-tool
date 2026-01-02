@@ -34,14 +34,14 @@ export const useAnchoredPosition = ( anchor?: HTMLElement | null, width = 300, s
         };
 
         setPosition( positions[ side ] );
-    }, [anchor, side]);
+    }, [ anchor, side ] );
 
-    useLayoutEffect(() => {
+    useLayoutEffect( () => {
         calculatePosition();
     }, [ calculatePosition ]);
 
     useEventBus(
-        [ 'popover:dragged', 'popover:resized' ],
+        [ 'popover:dragging', 'popover:resizing' ],
         calculatePosition
     );
 

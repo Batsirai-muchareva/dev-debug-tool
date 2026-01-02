@@ -4,8 +4,9 @@ import { useFilteredData } from "@app/context/filter-context";
 import { SEARCH_POPOVER_KEY, usePopover } from "@app/context/popover-context";
 import { useRef, useState } from "@wordpress/element";
 import { useEventBus } from "@app/hooks/use-event-bus";
+import { Filter } from "@component/search-input/filter";
 
-export const PathInput = () => {
+export const PathInput = ( { disabled }: { disabled: boolean } ) => {
     const { open: openSearchPopover, isOpen, close: closeSearchPopover } = usePopover( SEARCH_POPOVER_KEY );
     const { setPath, path, paths } = useFilteredData();
     const inputRef = useRef<HTMLInputElement>(null );
@@ -90,11 +91,11 @@ export const PathInput = () => {
             if ( elapsed < 250 ) {
                 event.preventDefault();
 
-                const parts = path.split(".");
+                const parts = path.split( "." );
                 parts.pop(); // remove last segment
-                const newPath = parts.join(".");
+                const newPath = parts.join( "." );
 
-                setPath(newPath);
+                setPath( newPath );
                 requestAnimationFrame(moveCaretToEnd);
             }
 
@@ -102,10 +103,11 @@ export const PathInput = () => {
         }
     };
 
-
     return (
-         <div className={ bemBlock.element( 'path-input' ) }>
+        <div style={{ display: 'flex', gap: '10px'}}>
+            <div style={{flex: 1}} className={ bemBlock.element( 'path-input' ) }>
             <input
+                disabled={ disabled }
                 ref={ inputRef }
                 value={ path }
                 placeholder="e.g., settings.title.value"
@@ -115,15 +117,17 @@ export const PathInput = () => {
                 onKeyDown={ handleKeyDown }
             />
              <span className="ghost-text" id="ghost">{ ghostText }</span>
-             { path && (
-                 <button
-                     onClick={ clearInput }
-                     className={ bemBlock.element( 'path-input-clear' ) }
-                     aria-label="Clear input"
-                 >
+                         { path && (
+                             <button
+                                 onClick={ clearInput }
+                                 className={ bemBlock.element( 'path-input-clear' ) }
+                                 aria-label="Clear input"
+                             >
                     <i className="eicon-close"/>
             </button>
-             ) }
+                         ) }
+        </div>
+            {/*<Filter />*/}
         </div>
      )
 }

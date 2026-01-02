@@ -25,9 +25,15 @@ export const Suggestions = () => {
     return (
         <div className={ bemBlock.element( 'suggestion' ) }>
 
-            { suggestions.length === 0 && <div style={{ textAlign: 'center',
-                margin: '30px',
-                color: '#a0a0a0'} }> No matched path results </div>}
+            { suggestions.length === 0 &&
+                <div style={ {
+                    textAlign: 'center',
+                    margin: '30px',
+                    color: '#a0a0a0' } }
+                >
+                    No path results to show
+                </div>
+            }
 
             { suggestions.map( ( category ) => (
                 <div key={ category.key }>
