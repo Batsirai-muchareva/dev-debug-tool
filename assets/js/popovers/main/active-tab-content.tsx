@@ -5,12 +5,18 @@ import { EmptyState } from "@component/empty-state";
 import { PathInput } from "@component/search-input/path-input";
 import { Actions } from "@component/actions";
 import { JsonViewer } from "@component/json-viewer/json-viewer";
+import { SchemaViewer } from "@component/schema-viewer";
 import React from "react";
 
 export const ActiveTabContent = () => {
-    const { activeSubTab } = useTabs();
+    const { activeTab, activeSubTab } = useTabs();
     const { data, originalData } = useFilteredData();
     const { getMessage, shouldShowData, variants } = useTabConfig();
+
+    // Use dedicated SchemaViewer for schema tab (virtualized for performance)
+    if ( activeTab === 'schema' ) {
+        return <SchemaViewer />;
+    }
 
     if ( ! shouldShowData?.( originalData ) ) {
         return <EmptyState text={ getMessage?.( originalData ) } />

@@ -10,6 +10,8 @@ This folder contains the architectural analysis and improvement plan for the Dev
 | [AS-IS-ARCHITECTURE.md](./AS-IS-ARCHITECTURE.md) | Current architecture as extracted from the codebase |
 | [TO-BE-ARCHITECTURE.md](./TO-BE-ARCHITECTURE.md) | Target architecture with proposed improvements |
 | [PROVIDERS-AND-VARIANTS.md](./PROVIDERS-AND-VARIANTS.md) | Deep dive into provider/variant architecture |
+| [HIGHLIGHT-AND-SCROLLABLE.md](./HIGHLIGHT-AND-SCROLLABLE.md) | Clean architecture for highlight/scroll features |
+| [STYLE-SCHEMA-ARCHITECTURE.md](./STYLE-SCHEMA-ARCHITECTURE.md) | Virtualized schema viewer (handling large data) |
 | [MIGRATION-PLAN.md](./MIGRATION-PLAN.md) | Step-by-step migration plan with code examples |
 
 ## Diagrams

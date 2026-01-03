@@ -1,0 +1,226 @@
+// Schema Viewer Styles
+// Virtualized list + detail view for browsing style schemas
+
+// Schema List
+&__schema-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    &__count {
+        strong {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    }
+    
+    &__empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 13px;
+        text-align: center;
+    }
+    
+    &__virtual {
+        flex: 1;
+    }
+}
+
+// Schema List Item
+&__schema-list-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 12px;
+    border: none;
+    background: transparent;
+    color: #e0e0e0;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.12s ease;
+    font-family: inherit;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    &:active {
+        background: rgba(255, 255, 255, 0.08);
+    }
+    
+    &.is-selected {
+        background: rgba(255, 213, 0, 0.1);
+        
+        .dev__schema-list-item__key {
+            color: #ffd500;
+        }
+    }
+    
+    &__index {
+        flex-shrink: 0;
+        width: 48px;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.35);
+        font-family: monospace;
+    }
+    
+    &__key {
+        flex: 1;
+        font-family: monospace;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: rgba(255, 255, 255, 0.85);
+    }
+    
+    &__arrow {
+        flex-shrink: 0;
+        margin-left: 8px;
+        opacity: 0;
+        color: rgba(255, 255, 255, 0.4);
+        transition: opacity 0.12s ease;
+    }
+    
+    &:hover &__arrow {
+        opacity: 1;
+    }
+}
+
+// Schema Search
+&__schema-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    
+    &__input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.25);
+        color: #e0e0e0;
+        font-size: 13px;
+        font-family: inherit;
+        transition: border-color 0.15s ease, background 0.15s ease;
+        
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        &:focus {
+            outline: none;
+            border-color: #ffd500;
+            background: rgba(0, 0, 0, 0.35);
+        }
+    }
+    
+    &__clear {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        border: none;
+        border-radius: 4px;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        transition: color 0.12s ease, background 0.12s ease;
+        
+        &:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+
+// Schema Detail
+&__schema-detail {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    &__back {
+        flex-shrink: 0;
+        padding: 6px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        background: transparent;
+        color: #e0e0e0;
+        cursor: pointer;
+        font-size: 12px;
+        font-family: inherit;
+        transition: background 0.12s ease, border-color 0.12s ease;
+        
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+    }
+    
+    &__title {
+        flex: 1;
+        margin: 0;
+        font-size: 13px;
+        font-family: monospace;
+        font-weight: 600;
+        color: #ffd500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    &__content {
+        flex: 1;
+        overflow: auto;
+    }
+    
+    &__empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 13px;
+    }
+}
+
+// Schema Viewer Container
+&__schema-viewer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+// Virtual List Base Styles
+.virtual-list {
+    &__item {
+        display: flex;
+        align-items: stretch;
+    }
+}
