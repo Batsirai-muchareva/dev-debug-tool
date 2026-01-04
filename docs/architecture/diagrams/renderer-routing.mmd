@@ -1,0 +1,27 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#fff', 'primaryBorderColor': '#ffd500', 'lineColor': '#888'}}}%%
+
+flowchart LR
+    subgraph Input["SOURCE"]
+        S["UnifiedDataSource"]
+    end
+
+    subgraph Decision["ROUTING (Based on Capabilities)"]
+        C{{"capabilities.renderStrategy"}}
+    end
+
+    subgraph Renderers["RENDERERS"]
+        J["JsonRenderer<br/>────────────<br/>• Scrollable container<br/>• Full JSON stringify<br/>• Syntax highlighting"]
+        V["VirtualizedRenderer<br/>────────────<br/>• VirtualList for keys<br/>• Lazy load values<br/>• List ↔ Detail nav"]
+        P["PaginatedRenderer<br/>────────────<br/>• Load pages on demand<br/>• Page controls<br/>• Scroll to load more"]
+        X["CustomRenderer<br/>────────────<br/>• Source provides component<br/>• Full control"]
+    end
+
+    S --> C
+    C -->|json| J
+    C -->|virtualized| V
+    C -->|paginated| P
+    C -->|custom| X
+
+    style Input fill:#1a1a2e,stroke:#ffd500
+    style Decision fill:#16213e,stroke:#ffd500
+    style Renderers fill:#0f3460,stroke:#ffd500

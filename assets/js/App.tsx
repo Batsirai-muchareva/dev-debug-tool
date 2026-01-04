@@ -5,12 +5,12 @@ import { PositionTracker } from "@app/position-tracker";
 import { BoundsProvider } from "@app/context/bounds-context";
 import { PopoverProvider } from "@app/context/popover-context";
 
-import { registerDataProviders } from "@app/manager/register-data-providers";
 import { registerActions } from "@app/actions-registry/init";
 import { registerSuggestionValueTypes } from "@app/suggestions/register-value-types";
 import { Shell } from "./shell";
 import { ToggleButton } from "@component/toggle-button/toggle-button";
 import { Notification } from "@libs/notification/notification";
+import { registerDataProviders } from "@app/data-source-manager/register-data-providers";
 
 registerSuggestionValueTypes();
 registerDataProviders();

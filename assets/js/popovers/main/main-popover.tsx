@@ -18,6 +18,7 @@ import { CloseButton } from "@component/ui/close-button";
 import { Resizable } from "@libs/resizable/resizable";
 import { Draggable } from "@libs/draggable/draggable";
 import { ActiveTabContent } from "./active-tab-content";
+import { Toolbar } from "@component/toolbar";
 
 export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
     const { toggle: mainToggle } = usePopover( MAIN_POPOVER_KEY );
@@ -66,6 +67,7 @@ export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
                         <Slot name={ getSubTabSlotName( activeTab )  } />
 
                         <TabContent active={ true }>
+                            <Toolbar />
                             <ActiveTabContent />
                         </TabContent>
                     </Padding>

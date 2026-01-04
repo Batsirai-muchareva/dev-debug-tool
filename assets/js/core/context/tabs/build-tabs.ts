@@ -1,4 +1,4 @@
-import { getProviderConfig } from "@app/manager/register-data-providers";
+import { getProviderConfig } from "@app/data-source-manager/register-data-providers";
 
 export function buildTabs() {
     return getProviderConfig().map( ( { id, title, variants } ) => ( {

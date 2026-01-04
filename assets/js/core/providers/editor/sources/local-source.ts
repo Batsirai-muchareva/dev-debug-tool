@@ -1,11 +1,11 @@
 import { elementorAdapter } from "@app/adapters";
-import { DataSourceFactory, Notify, Unsubscribe } from "@app/types";
+import { Unsubscribe } from "@app/types";
 import { MarionetteElement } from "@app/adapters/elementor/sync/get-selected-element";
 import { LocalElementData } from "@app/adapters/elementor/elementor-adapter";
 import { eventBus } from "@app/events";
+import { createSource } from "@app/data-source-manager/create-source";
 
-export const createLocalSource: DataSourceFactory< LocalElementData > = () => {
-    let notify: Notify<LocalElementData> | null = null;
+export const createLocalSource = createSource<LocalElementData, { onIdle?: () => void }>( ( notify ) => {
     let unsubscribeSelect: Unsubscribe | null = null;
     let unsubscribeDeselect: Unsubscribe | null = null;
     let modelCleanup: Unsubscribe | null = null;
@@ -41,15 +41,13 @@ export const createLocalSource: DataSourceFactory< LocalElementData > = () => {
     }
 
     return {
-        start: ( notifyFn: Notify<LocalElementData> ) => {
-            notify = notifyFn;
-
+        setup: () => {
             unsubscribeSelect = eventBus.on( 'element:selected', handleSelect );
             unsubscribeDeselect = eventBus.on( 'element:deselected', handleDeselect );
 
             handleSelect();
         },
-        stop: () => {
+        teardown: () => {
             unsubscribeSelect?.();
             unsubscribeDeselect?.();
             modelCleanup?.();
@@ -57,10 +55,10 @@ export const createLocalSource: DataSourceFactory< LocalElementData > = () => {
             unsubscribeSelect = null;
             unsubscribeDeselect = null;
             modelCleanup = null;
-            notify = null;
+            // notify = null;
         },
     }
-}
+} )
 
 //     elementorAdapter.onCommand(
 //     [

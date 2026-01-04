@@ -1,0 +1,87 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#fff', 'primaryBorderColor': '#ffd500', 'lineColor': '#888'}}}%%
+
+classDiagram
+    class UnifiedDataSource {
+        <<interface>>
+        +id: string
+        +label: string
+        +capabilities: SourceCapabilities
+        +getData() T | null
+        +getKeys()? string[]
+        +getValueForKey(key)? unknown
+        +getPage(page, size)? T[]
+        +search(query)? T | string[]
+        +subscribe(callback)? Unsubscribe
+        +getCount()? number
+        +isAvailable() boolean
+        +CustomRenderer? ComponentType
+    }
+
+    class SourceCapabilities {
+        +dataType: DataType
+        +renderStrategy: RenderStrategy
+        +sizeHint: SizeHint
+        +features: Features
+    }
+
+    class Features {
+        +searchable: boolean
+        +expandable: boolean
+        +reactive: boolean
+        +lazyLoad: boolean
+        +navigable: boolean
+    }
+
+    class DataType {
+        <<enumeration>>
+        object
+        collection
+        key-value
+        stream
+    }
+
+    class RenderStrategy {
+        <<enumeration>>
+        json
+        virtualized
+        paginated
+        custom
+    }
+
+    class SizeHint {
+        <<enumeration>>
+        small
+        medium
+        large
+    }
+
+    UnifiedDataSource --> SourceCapabilities
+    SourceCapabilities --> Features
+    SourceCapabilities --> DataType
+    SourceCapabilities --> RenderStrategy
+    SourceCapabilities --> SizeHint
+
+    class EditorSource {
+        +id = "editor-local"
+        +dataType = object
+        +renderStrategy = json
+        +sizeHint = small
+    }
+
+    class SchemaSource {
+        +id = "style-schema"
+        +dataType = key-value
+        +renderStrategy = virtualized
+        +sizeHint = large
+    }
+
+    class DatabaseSource {
+        +id = "database-meta"
+        +dataType = object
+        +renderStrategy = json
+        +sizeHint = small
+    }
+
+    EditorSource ..|> UnifiedDataSource
+    SchemaSource ..|> UnifiedDataSource
+    DatabaseSource ..|> UnifiedDataSource

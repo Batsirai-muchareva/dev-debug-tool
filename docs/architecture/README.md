@@ -12,6 +12,7 @@ This folder contains the architectural analysis and improvement plan for the Dev
 | [PROVIDERS-AND-VARIANTS.md](./PROVIDERS-AND-VARIANTS.md) | Deep dive into provider/variant architecture |
 | [HIGHLIGHT-AND-SCROLLABLE.md](./HIGHLIGHT-AND-SCROLLABLE.md) | Clean architecture for highlight/scroll features |
 | [STYLE-SCHEMA-ARCHITECTURE.md](./STYLE-SCHEMA-ARCHITECTURE.md) | Virtualized schema viewer (handling large data) |
+| [UNIFIED-DATA-SOURCES.md](./UNIFIED-DATA-SOURCES.md) | **Future vision** — Source-agnostic infrastructure |
 | [MIGRATION-PLAN.md](./MIGRATION-PLAN.md) | Step-by-step migration plan with code examples |
 
 ## Diagrams
@@ -34,6 +35,13 @@ All diagrams are in Mermaid format (`.mmd` files) located in the `diagrams/` fol
 | [variant-lifecycle.mmd](./diagrams/variant-lifecycle.mmd) | Variant switching sequence diagram |
 | [variant-state-machine.mmd](./diagrams/variant-state-machine.mmd) | Variant state transitions |
 | [provider-class-diagram.mmd](./diagrams/provider-class-diagram.mmd) | Class/interface relationships |
+
+### Unified Data Sources Diagrams
+| Diagram | Description |
+|---------|-------------|
+| [unified-data-sources.mmd](./diagrams/unified-data-sources.mmd) | Source-agnostic infrastructure overview |
+| [source-capabilities.mmd](./diagrams/source-capabilities.mmd) | UnifiedDataSource interface and capabilities |
+| [renderer-routing.mmd](./diagrams/renderer-routing.mmd) | How capabilities route to renderers |
 
 ### Viewing Diagrams
 
@@ -84,4 +92,5 @@ GitHub automatically renders Mermaid diagrams in markdown files.
 - **Fail Gracefully** — Error boundaries prevent crashes
 - **Cache First** — Avoid redundant computations
 - **Type Safety** — Strict TypeScript throughout
+- **Source Agnostic** — Infrastructure handles any data source equally
 

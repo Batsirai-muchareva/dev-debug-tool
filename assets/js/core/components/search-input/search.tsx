@@ -6,7 +6,7 @@ import { useRef, useState } from "@wordpress/element";
 import { useEventBus } from "@app/hooks/use-event-bus";
 import { Filter } from "@component/search-input/filter";
 
-export const PathInput = ( { disabled }: { disabled: boolean } ) => {
+export const Search = ( { disabled }: { disabled: boolean } ) => {
     const { open: openSearchPopover, isOpen, close: closeSearchPopover } = usePopover( SEARCH_POPOVER_KEY );
     const { setPath, path, paths } = useFilteredData();
     const inputRef = useRef<HTMLInputElement>(null );

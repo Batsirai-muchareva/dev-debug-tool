@@ -16,6 +16,7 @@ export type Tab = {
 export type ContextState = {
     activeTab: Tab['id'];
     activeSubTab: SubTab['id'];
+    activeVariant: SubTab['id'];
     tabs: Tab[];
     setTab: ( tabId: Tab['id'] ) => void;
     setSubTab: ( subTabId: SubTab['id'] ) => void;

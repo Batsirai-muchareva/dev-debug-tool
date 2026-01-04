@@ -1,16 +1,18 @@
 import React from 'react';
-import { useSchemaSearch } from '@app/providers/schema/context';
-import { bemBlock } from '@app/utils/bem';
+import { useSchemaSearch } from '../context/schema-browser-context';
 
-const bem = bemBlock.element('schema-search');
+interface SchemaSearchProps {
+    placeholder?: string;
+}
 
 /**
  * Schema Search Input
  * 
- * Search input for filtering schema keys.
- * Connected to SchemaSearchContext.
+ * Search input for filtering keys.
  */
-export const SchemaSearch: React.FC = () => {
+export const SchemaSearch: React.FC<SchemaSearchProps> = ({
+    placeholder = 'Search...',
+}) => {
     const { query, setQuery, clearQuery, isSearching } = useSchemaSearch();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,11 +26,11 @@ export const SchemaSearch: React.FC = () => {
     };
 
     return (
-        <div className={bem}>
+        <div className="schema-browser__search">
             <input
                 type="text"
-                className={`${bem}__input`}
-                placeholder="Search schemas..."
+                className="schema-browser__search-input"
+                placeholder={placeholder}
                 value={query}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
@@ -37,7 +39,7 @@ export const SchemaSearch: React.FC = () => {
             />
             {isSearching && (
                 <button
-                    className={`${bem}__clear`}
+                    className="schema-browser__search-clear"
                     onClick={clearQuery}
                     type="button"
                     title="Clear search"

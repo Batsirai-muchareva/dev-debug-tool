@@ -30,6 +30,7 @@ export const TabsProvider = ( { children }: PropsWithChildren ) => {
         <TabsContext.Provider value={ {
             activeTab,
             activeSubTab,
+            activeVariant: activeSubTab,
             setTab,
             setSubTab,
             tabs,
@@ -54,6 +55,8 @@ const getTabState = ( tabs: Tab[] ) => ( {
     tabs,
     initialState:{
         activeTabId: tabs[0]?.id,
-        activeSubTab: Object.fromEntries( tabs.map( ( tab ) => ( [ tab.id, tab.subTabs[0]?.id ] ) ) )
+        activeSubTab: Object.fromEntries(
+            tabs.map( ( tab ) => ( [ tab.id, tab.subTabs[0]?.id ] ) )
+        )
     },
 } );

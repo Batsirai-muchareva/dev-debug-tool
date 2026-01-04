@@ -1,21 +1,5 @@
 import React, { memo } from 'react';
-import { bemBlock } from '@app/utils/bem';
-
-interface SchemaListItemProps {
-    /** Schema key to display */
-    schemaKey: string;
-    
-    /** Index in the list (for display) */
-    index: number;
-    
-    /** Click handler */
-    onClick: () => void;
-    
-    /** Whether this item is currently selected */
-    isSelected?: boolean;
-}
-
-const bem = bemBlock.element('schema-list-item');
+import { SchemaListItemProps } from '../types';
 
 /**
  * Schema List Item
@@ -31,18 +15,18 @@ export const SchemaListItem = memo<SchemaListItemProps>(({
 }) => {
     return (
         <button
-            className={`${bem} ${isSelected ? 'is-selected' : ''}`}
+            className={`schema-browser__list-item ${isSelected ? 'is-selected' : ''}`}
             onClick={onClick}
             type="button"
             title={schemaKey}
         >
-            <span className={`${bem}__index`}>
+            <span className="schema-browser__list-item-index">
                 {index + 1}
             </span>
-            <span className={`${bem}__key`}>
+            <span className="schema-browser__list-item-key">
                 {schemaKey}
             </span>
-            <span className={`${bem}__arrow`}>
+            <span className="schema-browser__list-item-arrow">
                 →
             </span>
         </button>

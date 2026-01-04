@@ -25,7 +25,7 @@ interface VariantConfig {
 }
 
 export interface Variant<T = unknown, C = unknown> extends VariantConfig {
-    sourceConfig: C;
+    sourceConfig?: C;
     createSource: DataSourceFactory<T, C>;
 }
 
@@ -36,4 +36,5 @@ export interface Provider<T = unknown, C = unknown> {
     getMessage?: ( data: T | null ) => string;
     shouldShowData?: ( data: T | null ) => boolean;
     variants: Variant<T, C>[];
+    supportsBrowsing?: boolean;
 }

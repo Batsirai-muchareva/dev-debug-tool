@@ -1,15 +1,14 @@
 import { DataSourceFactory, Notify } from "@app/types";
 import { elementorAdapter } from "@app/adapters";
 import { GlobalClasses } from "@app/adapters/elementor/elementor-adapter";
+import { createSource } from "@app/data-source-manager/create-source";
 
 const POLL_INTERVAL = 1000;
 
 const INACTIVITY_LIMIT = 2 * 60 * 1000;
-
-export const createGlobalClassesSource: DataSourceFactory< GlobalClasses, { onIdle?: () => void } > =
-    ( config ) => {
-
-    let notify: Notify<GlobalClasses> | null = null;
+// : DataSourceFactory
+export const createGlobalClassesSource = createSource< GlobalClasses, { onIdle?: () => void } >(
+    ( notify, config ) => {
     let intervalId: number | null = null;
     let lastSnapshot: GlobalClasses | null = null;
     let lastActivity = 0;
@@ -33,9 +32,7 @@ export const createGlobalClassesSource: DataSourceFactory< GlobalClasses, { onId
     }
 
     return {
-        start( notifyFn: Notify<GlobalClasses> ) {
-            notify = notifyFn;
-
+        setup() {
             if ( intervalId !== null ) {
                 return;
             }
@@ -47,15 +44,15 @@ export const createGlobalClassesSource: DataSourceFactory< GlobalClasses, { onId
 
             intervalId = window.setInterval( poll, POLL_INTERVAL );
         },
-        stop() {
+        teardown() {
             if ( intervalId === null ) {
                 return;
             }
 
             clearInterval( intervalId );
             intervalId = null;
-            notify = null;
+            // notify = null;
             lastSnapshot = null;
         }
     }
-}
+} )

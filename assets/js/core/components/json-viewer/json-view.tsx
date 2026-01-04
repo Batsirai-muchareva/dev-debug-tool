@@ -8,7 +8,7 @@ import { useScrollToLine } from "@app/hooks/use-scroll-to-line";
 type Props = {
     height?: number
 }
-export const JsonViewer = ( {}: Props ) => {
+export const JsonView = ( {}: Props ) => {
     const containerRef = useRef<HTMLDivElement>( null );
     const { scrollToLine, highlighterChanges } = useJsonChanges();
 

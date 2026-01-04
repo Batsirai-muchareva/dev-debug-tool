@@ -1,6 +1,6 @@
 import { useTabs } from "@app/context/tabs/tabs-context";
 import { useMemo } from "react";
-import { getProviderConfig } from "@app/manager/register-data-providers";
+import { getProviderConfig } from "@app/data-source-manager/register-data-providers";
 
 export const useTabConfig = () => {
     const { activeTab } = useTabs();

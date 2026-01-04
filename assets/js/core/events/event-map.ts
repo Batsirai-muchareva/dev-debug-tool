@@ -13,6 +13,12 @@ interface StyleSchema {
     }
 }
 
+interface BrowseView {
+    'browse:key:selected': {
+        key: string
+    }
+}
+
 interface WindowEvents {
     'window:mousemove': {
         clientX: number;
@@ -66,5 +72,6 @@ export interface EventMap extends
     SuggestionEvents,
     WindowEvents,
     Notification,
-    StyleSchema
+    StyleSchema,
+    BrowseView
 {}

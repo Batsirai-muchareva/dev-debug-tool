@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { DataSource, Provider, Variant } from "@app/types";
-import { dataProviderManager } from "@app/manager/register-data-providers";
 import { useTabs } from "@app/context/tabs/tabs-context";
 import { useRef } from "@wordpress/element";
 import { lineMap } from "@libs/line-map/line-map";
+import { dataProviderManager } from "@app/data-source-manager/register-data-providers";
 
 type State = Record< Provider['id'], Record<Variant['id'], unknown> >;
 

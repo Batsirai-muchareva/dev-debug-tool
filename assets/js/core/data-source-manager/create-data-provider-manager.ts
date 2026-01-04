@@ -33,14 +33,14 @@ export const createDataProviderManager = () => {
 
     const getProvidersConfig = (): Omit<Provider, 'subscribe'>[] => {
         return Array.from( providers.values() )
-            .map( ( { shouldShowData, variants, ...rest } )  => (
-                {
-                    ...rest,
-                    shouldShowData: shouldShowData ?? ( ( data ) => !! data ),
-                    variants: variants.map( v => ( {
-                        ...v, shouldShowData: v.shouldShowData ?? ( () => true )  } ) )
-                } )
-            )
+            // .map( ( { shouldShowData, variants, ...rest } )  => (
+            //     {
+            //         ...rest
+            //         // shouldShowData: shouldShowData ?? ( ( data ) => !! data ),
+            //     //     variants: variants.map( v => ( {
+            //     //         ...v, shouldShowData: v.shouldShowData ?? ( () => true )  } ) )
+            //     } )
+            // )
             .sort((a, b) =>
                 ( a.order ?? 10 ) - ( b.order ?? 10 )
             );

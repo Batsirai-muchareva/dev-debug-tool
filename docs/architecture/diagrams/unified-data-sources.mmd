@@ -1,0 +1,39 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#fff', 'primaryBorderColor': '#ffd500', 'lineColor': '#888', 'secondaryColor': '#16213e', 'tertiaryColor': '#0f3460'}}}%%
+
+flowchart TB
+    subgraph Sources["DATA SOURCES (All Equal Citizens)"]
+        direction LR
+        S1["Editor<br/>───────<br/>type: object<br/>render: json<br/>size: small"]
+        S2["Database<br/>───────<br/>type: object<br/>render: json<br/>size: small"]
+        S3["Schema<br/>───────<br/>type: key-value<br/>render: virtualized<br/>size: large"]
+        S4["Future...<br/>───────<br/>type: stream<br/>render: custom<br/>size: medium"]
+    end
+
+    subgraph Infra["INFRASTRUCTURE (Source-Agnostic)"]
+        SR[("Source<br/>Registry")]
+        DV["DataViewer<br/>─────────<br/>• Reads capabilities<br/>• Routes to renderer<br/>• No source-specific code"]
+        RR[("Renderer<br/>Registry")]
+    end
+
+    subgraph Renderers["RENDERERS"]
+        direction LR
+        R1["JsonRenderer<br/>───────<br/>Renders all as JSON<br/>For: small objects"]
+        R2["VirtualizedRenderer<br/>───────<br/>Virtual list + detail<br/>For: large key-value"]
+        R3["PaginatedRenderer<br/>───────<br/>Loads pages on scroll<br/>For: large collections"]
+        R4["CustomRenderer<br/>───────<br/>Source provides component<br/>For: special cases"]
+    end
+
+    subgraph UI["UI LAYER"]
+        ATC["ActiveTabContent<br/>─────────────────<br/>source = registry.get(id)<br/>return DataViewer source"]
+    end
+
+    S1 & S2 & S3 & S4 --> SR
+    SR --> DV
+    DV --> RR
+    RR --> R1 & R2 & R3 & R4
+    R1 & R2 & R3 & R4 --> ATC
+
+    style Sources fill:#1a1a2e,stroke:#ffd500
+    style Infra fill:#16213e,stroke:#ffd500
+    style Renderers fill:#0f3460,stroke:#ffd500
+    style UI fill:#1a1a2e,stroke:#ffd500

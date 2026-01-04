@@ -1,7 +1,7 @@
-import { createDataProviderManager } from '@app/manager/create-data-provider-manager';
 import { editorProvider } from "@app/providers/editor/provider";
 import { databaseProvider } from "@app/providers/database/provider";
 import { schemaProvider } from "@app/providers/schema/provider";
+import { createDataProviderManager } from "@app/data-source-manager/create-data-provider-manager";
 
 export const dataProviderManager = createDataProviderManager();
 

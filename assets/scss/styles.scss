@@ -16,12 +16,15 @@ $block-name: "dev"; // the block prefix
   @import "ui/close-button";
   @import "ui/highlight";
   @import "ui/filter";
-  @import "ui/schema-viewer";
+  @import "ui/browser-view";
 
   @import "libs/draggable";
   @import "libs/resizable";
   @import "libs/notification";
 }
+
+// Schema Browser lib styles (outside of .dev block for standalone usage)
+@import "../js/libs/schema-browser/schema-browser";
 
 .ghost-text {
   position: absolute;
