@@ -1,5 +1,10 @@
 import { useMemo } from "react";
 import { getValueTypes, resolveValueType } from "@app/suggestions/register-value-types";
+import { getAllJsonPaths } from "@app/utils/get-all-json-paths";
+import { useResolvedData } from "@app/context/data/resolved-data-context";
+import { createPathValueGetter } from "@app/utils/create-path-value-getter";
+import { useSearch } from "@app/hooks/use-search";
+import { usePath } from "@app/context/path-context";
 
 export interface PathSuggestion {
     path: string;
@@ -7,8 +12,14 @@ export interface PathSuggestion {
     type: string;
 }
 
-export const useSuggestions = ( allPaths: string[], getPathValue: ( path: string ) => any ) => {
-    return useMemo( () => {
+export const useSuggestions = () => {
+    const { path: search } = usePath();
+    const { rootData } = useResolvedData();
+    const getDataAtPath = createPathValueGetter( rootData );
+    const paths = useMemo( () => getAllJsonPaths( rootData ), [ rootData ] );
+    const filteredPaths = useSearch( paths, search );
+
+    const suggestions = useMemo( () => {
         const grouped: Record<string, PathSuggestion[]> = {};
         const valueTypes = getValueTypes();
 
@@ -16,8 +27,8 @@ export const useSuggestions = ( allPaths: string[], getPathValue: ( path: string
             grouped[handler.type] = [];
         }
 
-        allPaths.forEach( path => {
-            const value = getPathValue( path );
+        filteredPaths.forEach( path => {
+            const value = getDataAtPath( path );
             const handler = resolveValueType( value );
 
             if ( handler.isEmpty?.( value ) ) {
@@ -42,5 +53,35 @@ export const useSuggestions = ( allPaths: string[], getPathValue: ( path: string
             }))
             .filter( cat => cat.items.length > 0 );
 
-    }, [ allPaths ])
+    }, [ filteredPaths ]);
+
+    return {
+        paths: filteredPaths,
+        suggestions,
+    }
 };
+
+//
+
+
+
+
+
+
+// export const useJsonPathSearch = ( data: any, query: string ) => {
+//     const paths = useMemo( () => getAllJsonPaths( data ), [ data ] );
+//
+//     return useMemo( () => paths
+//             .filter(p =>
+//                 normalizeQuery(p).includes(normalizeQuery(query))
+//             )
+//             // .filter( ( p: string ) => p.toLowerCase().includes( query.toLowerCase() ) )
+//             .slice( 0, MAX_ITEMS )
+//         , [ query, paths ] );
+// }
+//
+// const normalizeQuery = (q: string) =>
+//     q
+//         .replace(/\.(\d+)(?=\.|$)/g, "[$1]") // variants.0 → variants[0]
+//         .replace(/\[\s*(\d+)\s*]/g, "[$1]") // clean spacing
+//         .toLowerCase();

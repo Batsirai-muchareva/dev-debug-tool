@@ -5,6 +5,7 @@ import { useTabs } from "@app/context/tabs/tabs-context";
 
 type State = {
     path: string;
+    isSearching: boolean;
     setPath: ( newPath: string ) => void;
 };
 
@@ -12,23 +13,31 @@ const PathContext = createContext<State | undefined >( undefined );
 
 export const PathProvider = ( { children }: PropsWithChildren ) => {
     const [ paths, setPaths ] = useState<Record<string, Record<string, string>>>({});
-    const { activeTab, activeSubTab } = useTabs();
+    const { activeProvider, activeVariant } = useTabs();
+    const [ isSearching, setIsSearching ] = useState<boolean>( false );
 
     const setPath = ( newPath: string ) => {
+        setIsSearching( true );
+
         setPaths( prev  => ( {
             ...prev,
-            [ activeTab ]: {
-                ...prev[activeTab],
-                [activeSubTab]: newPath
+            [ activeProvider ]: {
+                ...prev[ activeProvider ],
+                [ activeVariant ]: newPath
             }
         } ) );
+
+        setTimeout( () => {
+            setIsSearching( false );
+        }, 2000 )
     };
 
     return (
         <PathContext.Provider
             value={ {
-                path: paths[activeTab]?.[activeSubTab] ?? "",
+                path: paths[ activeProvider ]?.[activeVariant] ?? "",
                 setPath,
+                isSearching
             } }
         >
             { children }

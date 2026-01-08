@@ -1,5 +1,5 @@
-import { http } from "@app/adapters/wordpress/http";
-import { createError } from "@app/adapters/wordpress/create-error";
+import { http } from "./http";
+import { createError } from "./create-error";
 
 export interface IWordPressAdapter {
     fetch<R>(action: string, { post_id, meta_key }: { post_id: string; meta_key: string } ): Promise<{

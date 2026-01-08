@@ -11,20 +11,19 @@ import { Tabs } from "@component/tabs/tabs";
 import { Tab } from "@component/tabs/tab";
 import { TabContent } from "@component/tabs/tab-content";
 import { Fill, Slot } from "@wordpress/components";
-import { SubTab } from "@app/context/tabs/types";
-import { useTabConfig } from "@app/hooks/use-tab-config";
-import { useFilteredData } from "@app/context/filter-context";
 import { CloseButton } from "@component/ui/close-button";
 import { Resizable } from "@libs/resizable/resizable";
 import { Draggable } from "@libs/draggable/draggable";
 import { ActiveTabContent } from "./active-tab-content";
 import { Toolbar } from "@component/toolbar";
+import { Variant } from "@app/types";
+import { useResolvedData } from "@app/context/data/resolved-data-context";
+
+const slotFillName = ( name: string ) => `${ name }-variant`;
 
 export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
     const { toggle: mainToggle } = usePopover( MAIN_POPOVER_KEY );
-    const { tabs, setTab, setSubTab, activeTab } = useTabs();
-    const { data } = useFilteredData();
-    const { shouldShowData } = useTabConfig();
+    const { tabs, setProvider, activeProvider } = useTabs();
 
     return (
         <Popover ref={ ref } id={ MAIN_POPOVER_KEY }>
@@ -41,33 +40,32 @@ export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
                 </PopoverHeader>
 
                 <PopoverContent>
-                    <Padding>
-                        <Tabs variant="tab">
+                    <Padding style={ { gap: 8 } }>
+                        <Tabs type="tab">
                             {
-                                tabs.map( ( { id, title, subTabs }: any, index ) => (
-                                    <Tab
-                                        key={ id }
-                                        id={ id }
-                                        label={ title }
-                                        onClick={ () => setTab( id ) }
-                                        active={ activeTab === id }
-                                    >
-                                        {
-                                            shouldShowData?.( data ) && (
-                                                <Fill key={ id } name={ getSubTabSlotName( id ) } >
-                                                    <SubTabs key={ id } subTabs={ subTabs } setSubTab={ setSubTab } />
-                                                </Fill>
-                                            )
-                                        }
-                                    </Tab>
+                                tabs.map( ( { id, title, variants }: any ) => (
+                                    <React.Fragment key={ id }>
+                                        <Tab
+                                            key={ id }
+                                            id={ id }
+                                            label={ title }
+                                            onClick={ () => setProvider( id ) }
+                                            active={ activeProvider === id }
+                                        />
+                                        <Fill name={ slotFillName( id ) } >
+                                            <Variants
+                                                key={ id }
+                                                variants={ variants }
+                                            />
+                                        </Fill>
+                                    </React.Fragment>
                                 ) )
                             }
                         </Tabs>
 
-                        <Slot name={ getSubTabSlotName( activeTab )  } />
-
+                        <Slot name={ slotFillName( activeProvider )  } />
+                        <Toolbar />
                         <TabContent active={ true }>
-                            <Toolbar />
                             <ActiveTabContent />
                         </TabContent>
                     </Padding>
@@ -77,21 +75,24 @@ export const MainPopover = forwardRef<HTMLDivElement>( (_, ref ) => {
     )
 } )
 
-const SubTabs = ( { subTabs, setSubTab }: { subTabs: SubTab[]; setSubTab: ( id: string ) => void } ) => {
+const Variants = ( { variants }: { variants: Pick<Variant, 'id' | 'label'>[] } ) => {
+    const { setVariant } = useTabs();
+    const { hasNoData } = useResolvedData();
 
-    if ( subTabs.length === 0 ) {
+    if ( variants.length <= 1 || hasNoData ) {
         return null;
     }
 
     return (
-        <Tabs variant="sub-tab">
-            { subTabs.map( ( { id, label } ) => (
-                <Tab id={ id } key={ id } label={ label } onClick={ () => setSubTab( id ) }/>
+        <Tabs type="variant">
+            { variants.map( ( { id, label } ) => (
+                <Tab
+                    id={ id }
+                    key={ id }
+                    label={ label }
+                    onClick={ () => setVariant( id ) }
+                />
             ) ) }
         </Tabs>
     )
-}
-
-const getSubTabSlotName = ( name: string ) => {
-    return `${ name }-sub-tab`;
 }

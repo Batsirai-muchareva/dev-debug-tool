@@ -1,9 +1,7 @@
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import { Box } from "@component/ui/box";
-import { useEventBus } from "@app/hooks/use-event-bus";
-import { useKey } from "@app/context/key-context";
 import { useTabs } from "@app/context/tabs/tabs-context";
-import { TabScope } from "@app/context/tabs/types";
+import { useEventBus } from "@app/events";
 
 type Props = {
     tabCount: number;
@@ -38,7 +36,7 @@ export const Indicator = forwardRef<HTMLDivElement, Props>( ( { tabCount, classN
 
     const styles = {
         width: width,
-        transform: `translateX(${ activeIndex * width }px)`
+        transform: `translateX(${ activeIndex * ( width - 3 ) }px)`
     };
 
     return (

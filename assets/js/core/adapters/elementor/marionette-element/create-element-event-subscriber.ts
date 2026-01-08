@@ -1,4 +1,4 @@
-import { EventListeners, MarionetteElement } from "@app/adapters/elementor/sync/get-selected-element";
+import { EventListeners, MarionetteElement } from "../sync/get-selected-element";
 
 type EventCallback = ( element: MarionetteElement ) => void;
 

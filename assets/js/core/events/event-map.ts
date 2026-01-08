@@ -74,4 +74,7 @@ export interface EventMap extends
     Notification,
     StyleSchema,
     BrowseView
-{}
+{
+    'document:published': void;
+    'searching': void;
+}

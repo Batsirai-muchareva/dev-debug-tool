@@ -10,7 +10,6 @@ export type ValueTypeHandler = {
     };
 };
 
-
 export function createValueTypeRegistry() {
     const valueTypes: ValueTypeHandler[] = [];
 

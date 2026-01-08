@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
-import { DataSource, Provider, Variant } from "@app/types";
+import { useEffect, useMemo, useState } from "react";
+import { Provider, Source, Variant } from "@app/types";
 import { useTabs } from "@app/context/tabs/tabs-context";
 import { useRef } from "@wordpress/element";
-import { lineMap } from "@libs/line-map/line-map";
-import { dataProviderManager } from "@app/data-source-manager/register-data-providers";
+import { sourceManager } from "@app/source-manager/source-manager";
 
 type State = Record< Provider['id'], Record<Variant['id'], unknown> >;
 
 export function useProvider() {
-    const { activeTab, activeSubTab } = useTabs();
+    const { activeProvider, activeVariant } = useTabs();
     const [ data, setData ] = useState<State>({});
-    const activeSource = useRef< DataSource | null >( null )
+    const activeSource = useRef< Source | null >( null );
 
     const update =
         ( providerId: Provider['id'], variantId: Variant['id'], data: unknown ) => {
@@ -25,7 +24,7 @@ export function useProvider() {
     }
 
     useEffect( () => {
-        dataProviderManager.getAllProviders().forEach( async ( provider ) => {
+        sourceManager.getAll().forEach( ( provider ) => {
             provider.variants.forEach( ( variant ) => {
                 update( provider.id, variant.id, null );
             } )
@@ -37,20 +36,32 @@ export function useProvider() {
         activeSource.current = null;
     }
 
+    // Re-run when tab, variant, OR selectedKey changes
     useEffect( () => {
         startSource();
 
         return stopActiveSource
-    }, [ activeTab, activeSubTab ] )
+    }, [ activeProvider, activeVariant ] )
 
     const startSource = () => {
-        const variant = dataProviderManager.getSource( activeTab, activeSubTab );
+        const variant = sourceManager.findVariant( activeProvider, activeVariant );
+
         activeSource.current = variant.createSource( variant.sourceConfig );
 
         activeSource.current.start( ( sourceData ) => {
-            update( activeTab, activeSubTab, sourceData )
+            update( activeProvider, activeVariant, sourceData )
         } );
     }
 
-    return data[ activeTab ]?.[ activeSubTab ];
+    const config = useMemo( () =>
+            sourceManager.getConfigs().find( ( { id }) =>
+                id === activeProvider
+            ),
+        [ activeProvider ]
+    );
+
+    return {
+        data: data[ activeProvider ]?.[ activeVariant ],
+        config
+    }
 }

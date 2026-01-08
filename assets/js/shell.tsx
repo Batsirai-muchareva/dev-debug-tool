@@ -1,11 +1,12 @@
 import * as React from "react";
 import { MAIN_POPOVER_KEY, usePopover } from "@app/context/popover-context";
-import { FilterProvider } from "@app/context/filter-context";
 import { TabsProvider } from "@app/context/tabs/tabs-context";
+import { BrowseProvider } from "@app/context/browse-context";
 import { SuggestionsPopover } from "./popovers/suggestions-popover";
 import { useRef } from "@wordpress/element";
 import { MainPopover } from "./popovers/main/main-popover";
 import { PathProvider } from "@app/context/path-context";
+import { ResolvedDataProvider } from "@app/context/data/resolved-data-context";
 
 export const Shell = () => {
     const { isOpen: mainPopoverState } = usePopover( MAIN_POPOVER_KEY );
@@ -18,10 +19,12 @@ export const Shell = () => {
     return (
         <TabsProvider>
             <PathProvider>
-                <FilterProvider>
-                    <MainPopover ref={ mainPopoverRef } />
-                    <SuggestionsPopover anchorRef={ mainPopoverRef } />
-                </FilterProvider>
+                <BrowseProvider>
+                    <ResolvedDataProvider>
+                        <MainPopover ref={ mainPopoverRef } />
+                        <SuggestionsPopover anchorRef={ mainPopoverRef } />
+                    </ResolvedDataProvider>
+                </BrowseProvider>
             </PathProvider>
         </TabsProvider>
     )

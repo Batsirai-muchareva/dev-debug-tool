@@ -2,12 +2,11 @@ import { useBounds } from "@app/context/bounds-context";
 import React, { useRef } from "react";
 import { editorPointerEvents } from "@app/utils/editor-pointer-events";
 import { windowAdapter } from "@app/adapters";
-import { useEventBus } from "@app/hooks/use-event-bus";
 import { EventMap } from "@app/events/event-map";
 import { DIRECTION } from "@libs/resizable/types";
 import { calculateNewDimensions } from "@libs/resizable/calculate-new-dimension";
 import { applyConstraints } from "@libs/resizable/apply-constraints";
-import { eventBus } from "@app/events";
+import { eventBus, useEventBus } from "@app/events";
 
 type RefState = {
     isResizing: boolean;

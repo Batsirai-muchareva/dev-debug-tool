@@ -3,7 +3,7 @@ import { Unsubscribe } from "@app/types";
 import { MarionetteElement } from "@app/adapters/elementor/sync/get-selected-element";
 import { LocalElementData } from "@app/adapters/elementor/elementor-adapter";
 import { eventBus } from "@app/events";
-import { createSource } from "@app/data-source-manager/create-source";
+import { createSource } from "@app/source-manager/create-source";
 
 export const createLocalSource = createSource<LocalElementData, { onIdle?: () => void }>( ( notify ) => {
     let unsubscribeSelect: Unsubscribe | null = null;
@@ -55,22 +55,6 @@ export const createLocalSource = createSource<LocalElementData, { onIdle?: () =>
             unsubscribeSelect = null;
             unsubscribeDeselect = null;
             modelCleanup = null;
-            // notify = null;
         },
     }
-} )
-
-//     elementorAdapter.onCommand(
-//     [
-//         'document/elements/deselect',
-//         'document/elements/deselect-all',
-//         'document/elements/delete',
-//         'panel/exit',
-//     ],
-//     handleDeselect
-// );
-//     elementorAdapter.onCommand(
-//     'document/elements/select',
-//     handleSelect,
-// );
-
+} );

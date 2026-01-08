@@ -1,4 +1,4 @@
-import { MarionetteElement } from "@app/adapters/elementor/sync/get-selected-element";
+import { MarionetteElement } from "../sync/get-selected-element";
 
 const EXCLUDED_KEYS = [ 'defaultEditSettings', 'editSettings' ]
 

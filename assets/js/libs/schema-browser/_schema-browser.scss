@@ -1,12 +1,12 @@
 /**
  * Schema Browser Styles
- * 
+ *
  * Generic styles for the schema browser library.
  * Can be customized via CSS variables or overridden in app styles.
  */
 
 // CSS Variables for customization
-.schema-browser {
+:root {
     --sb-bg: transparent;
     --sb-text: #e0e0e0;
     --sb-text-muted: rgba(255, 255, 255, 0.5);
@@ -141,6 +141,7 @@
 
     &::placeholder {
         color: rgba(255, 255, 255, 0.3);
+        //color: red;
     }
 
     &:focus {

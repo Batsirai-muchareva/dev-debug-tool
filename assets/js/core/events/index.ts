@@ -1,2 +1,2 @@
-export { eventBus } from "@app/events/event-bus";
-export * from "@app/events/types";
+export { useEventBus } from "@app/events/hook/use-event-bus";
+export { eventBus } from "./event-bus";

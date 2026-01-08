@@ -2,11 +2,10 @@ import React, { forwardRef } from "react";
 import { PropsWithChildren } from "react";
 import { bemBlock } from "@app/utils/bem";
 import { useEffect } from "@wordpress/element";
-import { useBounds } from "@app/context/bounds-context";
+import { subtract, useBounds } from "@app/context/bounds-context";
 import { lineMap } from "@libs/line-map/line-map";
 import { usePath } from "@app/context/path-context";
 import { useTabs } from "@app/context/tabs/tabs-context";
-import { eventBus } from "@app/events";
 
 type Props = PropsWithChildren & {
     scrollToLine?: number;
@@ -15,7 +14,7 @@ type Props = PropsWithChildren & {
 export const Scrollable = forwardRef<HTMLDivElement, Props>( ( { children, scrollToLine }, ref ) => {
     const { size } = useBounds();
     const { setPath } = usePath();
-    const { activeTab } = useTabs()
+    const { activeProvider } = useTabs();
 
     useEffect( () => {
         if ( ! ref || ! ( 'current' in ref ) || ! ref.current ) {
@@ -24,13 +23,13 @@ export const Scrollable = forwardRef<HTMLDivElement, Props>( ( { children, scrol
 
         const handleClick = ( event: MouseEvent ) => {
             // special handle style schema style-schema:clicked
-            if ( activeTab === 'schema' && ! event.ctrlKey ) {
-                const line = getClickedLine( event.target as HTMLElement ) as number;
-
-                eventBus.emit( 'style-schema:clicked', {
-                    line
-                } );
-            }
+            // if ( activeTab === 'schema' && ! event.ctrlKey ) {
+            //     const line = getClickedLine( event.target as HTMLElement ) as number;
+            //
+            //     eventBus.emit( 'style-schema:clicked', {
+            //         line
+            //     } );
+            // }
 
             if ( ! event.metaKey && ! event.ctrlKey ) {
                 return;
@@ -67,10 +66,13 @@ export const Scrollable = forwardRef<HTMLDivElement, Props>( ( { children, scrol
     }
 
     // it has to be a calculated popover size
+    // 26
+    const heightSubtract = subtract - ( activeProvider === 'schema' ? 26 : 0 );
+
     return (
         <div
             ref={ ref }
-            style={ { height: size.height - 180 } }
+            style={ { height: size.height - heightSubtract } }
             className={ bemBlock.element( 'scrollable' ) }
         >
             { children }

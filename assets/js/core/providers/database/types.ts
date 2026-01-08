@@ -1,8 +1,4 @@
-export type DatabaseData = {
-    schema: unknown;
-    postId: string;
-    metaKey: string;
-};
+export type DatabaseData = unknown;
 
 export type SourceConfig = {
     metaKey: string;

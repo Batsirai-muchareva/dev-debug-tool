@@ -93,4 +93,11 @@ elementorAdapter.onCommand(
     }
 );
 
+elementorAdapter.onCommand(
+    'document/save/update',
+    () => {
+        eventBus.emit( 'document:published' )
+    }
+);
+
 export { elementorAdapter };

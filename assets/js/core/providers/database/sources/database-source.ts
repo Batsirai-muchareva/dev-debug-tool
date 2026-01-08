@@ -1,11 +1,12 @@
 import { wordPressAdapter } from "@app/adapters";
 import { getSettings } from "@app/sync/get-settings";
 import { DatabaseData, SourceConfig } from "@app/providers/database/types";
-import { DataSourceFactory, Notify, Unsubscribe } from "@app/types";
+import { Unsubscribe } from "@app/types";
+import { eventBus } from "@app/events";
+import { createSource } from "@app/source-manager/create-source";
 
-export const createDatabaseSource: DataSourceFactory< DatabaseData, SourceConfig > = ( config ) => {
-    let notify: Notify<DatabaseData> | null = null;
-    let unsubscribeSave: Unsubscribe | null = null;
+export const createDatabaseSource = createSource< DatabaseData, SourceConfig >( ( notify, config ) => {
+    let unsubscribePublish: Unsubscribe | null = null;
     let isFetching = false;
 
     const { databaseAjaxAction } = getSettings();
@@ -20,9 +21,6 @@ export const createDatabaseSource: DataSourceFactory< DatabaseData, SourceConfig
 
         isFetching = true;
 
-        // Signal loading
-        notify?.( null );
-
         try {
             const result = await wordPressAdapter.fetch( databaseAjaxAction, {
                 meta_key: metaKey,
@@ -30,38 +28,26 @@ export const createDatabaseSource: DataSourceFactory< DatabaseData, SourceConfig
             } )
 
             if ( result.success ) {
-                notify?.(
-                    result.data as any
-                    // {
-                    // schema: ,
-                    // postId: String( postId ),
-                    // metaKey,
-                 )
+                notify?.( result.data )
             }
 
         } catch ( e ) {
-            notify?.(null);
+            notify?.( null );
         } finally {
             isFetching = false;
         }
     };
 
     return {
-        start: async ( notifyFn: Notify<DatabaseData> ) => {
-            notify = notifyFn;
-
+        setup: async () => {
             await fetchData();
 
-
+            unsubscribePublish = eventBus.on( 'document:published', async () => await fetchData() )
         },
-        stop: () => {
-            unsubscribeSave?.();
-            unsubscribeSave = null;
-            notify = null;
+        teardown: () => {
+            unsubscribePublish?.();
+            unsubscribePublish = null;
             isFetching = false;
         },
-        refresh: async () => {
-            await fetchData();
-        },
     }
-}
+} )

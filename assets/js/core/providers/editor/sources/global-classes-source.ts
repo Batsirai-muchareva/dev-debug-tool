@@ -1,12 +1,11 @@
-import { DataSourceFactory, Notify } from "@app/types";
 import { elementorAdapter } from "@app/adapters";
 import { GlobalClasses } from "@app/adapters/elementor/elementor-adapter";
-import { createSource } from "@app/data-source-manager/create-source";
+import { createSource } from "@app/source-manager/create-source";
 
 const POLL_INTERVAL = 1000;
 
 const INACTIVITY_LIMIT = 2 * 60 * 1000;
-// : DataSourceFactory
+
 export const createGlobalClassesSource = createSource< GlobalClasses, { onIdle?: () => void } >(
     ( notify, config ) => {
     let intervalId: number | null = null;
@@ -51,7 +50,6 @@ export const createGlobalClassesSource = createSource< GlobalClasses, { onIdle?:
 
             clearInterval( intervalId );
             intervalId = null;
-            // notify = null;
             lastSnapshot = null;
         }
     }

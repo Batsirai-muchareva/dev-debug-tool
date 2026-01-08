@@ -1,24 +1,18 @@
-import { Provider } from "@app/types";
+import { Provider, Variant } from "@app/types";
 
-export type TabScope = "tab" | "sub-tab";
-
-export type SubTab = {
-    id: string;
-    label: string;
-};
+export type VariantTab = Pick<Variant, 'id' | 'label'>;
 
 export type Tab = {
     id: Provider['id'];
     title: Provider['title'];
-    subTabs: SubTab[];
+    variants: VariantTab[];
 };
 
 export type ContextState = {
-    activeTab: Tab['id'];
-    activeSubTab: SubTab['id'];
-    activeVariant: SubTab['id'];
+    activeProvider: Tab['id'];
+    activeVariant: VariantTab['id'];
     tabs: Tab[];
-    setTab: ( tabId: Tab['id'] ) => void;
-    setSubTab: ( subTabId: SubTab['id'] ) => void;
+    setProvider: ( tabId: Tab['id'] ) => void;
+    setVariant: ( variantId: VariantTab['id'] ) => void;
     getActiveIndex: () => number;
 }

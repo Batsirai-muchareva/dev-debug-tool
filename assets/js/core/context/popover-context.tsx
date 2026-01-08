@@ -18,8 +18,6 @@ type PopoverContextState = {
 
 export const MAIN_POPOVER_KEY = 'main-content-popover';
 export const SEARCH_POPOVER_KEY = 'search-popover';
-export const FILTER_POPOVER_KEY = 'filter-popover';
-
 
 const PopoverContext = createContext<PopoverContextState | undefined>( undefined );
 

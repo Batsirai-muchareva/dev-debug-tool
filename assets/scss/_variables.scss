@@ -1,9 +1,27 @@
-// bigger index from all elementor indexes and increment by 1 for something greater
+/** Bigger index from all elementor indexes and increment by 1 for something greater */
 // Z-index
 $elementor-higher-z-index: 2000;
 
 $z-index-popover: $elementor-higher-z-index;
 $z-index-notification: calc( $elementor-higher-z-index + 1);
+
+// Font
+$font-family: "Manrope", sans-serif;
+
+
+// Input
+//$placeholder-color: rgba( 255, 255, 255, 0.3 );
+$placeholder-color: #5a6d6d;
+$input-focus: #ffd500;
+
+
+
+
+
+
+
+
+
 
 
 // Variables

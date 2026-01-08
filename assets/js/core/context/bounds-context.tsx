@@ -3,7 +3,7 @@ import { PropsWithChildren, Dispatch, SetStateAction, useState } from "react";
 import { createContext, useContext } from "@wordpress/element";
 
 const INITIAL_HEIGHT = 550;
-const INITIAL_WIDTH = 300;
+const INITIAL_WIDTH = 400;
 
 type Position = {
     x: number;
@@ -25,6 +25,16 @@ type BoundsContextValue = {
 };
 
 const BoundsContext = createContext< BoundsContextValue | undefined >( undefined );
+
+const sizes = {
+    header: 37,
+    tabs: 32,
+    variants: 26,
+    toolbar: 79,
+    padding: 16
+};
+
+export const subtract = Object.values(sizes).reduce((sum, value) => sum + value, 0);
 
 export const BoundsProvider = ( { children }: PropsWithChildren ) => {
     const [ position, setPosition ] = useState<Position>( { x: 0, y: 0 } );

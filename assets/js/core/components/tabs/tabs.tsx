@@ -2,22 +2,21 @@ import { Box } from "@component/ui/box";
 import React, { PropsWithChildren, Children, useMemo, useRef } from "react";
 import { Indicator } from "@component/tabs/indicator";
 import { bemBlock } from "@app/utils/bem";
-import { TabScope } from "@app/context/tabs/types";
 import { KeyProvider } from "@app/context/key-context";
 
 type Props = PropsWithChildren & {
-    variant: TabScope;
+    type: 'tab' | 'variant';
     extraChildren?: React.ReactNode;
 };
 
-export const Tabs = ( { children, variant }: Props ) => {
+export const Tabs = ( { children, type }: Props ) => {
     const ref = useRef( null );
-    const classPrefix = variant + 's';
+    const classPrefix = type + 's';
 
     const tabCount = useMemo( () => Children.count( children ), [] )
 
     return (
-        <KeyProvider value={ variant }>
+        <KeyProvider value={ type }>
             <Box ref={ ref } className={ bemBlock.element( classPrefix ) }>
                 <Indicator
                     className={ bemBlock.element( classPrefix + '-indicator' ) }

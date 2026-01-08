@@ -1,4 +1,9 @@
 &__browse-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
   --sb-bg: transparent;
   --sb-text: #e0e0e0;
   --sb-text-muted: rgba(255, 255, 255, 0.5);
@@ -12,8 +17,8 @@
   --sb-input-focus-bg: rgba(0, 0, 0, 0.35);
   --sb-input-border: rgba(255, 255, 255, 0.15);
 
-  display: flex;
-  flex-direction: column;
+  //display: flex;
+  //flex-direction: column;
   height: 100%;
   background: var(--sb-bg);
 

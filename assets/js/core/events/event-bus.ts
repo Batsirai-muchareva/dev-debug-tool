@@ -1,15 +1,19 @@
-import { EventHandler, EventName, EventPayload } from "@app/events/types";
 import { Unsubscribe } from "@app/types";
+import { EventMap } from "@app/events/event-map";
 
 interface EventBusOptions {
     historySize?: number;
     debug?: boolean;
 }
 
+export type EventName = keyof EventMap;
+export type EventHandler<E extends EventName> = ( payload: EventPayload<E>) => void;
+
+type EventPayload<E extends EventName> = EventMap[E];
+
 interface EventBus {
     on<E extends EventName>( event: E, handler: EventHandler<E>): Unsubscribe;
     once<E extends EventName>(event: E, handler: EventHandler<E>): void;
-    // emit<E extends EventName>(event: E, payload: EventPayload<E>): void;
     emit<E extends EventName>(
         event: E,
         ...args: EventPayload<E> extends void

@@ -1,40 +1,40 @@
 import React, { useMemo } from "react";
 import { useState, PropsWithChildren } from "react";
 import { createContext, useContext } from "@wordpress/element";
-import { ContextState, SubTab, Tab } from "@app/context/tabs/types";
+import { ContextState, Tab } from "@app/context/tabs/types";
 import { createIndexResolver } from "@app/context/tabs/create-index-resolver";
 import { buildTabs } from "@app/context/tabs/build-tabs";
+import { Variant } from "@app/types";
 
 const TabsContext = createContext< ContextState | undefined >( undefined );
 
 export const TabsProvider = ( { children }: PropsWithChildren ) => {
     const { tabs, initialState } = useMemo( () => getTabState( buildTabs() ), [] );
 
-    const [ activeTab, setActiveTab ] = useState< Tab['id'] >( initialState.activeTabId );
-    const [ activeSubTabs, setActiveSubTabs ] = useState< Record<Tab['id'], SubTab['id']> >( initialState.activeSubTab );
+    const [ activeProvider, setActiveProvider ] = useState< Tab['id'] >( initialState.activeProvider );
+    const [ activeVariants, setActiveVariants ] = useState< Record<Tab['id'], Variant['id']> >( initialState.activeVariant );
 
-    const setTab = ( tabId: Tab["id"] ) => {
-        setActiveTab( tabId );
+    const setProvider = ( tabId: Tab["id"] ) => {
+        setActiveProvider( tabId );
     }
 
-    const setSubTab = ( subTabId: SubTab["id"] ) => {
-        setActiveSubTabs( prev => ( {
+    const setVariant = ( variantId: Variant["id"] ) => {
+        setActiveVariants( prev => ( {
             ...prev,
-            [ activeTab ]: subTabId,
+            [ activeProvider ]: variantId,
         } ) );
     };
 
-    const activeSubTab = activeSubTabs[ activeTab ];
+    const activeVariant = activeVariants[ activeProvider ];
 
     return (
         <TabsContext.Provider value={ {
-            activeTab,
-            activeSubTab,
-            activeVariant: activeSubTab,
-            setTab,
-            setSubTab,
+            activeProvider,
+            activeVariant,
+            setProvider,
+            setVariant,
             tabs,
-            getActiveIndex: createIndexResolver( tabs, activeTab, activeSubTab )
+            getActiveIndex: createIndexResolver( tabs, activeProvider, activeVariant )
         } }>
             {children}
         </TabsContext.Provider>
@@ -54,9 +54,9 @@ export const useTabs = () => {
 const getTabState = ( tabs: Tab[] ) => ( {
     tabs,
     initialState:{
-        activeTabId: tabs[0]?.id,
-        activeSubTab: Object.fromEntries(
-            tabs.map( ( tab ) => ( [ tab.id, tab.subTabs[0]?.id ] ) )
+        activeProvider: tabs[0]?.id,
+        activeVariant: Object.fromEntries(
+            tabs.map( ( tab ) => ( [ tab.id, tab.variants[0]?.id ] ) )
         )
     },
 } );

@@ -1,12 +1,14 @@
-import { getProviderConfig } from "@app/data-source-manager/register-data-providers";
+import { sourceManager } from "@app/source-manager/source-manager";
 
 export function buildTabs() {
-    return getProviderConfig().map( ( { id, title, variants } ) => ( {
-        id,
-        title,
-        subTabs: Object.entries( variants ?? {} ).map( ( [ _, variant ] ) => ( {
-            id: variant.id,
-            label: variant.label,
-        } ) ),
-    } ) );
+    return sourceManager.getConfigs()
+        .map( ( { id, title, variants } ) => ( {
+            id,
+            title,
+            variants: Object.entries( variants ?? {} )
+                .map( ( [ _, { id, label } ] ) => ( {
+                    id,
+                    label
+                } ) ),
+        } ) );
 }

@@ -1,10 +1,9 @@
 import { useRef } from "@wordpress/element";
 import { useBounds } from "@app/context/bounds-context";
 import { editorPointerEvents } from "@app/utils/editor-pointer-events";
-import { useEventBus } from "@app/hooks/use-event-bus";
 import { windowAdapter } from "@app/adapters";
 import { EventMap } from "@app/events/event-map";
-import { eventBus } from "@app/events";
+import { eventBus, useEventBus } from "@app/events";
 
 export function useDraggable() {
     const { position, setPosition } = useBounds();

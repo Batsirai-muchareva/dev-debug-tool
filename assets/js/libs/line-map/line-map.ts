@@ -22,59 +22,6 @@ export function createLineMap() {
         }
     }
 
-    // const pathAtLine = ( line: number ) => {
-    //     for ( const [ path, range ] of Object.entries( map ) ) {
-    //         if ( line >= range.start && line <= range.end ) {
-    //             return { path, range };
-    //         }
-    //     }
-    // };
-
-    // const pathAtLine = (line: number) => {
-    //     let bestMatch: { path: string; range: LineRange } | undefined;
-    //     let smallestRange = Infinity;
-    //
-    //     for (const [path, range] of Object.entries(map)) {
-    //         if (line >= range.start && line <= range.end) {
-    //             const size = range.end - range.start;
-    //             if (size < smallestRange) {
-    //                 smallestRange = size;
-    //                 bestMatch = { path, range };
-    //             }
-    //         }
-    //     }
-    //
-    //     return bestMatch;
-    // };
-    // const pathAtLine = (line: number): string | undefined => {
-    //     let bestMatch: { path: string; range: LineRange } | undefined;
-    //     let smallestRange = Infinity;
-    //
-    //     // Step 1: find the most specific path
-    //     for (const [path, range] of Object.entries(map)) {
-    //         if (line >= range.start && line <= range.end) {
-    //             const size = range.end - range.start;
-    //             if (size < smallestRange) {
-    //                 smallestRange = size;
-    //                 bestMatch = { path, range };
-    //             }
-    //         }
-    //     }
-    //
-    //     if (!bestMatch) return undefined;
-    //
-    //     // Step 2: normalize path if inside a `value`
-    //     const pathParts = bestMatch.path.split("."); // e.g., "gap.value.size" -> ["gap","value","size"]
-    //     const valueIndex = pathParts.indexOf("value");
-    //
-    //     if (valueIndex > 0) {
-    //         // Return the property name before `.value`
-    //         return pathParts.slice(0, valueIndex).join(".");
-    //     }
-    //
-    //     // Otherwise return full path
-    //     return bestMatch.path;
-    // };
     const pathAtLine = (line: number): string | undefined => {
         let bestMatch: { path: string; range: LineRange } | undefined;
         let smallestRange = Infinity;
@@ -92,18 +39,18 @@ export function createLineMap() {
 
         if (!bestMatch) return undefined;
 
-        // Step 2: normalize path if inside `.value` or `$$type`
+        // Step 2: normalize path if inside `.value` or `$$type` (from bottom)
         const pathParts = bestMatch.path.split(".");
-        const specialIndex = pathParts.indexOf("value") !== -1
-            ? pathParts.indexOf("value")
-            : pathParts.indexOf("$$type");
+
+        const valueIndex = pathParts.lastIndexOf("value");
+        const typeIndex = pathParts.lastIndexOf("$$type");
+
+        const specialIndex = Math.max(valueIndex, typeIndex);
 
         if (specialIndex > 0) {
-            // Return top-level property (before `.value` or `$$type`)
             return pathParts.slice(0, specialIndex).join(".");
         }
 
-        // Otherwise return full path
         return bestMatch.path;
     };
 
@@ -117,3 +64,92 @@ export function createLineMap() {
 }
 
 export const lineMap = createLineMap();
+
+
+
+// const pathAtLine = (line: number): string | undefined => {
+//     let bestMatch: { path: string; range: LineRange } | undefined;
+//     let smallestRange = Infinity;
+//
+//     // Step 1: find the most specific path
+//     for (const [path, range] of Object.entries(map)) {
+//         if (line >= range.start && line <= range.end) {
+//             const size = range.end - range.start;
+//             if (size < smallestRange) {
+//                 smallestRange = size;
+//                 bestMatch = { path, range };
+//             }
+//         }
+//     }
+//
+//     if (!bestMatch) return undefined;
+//
+//     // Step 2: normalize path if inside `.value` or `$$type`
+//     const pathParts = bestMatch.path.split(".");
+//     const specialIndex = pathParts.indexOf("value") !== -1
+//         ? pathParts.indexOf("value")
+//         : pathParts.indexOf("$$type");
+//
+//     if (specialIndex > 0) {
+//         // Return top-level property (before `.value` or `$$type`)
+//         return pathParts.slice(0, specialIndex).join(".");
+//     }
+//
+//     // Otherwise return full path
+//     return bestMatch.path;
+// };
+
+//
+// const pathAtLine = ( line: number ) => {
+//     for ( const [ path, range ] of Object.entries( map ) ) {
+//         if ( line >= range.start && line <= range.end ) {
+//             return { path, range };
+//         }
+//     }
+// };
+
+// const pathAtLine = (line: number) => {
+//     let bestMatch: { path: string; range: LineRange } | undefined;
+//     let smallestRange = Infinity;
+//
+//     for (const [path, range] of Object.entries(map)) {
+//         if (line >= range.start && line <= range.end) {
+//             const size = range.end - range.start;
+//             if (size < smallestRange) {
+//                 smallestRange = size;
+//                 bestMatch = { path, range };
+//             }
+//         }
+//     }
+//
+//     return bestMatch;
+// };
+// const pathAtLine = (line: number): string | undefined => {
+//     let bestMatch: { path: string; range: LineRange } | undefined;
+//     let smallestRange = Infinity;
+//
+//     // Step 1: find the most specific path
+//     for (const [path, range] of Object.entries(map)) {
+//         if (line >= range.start && line <= range.end) {
+//             const size = range.end - range.start;
+//             if (size < smallestRange) {
+//                 smallestRange = size;
+//                 bestMatch = { path, range };
+//             }
+//         }
+//     }
+//
+//     if (!bestMatch) return undefined;
+//
+//     // Step 2: normalize path if inside a `value`
+//     const pathParts = bestMatch.path.split("."); // e.g., "gap.value.size" -> ["gap","value","size"]
+//     const valueIndex = pathParts.indexOf("value");
+//
+//     if (valueIndex > 0) {
+//         // Return the property name before `.value`
+//         return pathParts.slice(0, valueIndex).join(".");
+//     }
+//
+//     // Otherwise return full path
+//     return bestMatch.path;
+// };

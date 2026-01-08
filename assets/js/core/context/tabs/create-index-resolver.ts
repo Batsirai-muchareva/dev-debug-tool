@@ -1,11 +1,12 @@
-import { SubTab, Tab } from "@app/context/tabs/types";
+import { Tab } from "@app/context/tabs/types";
 import { useKey } from "@app/context/key-context";
+import { Variant } from "@app/types";
 
 export const createIndexResolver =
     (
         tabs: Tab[],
         activeTabId?: Tab["id"],
-        activeSubTabId?: SubTab["id"]
+        activeVariantId?: Variant["id"]
     ) =>
         (): number => {
             const target = useKey();
@@ -20,5 +21,5 @@ export const createIndexResolver =
 
             const tab = tabs.find( tab => tab.id === activeTabId );
 
-            return tab?.subTabs.findIndex( st => st.id === activeSubTabId ) ?? -1;
+            return tab?.variants.findIndex( st => st.id === activeVariantId ) ?? -1;
         };

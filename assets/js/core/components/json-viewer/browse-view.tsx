@@ -1,14 +1,27 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { bemBlock } from "@app/utils/bem";
-import { useFilteredData } from "@app/context/filter-context";
-import { eventBus } from "@app/events";
+import { useBrowse } from "@app/context/browse-context";
+import { useResolvedData } from "@app/context/data/resolved-data-context";
+import { usePath } from "@app/context/path-context";
 
-export const BrowseView = ( { onSelect, selectedKey }: { onSelect: ( key: string ) => void, selectedKey: string } ) => {
-    const { data } = useFilteredData();
+export const BrowseView = () => {
+    const { setSelectedKey } = useBrowse();
+    const { data } = useResolvedData();
+    const { path, setPath } = usePath();
+
+    const getKeys = () => {
+        return Object.keys( data as Record<string, unknown> ?? {} );
+    }
 
     const onKeySelect = ( key: string ) => {
-        onSelect( key );
+        setSelectedKey( key );
+
+        setPath( '' );
     }
+
+    const filteredData = getKeys().filter( ( key ) => {
+        return key.includes( path );
+    } );
 
     return (
         <div className={ bemBlock.element( 'browse-view' ) }>
@@ -16,7 +29,7 @@ export const BrowseView = ( { onSelect, selectedKey }: { onSelect: ( key: string
                 <strong>59 Schema</strong>
             </div>
             <div className={ bemBlock.element( 'browse-view-list' ) }>
-               { ( data as [] ).map( ( key, index ) =>
+               { filteredData.map( ( key, index ) =>
                    <Item
                        key={ key }
                        index={ index }

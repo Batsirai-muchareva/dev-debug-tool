@@ -16,6 +16,13 @@
     "@wordpress/element": "^6.33.0",
     "@wordpress/scripts": "^30.26.0",
     "cross-env": "^10.1.0",
+    "grunt": "^1.6.1",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-compress": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^5.0.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-contrib-watch": "^1.1.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
@@ -23,5 +30,17 @@
     "react-syntax-highlighter": "^15.6.6",
     "react18-json-view": "^0.2.9-canary.11",
     "ts-loader": "^9.5.4"
-  }
+  },
+  "main": "webpack.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Batsirai-muchareva/dev-debug-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Batsirai-muchareva/dev-debug-tool/issues"
+  },
+  "homepage": "https://github.com/Batsirai-muchareva/dev-debug-tool#readme"
 }

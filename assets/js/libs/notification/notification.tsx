@@ -2,9 +2,9 @@ import React from "react"
 import { bemBlock } from "@app/utils/bem";
 import { elementorAdapter } from "@app/adapters";
 import { useState } from "@wordpress/element";
-import { useEventBus } from "@app/hooks/use-event-bus";
 import { INotification } from "@libs/notification/index";
 import { EventMap } from "@app/events/event-map";
+import { useEventBus } from "@app/events";
 
 export const Notification = () => {
     const [ notifications, setNotifications ] = useState<INotification[]>([]);

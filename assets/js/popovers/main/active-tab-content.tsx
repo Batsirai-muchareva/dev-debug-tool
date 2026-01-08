@@ -1,54 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useTabs } from "@app/context/tabs/tabs-context";
-import { useFilteredData } from "@app/context/filter-context";
-import { useTabConfig } from "@app/hooks/use-tab-config";
-import { EmptyState } from "@component/empty-state";
+import React from "react";
+import { useBrowse } from "@app/context/browse-context";
+import { NoData } from "@component/no-data";
 import { JsonView } from "@component/json-viewer/json-view";
-import { SchemaViewer } from "@component/schema-viewer";
-import { Toolbar } from "@component/toolbar";
 import { BrowseView } from "@component/json-viewer/browse-view";
-import { eventBus } from "@app/events";
+import { useResolvedData } from "@app/context/data/resolved-data-context";
 
 export const ActiveTabContent = () => {
-    const [ selectedBrowsedKeys, setSelectedBrowsedKeys ] = useState<Record<string, string>>( {} );
+    const { hasNoData } = useResolvedData();
+    const { isBrowsing } = useBrowse();
 
-    const { activeVariant } = useTabs();
-    const { originalData } = useFilteredData();
-    const { supportsBrowsing } = useTabConfig();
-    const hasData = Boolean( originalData );
+    if ( hasNoData ) {
+        return <NoData />;
+    }
 
-    const isBrowsing = supportsBrowsing && ! selectedBrowsedKeys[ activeVariant ] && hasData;
-    const isEmpty = ! hasData;
-
-    // empty view
-    // browse view
-    // json view
-
-    useEffect( () => {
-        if ( selectedBrowsedKeys[activeVariant] ) {
-            eventBus.emit( 'browse:key:selected', { key: selectedBrowsedKeys[activeVariant] } );
-        }
-
-    }, [ selectedBrowsedKeys, originalData ] )
-
+    // Browse mode - show list of keys to select from
     if ( isBrowsing ) {
         return (
-            <BrowseView
-                selectedKey={ selectedBrowsedKeys[ activeVariant ] }
-                onSelect={ ( key ) => {
-                    setSelectedBrowsedKeys( ( prevState ) => {
-                        return ( { ...prevState, [ activeVariant ]: key } );
-                    } );
-                }
-            } />
-        )
+            <BrowseView />
+        );
     }
 
-    if ( isEmpty ) {
-        return <EmptyState /> // no data to show
-    }
-
-    return <JsonView />
+    // Detail mode - show JSON data with back button
+    return <JsonView />;
+};
 
 
 
@@ -97,7 +71,7 @@ export const ActiveTabContent = () => {
     //         }
     //     </>
     // )
-}
+// }
 
 
 // const useView = () => {

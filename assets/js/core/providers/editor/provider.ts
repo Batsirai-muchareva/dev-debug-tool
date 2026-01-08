@@ -10,9 +10,7 @@ export const editorProvider =
         title: 'Editor',
         order: 1,
         variants: createEditorVariants(),
-        getMessage: ( data  ) => {
-            return 'Please select element to see live snapshots of data'
-        },
+        emptyMessage: 'Please select element to see live snapshots of data',
     }
 }
 //         if ( variantId === 'global_classes' && data ) {

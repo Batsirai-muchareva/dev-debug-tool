@@ -13,8 +13,6 @@ export const createDatabaseVariants =
             id: 'post',
             label: 'Post',
             order: 1,
-            icon: 'eicon-single-post',
-            description: 'Elementor data for the current post',
             sourceConfig: {
                 metaKey: metaKeys.post,
                 postId: elementorAdapter.postId,
@@ -25,8 +23,6 @@ export const createDatabaseVariants =
             id: 'variables',
             label: 'Variables',
             order: 2,
-            icon: 'eicon-global-colors',
-            description: 'Global design tokens (colors, fonts, sizes)',
             sourceConfig: {
                 metaKey: metaKeys.variables,
                 postId: kitId,
@@ -37,8 +33,6 @@ export const createDatabaseVariants =
             id: 'global_classes',
             label: 'Classes',
             order: 3,
-            icon: 'eicon-code',
-            description: 'Global CSS class definitions',
             sourceConfig: {
                 metaKey: metaKeys.global_classes,
                 postId: kitId,

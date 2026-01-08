@@ -35,6 +35,9 @@
 }
 
 &__tabs {
+  border: 1px solid rgb(255 255 255 / 21%);
+
+
   //&-wrapper {
   //  display: flex;
   //  background: rgba(255, 255, 255, 13%);
@@ -59,15 +62,16 @@
     //
     background: color(srgb 0.0853 0.2107 0.2135);
     box-shadow: inset 0 0 4px color(srgb 0.24 0.37 0.37 / 0.61);;
-    border: 1px solid color(srgb 0.0719 0.163 0.1704);
+    //border: 1px solid color(srgb 0.0719 0.163 0.1704);
   //}
-
+  padding-inline: 3px;
   &-indicator {
     position: absolute;
     top: 3px;
+    left: 3px;
+    bottom: 3px;
     //left: 3px;
-    bottom: 2px;
-    //left: 3px;
+    //right: 3px;
 
     width: calc((100% - 12px) / 2); // auto width for 2 tabs (or dynamic below)
     border-radius: 8px;
@@ -89,10 +93,10 @@
 
 }
 
-&__sub-tabs {
+&__variants {
   //padding-block: 12px;
   //border-bottom: 1px solid red;
-  margin-block: 10px;
+  //margin-block: 10px;
   border-bottom: solid 2px #fff;
   position: relative;
   //background: color(srgb 0.0419 0.1474 0.1547);
@@ -100,6 +104,8 @@
   //margin-block: 6px;
   //box-shadow: 0 1px color(srgb 0.1875 0.3531 0.351);
   display: flex;
+  padding-bottom: 10px;
+
 
   &-indicator {
     position: absolute;
@@ -111,10 +117,9 @@
   }
 }
 
-&__sub-tab {
+&__variant {
   flex: 1;
   text-align: center;
-  padding-block: 8px;
   font-size: 12px;
 
   &--active {

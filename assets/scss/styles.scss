@@ -1,6 +1,14 @@
 
 $block-name: "dev"; // the block prefix
 
+#dev-debug-slot button {
+  font-family: "Manrope", sans-serif;
+}
+
+p {
+  font-size: 12px;
+}
+
 .#{$block-name} {
   @import "ui/container";
   @import "ui/toggle";
@@ -17,6 +25,8 @@ $block-name: "dev"; // the block prefix
   @import "ui/highlight";
   @import "ui/filter";
   @import "ui/browser-view";
+  @import "ui/search";
+  @import "ui/toolbar";
 
   @import "libs/draggable";
   @import "libs/resizable";
@@ -32,9 +42,9 @@ $block-name: "dev"; // the block prefix
   font-style: normal;
   letter-spacing: 0.4px;
   line-height: 0;
-  top: 18.9px;
+  top: 15.9px;
   font-family: "Manrope", sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   color: #9d9898;
   pointer-events: none;
   white-space: pre;
@@ -46,6 +56,8 @@ $block-name: "dev"; // the block prefix
   //color: #6a6a6a;
   //pointer-events: none;
   //white-space: pre;
+
+  box-sizing: content-box;
 }
 
 //.highlighted {

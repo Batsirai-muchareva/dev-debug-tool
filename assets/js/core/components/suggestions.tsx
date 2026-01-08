@@ -1,7 +1,8 @@
 import React from "react"
-import { useFilteredData } from "@app/context/filter-context";
 import { bemBlock } from "@app/utils/bem";
 import { eventBus } from "@app/events";
+import { useSuggestions } from "@app/hooks/use-suggestions";
+import { usePath } from "@app/context/path-context";
 
 const bemClass = bemBlock.elementClass( 'suggestion' );
 
@@ -12,13 +13,13 @@ const truncatePath = (p: any) => {
     return `${start}...${end}`;
 };
 
-
 export const Suggestions = () => {
-    const { suggestions } = useFilteredData();
-    const { setPath, path } = useFilteredData()
+    const { suggestions } = useSuggestions();
+    const { setPath, path } = usePath();
 
     const handleSelection = ( path: string ) => {
         setPath( path );
+
         eventBus.emit( 'suggestion:select' );
     };
 
